@@ -65,8 +65,8 @@ This will create a `scribe.php` file in your `config` folder.
 
    ```php title=bootstrap/app.php
    if (class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
-     $app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
-     $app->configure('scribe');
+       $app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
+       $app->configure('scribe');
    }
    ```
 

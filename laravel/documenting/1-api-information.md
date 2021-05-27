@@ -44,7 +44,7 @@ By default, Scribe will use the current app URL (`config('app.url)`) as the base
 ...means that `http://sideprojects.knuckles.wtf` will be shown in the generated docs, even if you ran the `generate` command on localhost or in CI.
 
 :::note
-You can also set the URL used in the API tester (Try It Out) with the `try_it_out.base_url' key.`
+You can also set the URL used in the API tester (Try It Out) with the `try_it_out.base_url` key.
 :::
 
 ## Logo
@@ -71,8 +71,9 @@ Maybe you've got a pretty logo for your API or company, and you'd like to displa
 You can add authentication information for your API using the `auth` section in `scribe.php`. 
 
 :::important
-Scribe uses the auth information you specify for three things:
+Scribe uses the auth information you specify for four things:
   - Generating an "Authentication" section in your docs
+  - Adding auth information to the Postman collection and OpenAPI spec
   - Adding authentication parameters to your example requests for endpoints that use authentication
   - Adding the necessary auth parameters with the specified value to response calls for endpoints that use authentication
 :::
