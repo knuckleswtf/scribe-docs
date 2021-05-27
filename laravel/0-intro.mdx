@@ -1,0 +1,80 @@
+---
+slug: intro
+id: intro
+---
+
+# Introduction
+
+Generate API documentation for humans from your Laravel/Lumen/[Dingo](https://github.com/dingo/api) codebase. [Here's a live example](https://shalvah.me/TheCensorshipAPI/).
+
+## Features
+- Pretty single-page HTML doc, with human-friendly text, code samples, and included in-browser API tester ("Try It Out")
+- Extracts body parameters details from FormRequests or validation rules
+- Safely calls API endpoints to get sample responses
+- Supports generating responses from Transformers or Eloquent API Resources
+- Generates Postman collection and OpenAPI spec
+- Easily customisable with custom views and included UI components
+- Easily extensible with custom strategies
+- Statically define extra endpoints that aren't in your codebase
+
+:::info Quick links
+
+Wondering where to start? Try one of these:
+
+- the [getting started guide](getting-started)
+- [What's new in v3](/blog/laravel-v3)
+- [Migrating from mpociot/laravel-apidoc-generator](migrating/legacy), or
+:::
+
+
+:::tip
+Scribe helps you generate docs automatically, but if you really want to make friendly, maintainable and testable API docs, there's some more stuff you need to know. So I made [a course](https://apidocsfordevs.com?utm_source=scribe-laravel-docs&utm_medium=referral&utm_campaign=none) for you.🤗
+:::
+
+## Installation
+
+:::info Requirements
+PHP 7.4 and Laravel/Lumen 6 or higher are required.
+:::
+
+First, add the package via Composer:
+
+```sh
+composer require --dev knuckleswtf/scribe
+```
+
+Then complete the installation:
+
+import {LaravelLumenTabs, TabItem} from '../src/components/LaravelLumenTabs';
+
+<LaravelLumenTabs>
+<TabItem value="laravel">
+
+Publish the config file by running:
+
+```bash
+php artisan vendor:publish --provider="Knuckles\Scribe\ScribeServiceProvider" --tag=scribe-config
+```
+This will create a `scribe.php` file in your `config` folder.
+
+</TabItem>
+<TabItem value="lumen">
+
+1. Copy the config file from `vendor/knuckleswtf/scribe/config/scribe.php` to your project as `config/scribe.php`.
+2. Add these lines to your `bootstrap/app.php`. They'll ensure that Scribe is loaded, but only in your dev environment:
+
+   ```php title=bootstrap/app.php
+   if (class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
+     $app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
+     $app->configure('scribe');
+   }
+   ```
+
+</TabItem>
+</LaravelLumenTabs>
+
+<br />
+
+---
+
+Alright, you're ready to start documenting! Follow the [Getting Started guide](getting-started) to see what you can do with Scribe.

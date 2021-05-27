@@ -1,0 +1,70 @@
+---
+slug: adding-example-languages
+id: adding-example-languages
+---
+
+# Adding more example languages
+For each endpoint, an example request is shown in [each language configured](config.html#example-languages). To add a language which is not supported by this package, you'll have to create your own Blade template for the example code.
+
+Let's try this out by creating a template for Ruby.
+
+## Step 1: Publish vendor views
+
+First, you'll need to publish the vendor views to `resources/views/vendor/scribe`:
+
+import {LaravelLumenTabs, TabItem} from '../../src/components/LaravelLumenTabs';
+
+<LaravelLumenTabs>
+<TabItem value="laravel">
+
+Run:
+
+```bash
+php artisan vendor:publish --provider="Knuckles\Scribe\ScribeServiceProvider" --tag=scribe-views
+```
+
+</TabItem>
+<TabItem value="lumen">
+
+- Create the `resources/views/vendor/scribe` directory in your app
+- Copy the contents of `vendor/knuckleswtf/scribe/resources/views/` into it.
+
+</TabItem>
+
+</LaravelLumenTabs>
+
+## Step 2: Create template
+Next, create a file called `{language-name}.blade.php` (in this case, `ruby.blade.php`) in the `partials/example-requests` directory.
+
+In this Blade template, you'll write the Markdown that describes for the example request.
+
+In the template, you have the `$baseUrl` and `$endpoint` variables available to you.
+
+`$baseUrl` is the base URL for the API (for instance, `http://your-api.dev`).
+
+`$endpoint` is an `OutputEndpointData` object with the following properties:
+- `httpMethods`: an array of the HTTP methods for that route
+- `boundUri`: the complete URL for the route, with any url parameters replaced (`/users/{id}` -> `/users/1`)
+- `headers`: key-value array of headers to be sent with route (according to your configuration)
+- `cleanQueryParameters`: key-value array of query parameters with example values to be sent with the request.
+- `cleanBodyParameters`: key-value array of body parameters with example values to be sent with the request.
+- `fileParameters`: key-value array of file parameters with example values to be sent with the request. Each example value is an instance of `\Illuminate\Http\UploadedFile`.
+
+:::important
+Parameters which have been excluded from the example requests (see [Specifying example values](documenting-endpoint-query-parameters.html#specifying-example-values)) will not be present in `cleanQueryParameters`, `cleanBodyParameters`, or `fileParameters`.
+:::
+
+```php title=resources/views/vendor/scribe/ruby.blade.php
+
+```
+
+## Step 3: Add to config
+
+Finally, add the language to the `example_languages` array in your config and generate your documentation as usual.
+
+```php {3} title=config/scribe.php
+'example_languages' => [
+  'javascript',
+  'ruby',
+] 
+ ```
