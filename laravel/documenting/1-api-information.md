@@ -1,6 +1,5 @@
 ---
-slug: /documenting/api-information
-id: documenting-api-information
+id: api-information
 ---
 
 # Adding general information
@@ -19,6 +18,8 @@ If you leave `title` empty, Scribe will infer it from the value of `config('app.
 You can add a description of your API using the `description` key. This description will be displayed in the docs' "Introduction" section, and in the Postman collection and OpenAPI spec.
 
 The `intro_text` key is where you'll set the text shown in the "Introduction" section of your docs (after the `description`).
+
+Markdown and HTML are also supported (see [HTML helpers](../reference/25-html.md))
 
 ```php title=config/scribe.php
     'description' => 'Start (and never finish) side projects with this API.',
