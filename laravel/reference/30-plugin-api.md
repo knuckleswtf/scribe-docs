@@ -94,6 +94,7 @@ Setting a parameter to `required => false` and `example => null` tells Scribe to
   return [
     [
       'status' => 201,
+      'headers' => ['sample-header' => ['sample-value']],
       'description' => 'Operation successful.',
       'content' => '{"room": {"id": "r4oiu78t63ns3"}}',
     ],
