@@ -2,11 +2,11 @@
 id: metadata
 ---
 
-# Adding endpoint metadata
+# Endpoint metadata
 Endpoint metadata is primarily added via docblocks. See [Supported annotations](../reference/annotations) for a comprehensive list.
 
 ## Title and description
-To set an endpoint's title and description, just write in the method's docblock. The first paragraph is the title, and the rest is the description. There must be a blank line between title and description. Markdown and HTML are also supported (see [HTML helpers](../reference/25-html.md)).
+To set an endpoint's title and description, just write in the method's docblock. The first paragraph is the title, and the rest is the description. There must be a blank line between title and description. Markdown and HTML are also supported (see [HTML helpers](../reference/html)).
 
 For instance, this:
 

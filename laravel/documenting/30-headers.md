@@ -3,7 +3,7 @@ id: headers
 ---
 
 
-# Documenting request headers
+# Request headers
 
 You can use the `@header` docblock tag to specify headers for a single endpoint, in the format `@header <name> <optional example>`:
 

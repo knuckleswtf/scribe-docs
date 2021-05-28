@@ -2,7 +2,7 @@
 id: api-information
 ---
 
-# Adding general information
+# General API info
 You can add basics such as the title, introductory text, base URL and authentication information in your `scribe.php` config file.
 
 ## Title
@@ -19,7 +19,7 @@ You can add a description of your API using the `description` key. This descript
 
 The `intro_text` key is where you'll set the text shown in the "Introduction" section of your docs (after the `description`).
 
-Markdown and HTML are also supported (see [HTML helpers](../reference/25-html.md))
+Markdown and HTML are also supported (see [HTML helpers](../reference/html))
 
 ```php title=config/scribe.php
     'description' => 'Start (and never finish) side projects with this API.',
