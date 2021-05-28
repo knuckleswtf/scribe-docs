@@ -11,11 +11,11 @@ module.exports = {
     projectName: 'scribe-docs',
     themeConfig: {
         navbar: {
-            style: 'primary',
+            style: 'dark',
             title: 'Scribe',
             logo: {
                 alt: 'Scribe Logo',
-                src: 'img/logo.svg',
+                src: 'img/logo.png',
             },
             items: [
                 {
@@ -25,6 +25,11 @@ module.exports = {
                 {
                     to: 'nodejs/intro',
                     label: 'Node.js',
+                },
+                {
+                    to: '/blog',
+                    label: 'Blog',
+                    position: 'right',
                 },
                 {
                     href: 'https://github.com/knuckleswtf/',
@@ -69,7 +74,7 @@ module.exports = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} Scribe. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} Shalvah. Built with Docusaurus.`,
         },
         prism: {
             additionalLanguages: ['php'],

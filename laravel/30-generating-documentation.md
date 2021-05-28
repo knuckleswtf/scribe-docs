@@ -14,7 +14,7 @@ This will:
 For more details on what happens when you run `generate`, see [How Scribe Works](./98-architecture.md).
 
 ## Viewing the generated docs
-Accessing your generated docs depends on the `type` you specified in [`scribe.php`](./40-config.md#type):
+Accessing your generated docs depends on the `type` you specified in [`scribe.php`](reference/10-config.md#type):
 - If you're using `static` type, find the `docs/index.html` file in your `public/` folder and open that in your browser.
 - If you're using `laravel` type, start your app (`php artisan serve`), then visit `/docs`.
 

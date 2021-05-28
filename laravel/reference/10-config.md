@@ -86,7 +86,7 @@ When [documenting your api](documenting/), you use `@group` annotations to group
 Default: `"Endpoints"`.
 
 ### `example_languages`
-For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](advanced#adding-example-languages)).
+For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](../advanced#adding-example-languages)).
 
 Default: `["bash", "javascript"]`
 

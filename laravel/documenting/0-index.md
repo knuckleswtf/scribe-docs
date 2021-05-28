@@ -3,7 +3,7 @@ slug: /documenting
 id: documenting
 ---
 
-# Key Points
+# Start here
 Scribe tries to extract as much information about your API as it can from your code, but you can (and should) help it by providing more information.
 
 For example, let's take a simple "healthcheck" endpoint:
