@@ -1,8 +1,8 @@
 ---
-id: markdown-html
+id: html
 ---
 
-# Markdown and HTML
+# HTML helpers
 
 Scribe supports Markdown (and by extension, HTML) in a couple of places:
 - the `description` and `intro_text` in your config file 
