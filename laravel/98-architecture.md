@@ -3,7 +3,7 @@ id: architecture
 slug: architecture
 ---
 
-# How Scribe works
+# How Scribe Works
 Read this page if you want a deeper understanding of how Scribe works (for instance, for the purpose of contributing).
 
 ## When you run `scribe:generate` for the first time
