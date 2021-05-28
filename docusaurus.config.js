@@ -10,6 +10,11 @@ module.exports = {
     organizationName: 'knuckleswtf',
     projectName: 'scribe-docs',
     themeConfig: {
+        colorMode: {
+            defaultMode: 'dark',
+            disableSwitch: true,
+        },
+        image: 'img/og-image-scribe.png',
         navbar: {
             style: 'dark',
             title: 'Scribe',
@@ -19,11 +24,11 @@ module.exports = {
             },
             items: [
                 {
-                    to: '/laravel/intro',
+                    to: '/laravel',
                     label: 'Laravel',
                 },
                 {
-                    to: 'nodejs/intro',
+                    to: 'nodejs',
                     label: 'Node.js',
                 },
                 {
@@ -45,7 +50,7 @@ module.exports = {
                     items: [
                         {
                             label: 'Laravel',
-                            to: '/laravel/intro',
+                            to: '/laravel',
                         },
                     ],
                 },
@@ -53,7 +58,7 @@ module.exports = {
                     items: [
                         {
                             label: 'Node.js',
-                            to: '/nodejs/intro',
+                            to: '/nodejs',
                         },
                     ],
                 },
