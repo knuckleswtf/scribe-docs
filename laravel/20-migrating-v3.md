@@ -16,11 +16,14 @@ We've included an upgrade tool that will make the needed changes.
 - Body parameters array
 
 
-## Config changes
-- The config key `router` has been removed. Scribe now auto-detects your router.
-- The config key `interactive` has been replaced with `try_it_out.enabled`.
-- There's a new `try_it_out.base_url` config option that lets you se the base URL to be used for _Try It Out_.
-- The config key `continue_without_database_transactions` was deprecated in 2.4.0 and has now been removed. Instead, put the database connections you *do* want transactions for (ie the opposite meaning) in `database_connections_to_transact`.
+## Config file changes
+- `router` has been removed. Scribe now auto-detects your router.
+- `interactive` has been replaced with `try_it_out.enabled`.
+- There's a new option, `try_it_out.base_url`, that lets you set the base URL to be used for _Try It Out_.
+- The config key `continue_without_database_transactions` (deprecated in 2.4.0) has been removed. Instead, put the database connections you _do_ want transactions for (ie the **opposite** meaning) in `database_connections_to_transact`. A good default is:
+  ```php
+  'database_connections_to_transact' => [config('database.default')]
+  ```
 
 The config changes can be automated for you by our upgrader. Run `php artisan scribe:upgrade --scope config` to automatically upgrade your config. 
 
