@@ -11,16 +11,23 @@ This will:
 - transform the extracted information into a HTML docs webpage (+ Postman collection and OpenAPI spec, if enabled) 
 - cache the extracted API details in some YAML files (in `.scribe/endpoints`), so you can manually edit them later
 
+:::note
+You can commit the `.scribe` folder if you wish. If you make changes to the YAML files to edit endpoint data or add endpoints, you should definitely commit it.
+:::
+
 For more details on what happens when you run `generate`, see [How Scribe Works](./98-architecture.md).
 
-## Viewing the generated docs
-Accessing your generated docs depends on the `type` you specified in [`scribe.php`](reference/10-config.md#type):
-- If you're using `static` type, find the `docs/index.html` file in your `public/` folder and open that in your browser.
-- If you're using `laravel` type, start your app (`php artisan serve`), then visit `/docs`.
+## Running on CI
+If 
 
-:::tip
-You can change these default paths in your config file, using `static.output_path` and `laravel.docs_url`.
+## Viewing the generated docs
+To access your generated docs, start your Laravel app (`php artisan serve`), then visit `/docs`. This works for both types of docs.
+
+::tip
+If you're using `static` type, you can also open the `public/docs/index.html` locally in your browser.
 :::
+
+You can change the default docs paths in your config file, using `static.output_path` and `laravel.docs_url`.
 
 ## _Try It Out_
 Scribe includes an API tester that lets users test your endpoints right from the docs. Set `try_it_out.enabled` to `true` to enable it. You can also set the URL that requests will be sent to with the `try_it_out.base_url` key.

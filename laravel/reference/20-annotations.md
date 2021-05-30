@@ -206,7 +206,7 @@ Format: `{modelClass}`
 Notes:
 - Supported attributes:
   - `states`: Comma-separated list of [factory states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model.
-  - `with`: Comma-separated list of relations to be loaded with the model.
+  - `with`: Comma-separated list of relations to be loaded with the model (Laravel 8+).
   - `paginate`: The number of items per page (when generating a collection). To use [simple pagination](https://laravel.com/docs/8.x/pagination#simple-pagination) instead, add `,simple` after the number.
 
 ```
@@ -275,7 +275,7 @@ Format: `{modelClass}`
 Notes:
 - Supported attributes:
     - `states`: Comma-separated list of [factory states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model.
-    - `with`: Comma-separated list of relations to be loaded with the model.
+    - `with`: Comma-separated list of relations to be loaded with the model (Laravel 8+).
     - `resourceKey`: The [resource key](https://fractal.thephpleague.com/serializers/) to be used during serialization.
 
 ```

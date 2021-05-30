@@ -18,7 +18,7 @@ Default: `"default"`
 
 ### `type`
 This is the type of documentation output to generate.
-- `static` will generate a static HTMl page in the `public/docs` folder, so anyone can visit your documentation page by going to `<yourapp.url>/docs`.
+- `static` will generate a static HTMl page in the `public/docs` folder,
 - `laravel` will generate the documentation as a Blade view within the `resources/views/scribe` folder, so you can add routing and authentication.
 
 Default: `"static"`
@@ -26,7 +26,7 @@ Default: `"static"`
 ### `static`
 Settings for the `static` type output.
 
-- `output_path`: Output folder. The HTML documentation, assets and Postman collection will be generated to this folder.
+- `output_path`: Output folder. The HTML documentation, assets and Postman collection will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
   
    Default: `"public/docs"`.
 

@@ -24,9 +24,6 @@ php artisan scribe:generate --verbose
 ## Make sure you aren't matching `web` routes
 Routes defined in Laravel's web.php typically have the `web` middleware, leading to strange behaviour, so make sure you've correctly specified the routes to be matched in your config file. See [this GitHub issue](https://github.com/knuckleswtf/scribe/issues/47).
 
-## Be sure you're accessing your docs correctly
-For `laravel` type docs, you should always start your server and visit /docs (or wherever you set as your `docs_url`). For `static` type, you should always open the `index.html` file directly (located in `public/docs` or wherever you set as your `static.output_path`).
-
 ## Turn on debug mode for your app
 Sometimes you may see a 500 `null` response shown in the generated examples. This is usually because an error occurred within your application during a response call. The quickest way to debug this is by setting `app.debug` to `true` in your `response_calls.config` section in your `scribe.php` file.
 
