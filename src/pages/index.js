@@ -28,7 +28,7 @@ function HomepageHeader() {
                     &nbsp;
                     <Link
                         className="button button--secondary button--lg"
-                        to="/nodejs">
+                        to="http://scribe-js.rtfd.io">
                         Node.js
                     </Link>
                 </div>
