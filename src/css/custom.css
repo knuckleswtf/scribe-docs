@@ -30,6 +30,7 @@
   --ifm-color-success: #28a745;
   --ifm-color-danger: #dc3545;
   --ifm-color-warning: #fd7e14;
+  --ifm-menu-color: #dadde1;
   --ifm-menu-color-active: var(--ifm-color-secondary-dark);
   --ifm-link-color: var(--ifm-color-secondary-darker);
 
@@ -85,4 +86,12 @@ article h3 {
 
 .footer__copyright {
   color: white;
+}
+
+.navbar__toggle {
+  color: white;
+}
+
+.navbar__brand:hover {
+  color: var(--ifm-navbar-link-hover-color);
 }
