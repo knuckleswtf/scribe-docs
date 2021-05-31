@@ -12,7 +12,6 @@ module.exports = {
     themeConfig: {
         colorMode: {
             defaultMode: 'dark',
-            disableSwitch: true,
         },
         image: 'img/og-image-scribe.png',
         navbar: {
