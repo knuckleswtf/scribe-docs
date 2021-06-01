@@ -52,7 +52,7 @@ $this->config('unknown_setting', true); // Returns true
 
 ## `__invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array`
 This is the method that is called to process a route. Parameters:
-- `$endpointData`, an instance of `Knuckles\Camel\Extraction\ExtractedEndpointData` ([source]](todo)), which contains information about the endpoint being processed.
+- `$endpointData`, an instance of `Knuckles\Camel\Extraction\ExtractedEndpointData` ([source]](https://github.com/knuckleswtf/scribe/blob/master/camel/Extraction/ExtractedEndpointData.php)), which contains information about the endpoint being processed.
 - `$routeRules`, the rules passed in the `apply` section of the Scribe config for this route.
 
 This method may return `null` or an empty array if it has no data to add. Otherwise, it should return an array with the relevant information, which varies depending on the type of strategy/stage of route processing:

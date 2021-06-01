@@ -305,7 +305,7 @@ The `apply` section of the route group is where you specify any additional setti
 
 - `headers`: Any headers you specify here will be added in example requests and response calls. Headers are specified as key => value strings.
 
-- `response_calls`: These are the settings that will be applied when making ["response calls"](todo).
+- `response_calls`: These are the settings that will be applied when making ["response calls"](../documenting/responses#response-calls).
 
 ```php title=config/scribe.php
 'response_calls' => [
@@ -325,9 +325,9 @@ The `apply` section of the route group is where you specify any additional setti
 ],
 ```
 
-  - The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish.
+  - The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish. Set it to `['*']` to mean all methods. Leave it as an empty array to turn off response calls for that route group.
   
-  - The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls.
+  - The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
 
   - The `config` key allows you to customise your Laravel app's config for the response call.
 
@@ -340,7 +340,7 @@ By splitting your routes into groups, you can apply different settings to differ
 When generating examples for parameters, this package uses the `fakerphp/faker` package to generate random values. If you would like the package to generate the same example values each time, set this to any number (eg. `1234`).
 
 :::tip
-Alternatively, you can [set example values](todo) for parameters when documenting them.
+Alternatively, you can [set example values](../documenting/query-body-parameters#specifying-or-omitting-examples) for parameters when documenting them.
 :::
 
 ### `fractal`

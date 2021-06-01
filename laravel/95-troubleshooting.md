@@ -1,6 +1,6 @@
 ---
 id: troubleshooting
-slug: troubleshooting
+sidebar_label: Troubleshooting
 ---
 
 # Troubleshooting and Debugging

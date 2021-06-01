@@ -11,10 +11,12 @@ We've included an upgrade tool that will make the needed changes.
 - Inline validators
 - 3 base URLs
 - Headers in response
-- Infer URL parameter type and name
+- Infer URL parameter type, name, description
 - Include responses in Postman collection
 - Body parameters array
 
+## New features
+- `static` docs now work properly. Previously, they didn't work if your Laravel app was running (which was silly). Now you can access them through your Laravel app /docs as well.
 
 ## Config file changes
 - `router` has been removed. Scribe now auto-detects your router.

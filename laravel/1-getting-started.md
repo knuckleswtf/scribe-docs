@@ -45,7 +45,7 @@ Each entry in the `routes` array defines a route _group_. The main purpose of th
 
 The important key here is the `prefixes`. Set it to a path matching your API routes. For instance, the default config (`["api/*]`) will match any endpoints that start with `<your-app-url>/api/`. You can set it to `["*"]` to match all endpoints.
 
-[Here's the full documentation on configuring routes](todo).
+[Here's the full documentation on configuring routes](reference/config#routes).
 
 ## Do a test run
 Now, let's do a test run. Run the command to generate your docs.
@@ -58,7 +58,7 @@ Visit your newly generated docs:
 - If you're using `static` type, find the `docs/index.html` file in your `public/` folder and open it in your browser.
 - If you're using `laravel` type, start your app (`php artisan serve`), then visit `/docs`.
 
-Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](todo) for details.
+Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](./generating-documentation) for details.
 
 Great! You've seen what Scribe can do. Now, let's refine our docs to match what we want.
 

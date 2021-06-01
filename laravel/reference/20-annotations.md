@@ -11,7 +11,7 @@ Annotations in docblocks typically consist of a _tag_ (`@-something`) followed b
 - In the "Format" sections below, `?` indicates an optional value.
 - Most annotations are written in a "natural" format, `@tag value1 value2`, where Scribe figures out what value1 and value2 represent, based on the order. However, some tags also support _attributes_ (`@tag key1=value1 value2` or `@tag value2 key1=value1`).
 
-  Attributes don't have to follow a specific order; they can be at the start or end of the tag. Attribute values which consist of multiple words should use quotes (eg `@tag key1="this is value1" value2`).
+  Attributes don't have to follow a specific order; they can be at the start or end of the tag (but they cannot be in the middle). Attribute values which consist of multiple words should use quotes (eg `@tag key1="this is value1" value2`).
 
 Here's a list of all the docblock annotations Scribe supports.
 
@@ -123,8 +123,9 @@ Examples:
 ```
 @response {"a": "b"}
 @response 201 {"a": "b"}
-@response 201 scenario="Operation successful" {"a": "b"}
-@response {"a": "b"} scenario=Success
+@response 201 {"a": "b"} scenario="Operation successful"
+@response status=201 scenario="Operation successful" {"a": "b"}
+@response scenario=Success {"a": "b"}
 ```
 
 ### `@responseFile`
@@ -141,7 +142,7 @@ Examples:
 ```
 @responseFile /an/absolute/path
 @responseFile 400 relative/path/from/your/project/root
-@responseFile 400 scenario="Failed" path/from/your/Laravel/storage/directory
+@responseFile status=400 scenario="Failed" path/from/your/Laravel/storage/directory
 ```
 
 ### `@responseField`
@@ -205,8 +206,8 @@ Format: `{modelClass}`
 
 Notes:
 - Supported attributes:
-  - `states`: Comma-separated list of [factory states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model.
-  - `with`: Comma-separated list of relations to be loaded with the model (Laravel 8+).
+  - `states`: Comma-separated list of [states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model via factory.
+  - `with`: Comma-separated list of relations to be loaded with the model. Works for factory (Laravel 8+) or database fetching.
   - `paginate`: The number of items per page (when generating a collection). To use [simple pagination](https://laravel.com/docs/8.x/pagination#simple-pagination) instead, add `,simple` after the number.
 
 ```
@@ -274,8 +275,8 @@ Format: `{modelClass}`
 
 Notes:
 - Supported attributes:
-    - `states`: Comma-separated list of [factory states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model.
-    - `with`: Comma-separated list of relations to be loaded with the model (Laravel 8+).
+    - `states`: Comma-separated list of [states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model via factory.
+    - `with`: Comma-separated list of relations to be loaded with the model. Works for factory (Laravel 8+) or database fetching.
     - `resourceKey`: The [resource key](https://fractal.thephpleague.com/serializers/) to be used during serialization.
 
 ```

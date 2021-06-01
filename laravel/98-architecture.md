@@ -84,4 +84,32 @@ You can run `php artisan scribe:generate --no-extraction` for Scribe to complete
 
 3. You can also **sort groups**. You'll notice the example above is `0.yaml`. To sort groups, just rename the files how you wish, since it's one group per file. For instance, if I rename this file to `1.yaml`, and another file to `0.yaml`, that group will appear before this one in the docs.
 
-4. You can **add new endpoints**. This is useful if you're using a package that adds extra routes (like Laravel Passport) and you want to document those. Scribe automatically adds a `custom.0.yaml` file to the `.scribe/endpoints` folder, and you can edit it to add additional endpoints.
+4. You can **add new endpoints**. This is useful if you're using a package that adds extra routes (like Laravel Passport), and you want to document those. Custom endpoint files use a different format from regular endpoints, so Scribe automatically adds an example `custom.0.yaml` file to the `.scribe/endpoints` folder, and you can edit it to add additional endpoints.
+
+
+## The `.scribe` folder
+The `.scribe` folder contains information about your API that Scribe has extracted.
+
+```
+.scribe/
+|- endpoints/
+   |- 0.yaml
+   |- 1.yaml
+   |- custom.0.yaml
+|- endpoints.cache/
+   |- 0.yaml
+   |- 1.yaml
+|- authentication.md
+|- index.md
+|- .filehashes
+
+```
+
+- The `endpoints` folder holds the endpoint information as YAML files. You can edit them to add/overwrite endpoints.
+- The `endpoints.cache` folder _also_ holds endpoint information, but these files are not meant to be edited by the user. Scribe uses the files here to figure out when you've edited something in `endpoints`.
+- The `authentication.md` and `index.md` files contain the generated text for the "Authentication" and "Introduction" section of your docs. You can edit these.
+- The `.filehashes` file is how Scribe keeps track of changes you make to `authentication.md` and `index.md`.
+
+Scribe regenerates the `.scribe` folder on every run, while preserving any changes you've made to endpoints or Markdown files. Special cases:
+- When you specify `--no-extraction`, Scribe will not go through an extraction phase or regenerate the folder. Instead, it will use the information here to generate the output (HTML, Postman, OpenAPI). 
+- When you specify `--force`, Scribe will overwrite your changes to this folder.

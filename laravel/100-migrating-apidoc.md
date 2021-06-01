@@ -30,7 +30,7 @@ _After you've done the above, delete your `resources/docs/` and `public/docs` fo
 - The `laravel.autoload` key is now `laravel.add_routes`, and is `true` by default.
 - The `laravel.docs_url` key is now `/docs` by default (no longer `/doc`). This means if you're using `laravel` docs type, your docs will be at `<your-app>/docs`.
 - The `requestHeaders` stage in the `strategies` item has been renamed to `headers`.
-- Scribe no longer outputs Markdown as an intermediate step, but instead YAML. See [details](todo) for how to worj with them.
+- Scribe no longer outputs Markdown as an intermediate step, but instead YAML. See [details](architecture#what-are-those-yaml-files-for) for how to work with them.
 - The `rebuild` command has been removed. Instead, if you want Scribe to skip the extraction phase and go straight to converting the existing YAML to HTML, run `php artisan scribe:generate --no-extraction`.
 - `logo` is now `false` by default, so no logo spot will be shown in the docs.
 - If you specify a `logo`, it will no longer be copied to the docs folder. Rather, the path to be logo will be used as-is as the `src` for the `<img>` tag in the docs. This means that you must use a URL or a path that's publicly accessible. 

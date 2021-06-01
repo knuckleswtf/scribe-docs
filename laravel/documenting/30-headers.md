@@ -14,7 +14,7 @@ You can use the `@header` docblock tag to specify headers for a single endpoint,
  */
 ```
 
-The header will be included in example requests and [response calls](todo).
+The header will be included in example requests and [response calls](./responses#response-calls).
 
 Alternatively, you can specify headers for multiple endpoints in one go by using the `apply.headers` section of the route group in `scribe.php`. For instance, with this config:
 

@@ -1,0 +1,410 @@
+---
+id: query-body-parameters
+---
+
+# Query and body parameters
+
+Scribe supports multiple ways to describe query and body parameters. You can manually specify them with [`@queryParam`/`@bodyParam`](#queryparam-and-bodyparam), or Scribe can extract them from [your validation rules](#validation-rules).
+
+## `@queryParam` and `@bodyParam`
+To describe query or body parameters for your endpoint, use the `@queryParam` and `@bodyParam` annotations on the method handling it.
+
+The `@bodyParam` tag takes the name of the parameter, a type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format, but the type is optional. If you don't specify a type, Scribe will try to figure out the type based on the parameter name.
+
+Valid types:
+- `string`
+- `integer`/`int`
+- `number`
+- `boolean`/`bool`
+- `object` (see [Array and object parameters](#array-and-object-parameters) below)
+- `file` (see [File uploads](#file-uploads) below)
+
+Additionally, you can append `[]` to a type any number of times to indicate an array field (`integer[]` = array of integers).
+
+:::note
+`array` is _not_ a supported type, and may lead to unexpected errors. You should rather define the type of the array (eg `int[]`, `string[]`).
+:::
+
+Examples:
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+    defaultValue="bodyParameters"
+    values={[
+        {label: 'Body parameters', value: 'bodyParameters'},
+        {label: 'Query parameters', value: 'queryParameters'},
+]}>
+<TabItem value="bodyParameters">
+
+```php
+/**
+* @bodyParam user_id int required The id of the user. Example: 9
+* @bodyParam room_id string The id of the room.
+* @bodyParam forever boolean Whether to ban the user forever. Example: false
+* @bodyParam another_one number This won't be added to the examples. No-example
+*/
+public function updateDetails()
+{
+    // ...
+}
+```
+
+![](../../static/img/screenshots/endpoint-bodyparams-1.png)
+
+</TabItem>
+<TabItem value="queryParameters">
+
+```php
+/**
+ * @queryParam sort string Field to sort by. Defaults to 'id'.
+ * @queryParam fields required Comma-separated list of fields to include in the response. Example: title,published_at,is_public
+ * @queryParam filters[published_at] Filter by date published.
+ * @queryParam filters[is_public] integer Filter by whether a post is public or not. Example: 1
+ */
+public function listPosts()
+{
+    // ...
+}
+```
+
+![](../../static/img/screenshots/endpoint-queryparams-1.png)
+
+![](../../static/img/screenshots/endpoint-queryparams-2.png)
+
+</TabItem>
+</Tabs>
+
+:::tip
+If you use form requests, you can place the `@queryParam` and `@bodyParam` there instead of in your controller.
+
+```php
+/**
+ * @queryParam lang required The language.
+ * @bodyParam title string The title of the post.
+ * @bodyParam body string required The content of the post.
+ */
+class CreatePostRequest extends \Illuminate\Foundation\Http\FormRequest
+{
+
+}
+
+// in your controller...
+public function createPost(CreatePostRequest $request)
+{
+    // ...
+}
+```
+:::
+
+### Specifying or omitting examples
+By default, Scribe will generate a random value for each parameter, to be used in the example requests and response calls. If you'd like to use a specific example value, you can do so by adding `Example: <your-example>` to the end of the parameter description.
+
+If you want Scribe to omit a certain optional parameter in examples and response calls, end the description with `No-example`. It will still be present in the docs.
+
+For instance:
+
+```php
+/**
+ * @queryParam sort Field to sort by. Defaults to 'id'. Example: published_at
+ * @queryParam fields required Comma-separated fields to include in the response. Example: title,published_at,id
+ * @queryParam filters[published_at] Filter by date published. No-example
+ * @queryParam filters[title] Filter by title. No-example
+*/
+```
+
+gives:
+
+![](../../static/img/screenshots/endpoint-queryparams-4.png)
+
+### Array and object parameters
+Sometimes you have parameters that are arrays or objects. To handle them in `@bodyParam` and `@queryParam`, Scribe uses the following convention:
+
+:::caution
+If you can, you should avoid using query parameters that are arrays or objects. [There isn't a standardised format for handling them](https://stackoverflow.com/a/9547490/7370522), so the way your API clients set them may be different from what your server expects (and what Scribe generates).
+:::
+
+#### Arrays
+For arrays, use a single field with type `<type of items>[]`. For instance, to denote an array `cars` of elements of type `integer`:
+```
+@bodyParam cars integer[]
+
+@bodyParam cars integer[] This is a description. Example: [4, 6]
+```
+
+#### Objects
+For objects, you need:
+- a parent field with type `object`
+- an entry for each field, named with the dot notation `<parent name>.<field>`
+
+For instance, to denote an object `cars` with a field `name` of type `string` and a field `year` of type `number`:
+```
+@bodyParam cars object
+@bodyParam cars.name string
+@bodyParam cars.year number
+```
+
+You can also add descriptions and examples to the parent or children fields if you wish:
+```
+@bodyParam cars object Car details. Example: {"name": "Carpenter", "year": 2019}
+@bodyParam cars.name string Name of the car.
+@bodyParam cars.year int Example: 1997
+```
+
+#### Arrays of objects
+For an array of objects, you need:
+- a parent field with type `object[]`
+- an entry for each field, named with the dot notation `<parent name>[].<field>`.
+
+For instance, to denote an array of objects `cars` with each item having field `name` and `year`:
+```
+@bodyParam cars object[] List of car details. Example: [{"name": "Carpenter", "year": 2019}]
+@bodyParam cars.name string Name of the car.
+@bodyParam cars.year int Example: 1997
+```
+
+
+If your entire request body is an array, just omit the field name:
+```
+@bodyParam [] object[]
+@bodyParam [].name string
+@bodyParam [].year int
+```
+
+Examples:
+
+<Tabs
+defaultValue="bodyParameters"
+values={[
+    {label: 'Body parameters', value: 'bodyParameters'},
+    {label: 'Query parameters', value: 'queryParameters'},
+]}>
+<TabItem value="bodyParameters">
+
+```php
+/**
+* @bodyParam user object required The user details
+* @bodyParam user.name string required The user's name
+* @bodyParam user.age string required The user's age
+* @bodyParam friend_ids int[] List of the user's friends.
+* @bodyParam cars object[] List of cars
+* @bodyParam cars[].year string The year the car was made. Example: 1997
+* @bodyParam cars[].make string The make of the car. Example: Toyota
+*/
+```
+
+![](../../static/img/screenshots/endpoint-bodyparams-2.png)
+
+</TabItem>
+<TabItem value="queryParameters">
+
+```php
+/**
+* @queryParam sort string Field to sort by. Defaults to 'id'.
+* @queryParam fields string[] required Comma-separated list of fields to include in the response. Example:
+title,published_at,is_public
+* @queryParam filters object Fields to filter by
+* @queryParam filters.published_at Filter by date published.
+* @queryParam filters.is_public integer Filter by whether a post is public or not. Example: 1
+*/
+```
+
+![](../../static/img/screenshots/endpoint-queryparams-4.png)
+
+</TabItem>
+</Tabs>
+
+### File uploads
+To document file inputs with `@bodyParam`, use the type `file`. You can add a description and example as usual.
+
+:::note
+Adding a file parameter will automatically set the 'Content-Type' header in example requests and response calls to `multipart/form-data`.
+:::
+
+For files, your example should be the path to a file that exists on your machine. This path should be either:
+- absolute, or
+- relative to your project directory, or
+- relative to your Laravel storage directory.
+
+If you don't specify an example, Scribe will generate a fake file for example requests and response calls.
+
+```php
+/**
+ * @bodyParam caption string The image caption
+ * @bodyParam image file required The image.
+ */
+```
+
+![](../../static/img/screenshots/endpoint-bodyparams-4.png)
+
+## Validation rules
+If you use [Laravel's validation functionality](https://laravel.com/docs/validation#available-validation-rules) to validate your incoming request parameters, Scribe can use that information to extract information about your parameters as well as generate examples.
+
+There are two supported options: using inline validators and form requests. Also, [not all rules are supported](#supported-validation-rules).
+
+WIth form requests, Scribe will extract information from the `FormRequest` class typehinted in your controller method. With inline validators, Scribe will extract information from the validation code in your controller (`$request->validate()` or `Validator::make()`).
+
+Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
+- For inline validators, add a comment above the parameter, specifying a description and example.
+- For form requests, add a `bodyParameters` method where you can add a description and example for each parameter.
+
+If you specify a description, Scribe will prepend your description to what it generates from your validation rules.
+
+:::note
+If you have rules that Scribe doesn't support, Scribe's generated value might not pass their validation checks. You can get around that by manually specifying an example (`bodyParameters()` or comment).
+:::
+
+### Examples
+
+<Tabs
+defaultValue="inline-validate"
+values={[
+    {label: 'Inline ($request->validate())', value: 'inline-validate'},
+    {label: 'Inline (Validator::make())', value: 'inline-manual'},
+    {label: 'Form request', value: 'formrequest'},
+]}>
+<TabItem value="inline-validate">
+
+```php
+public function createPost($request)
+{
+    $validated = $request->validate([
+        // Contents of the post
+        'content' => 'string|required|min:100',
+        // The title of the post. Example: My First Post
+        'title' => 'string|required|max:400',
+        'author_display_name' => 'string',
+        'author_homepage' => 'url',
+        'author_timezone' => 'timezone',
+        'author_email' => 'email|required',
+        // Date to be used as the publication date.
+        'publication_date' => 'date_format:Y-m-d',
+        // Category the post belongs to.
+        'category' => ['in:news,opinion,quiz', 'required'],
+    ]);
+
+    return Post::create($validated);
+}
+```
+
+</TabItem>
+<TabItem value="inline-manual">
+
+```php
+public function createPost($request)
+{
+    $validator = Validator::make($request, [
+        // Contents of the post
+        'content' => 'string|required|min:100',
+        // The title of the post. Example: My First Post
+        'title' => 'string|required|max:400',
+        'author_display_name' => 'string',
+        'author_homepage' => 'url',
+        'author_timezone' => 'timezone',
+        'author_email' => 'email|required',
+        // Date to be used as the publication date.
+        'publication_date' => 'date_format:Y-m-d',
+        // Category the post belongs to.
+        'category' => ['in:news,opinion,quiz', 'required'],
+    ]);
+
+    if ($validator->passes()) {
+        // ...
+    }
+}
+```
+
+</TabItem>
+<TabItem value="formrequest">
+
+```php
+class CreatePostRequest extends FormRequest
+{
+    public function rules()
+    {
+        return [
+            'content' => 'string|required|min:100',
+            'title' => 'string|required|max:400',
+            'author_display_name' => 'string',
+            'author_homepage' => 'url',
+            'author_timezone' => 'timezone',
+            'author_email' => 'email|required',
+            'publication_date' => 'date_format:Y-m-d',
+            'category' => ['in:news,opinion,quiz', 'required'],
+        ];
+    }
+
+    public function bodyParameters()
+    {
+        return [
+            'content' => [
+                'description' => 'Contents of the post',
+            ],
+            'title' => [
+                'description' => 'The title of the post.',
+                'example' => 'My First Post',
+            ],
+            'publication_date' => [
+                'description' => 'Date to be used as the publication date.',
+            ],
+            'category' => [
+                'description' => 'Category the post belongs to.',
+            ],
+        ];
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+All of these lead to:
+
+![](../../static/img/screenshots/endpoint-bodyparams-3.png)
+
+
+:::note
+Inline validators support is still experimental. Currently, Scribe only supports simple string rules and arrays of string rules. Concatentation, interpolation, and dynamic expressions will be ignored, so it's best to specify rules as an array, so Scribe can ignore the rules it doesn't understand. For example:
+```php
+$rules = [
+  // 👍 Supported
+  'param1' => 'rule1|rule2',
+  'param2' => ['rule1', 'rule2'],
+  // 👍 Supported (but the third rule will be ignored)
+  'param3' => ['rule1', 'rule2', new SomeRule()],
+  // ❌ All rules are ignored because of concatenation
+  'param4' => 'rule1|rule2:'.$someValues,
+  // 😐 Only rule2 is ignored
+  'param4' => ['rule1', 'rule2:'.$someValues],
+];
+```
+:::
+
+### Supported validation rules
+There are three levels of support for validation rules:
+- **Full support**: Based on the rule, Scribe can generate a description, type, and valid example for a parameter.
+- **Partial support**: Scribe can generate a description and type, but the example generated may not pass validation. You can always specify your own examples.
+- **No support**: Custom rules and any rule not listed below. Scribe will simply ignore them. If you'd like support, you can raise a PR.
+
+#### Full support
+- `required`
+- `in`
+- `string`
+- `bool`/`boolean`
+- `int`/`integer`
+- `numeric`
+- `array`
+- `file`, `image`
+- `alpha`, `alpha_dash`, `alpha_num`
+- `starts_with`, `ends_with`
+- `email`, `url`, `ip`, `json`, `uuid`, `regex`
+- `digits`, `digits_between`
+- `timezone`, `date`, `date_format`
+- `before`, `before_or_equal`, `after`, `after_or_equal`  (Full support when the other date is a value, partial support when it's referencing another field)
+
+#### Partial support
+- `required_if`, `required_unless`, `required_with`, `required_without`, `required_with_all`, `required_without_all`
+- `not_in`
+- `same`, `different`

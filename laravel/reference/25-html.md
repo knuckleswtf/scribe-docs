@@ -4,10 +4,10 @@ id: html
 
 # HTML helpers
 
-Scribe supports Markdown (and by extension, HTML) in a couple of places:
+Scribe supports Markdown (and, by extension, HTML) in a couple of places:
 - the `description` and `intro_text` in your config file 
 - the endpoint title and description in docblocks 
-- the group name and description in docblocks 
+- the group name and description in docblocks (`@group`) 
 - parameter descriptions in docblocks
 
 
@@ -39,17 +39,8 @@ Available colours:
 - black
 - grey
 
-## Fancy headings
-You can help your lower-level headings stand out by using the fancy-heading-panel class:
-
-```html
-<h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-```
-
-![](../../static/img/screenshots/html-fancyheading.png)
-
 ## Notes and warnings
-You can add little highlighted warnings and notes using the `<aside>` tag and either of the classes "notice", "warning", or "success".
+You can add little highlighted warnings and notes using the `<aside>` tag and either of the classes `notice`, `warning`, or `success`.
 
 
 ```html
@@ -62,3 +53,12 @@ You can add little highlighted warnings and notes using the `<aside>` tag and ei
 
 
 If you don't specify a class, `"notice"` is assumed.
+
+## Fancy headings
+You can help your lower-level headings stand out by using the fancy-heading-panel class:
+
+```html
+<h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+```
+
+![](../../static/img/screenshots/html-fancyheading.png)
