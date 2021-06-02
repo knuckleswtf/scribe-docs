@@ -52,6 +52,13 @@ If you don't commit, you can't make any edits to what Scribe has extracted, so g
 If you commit the folder, and you generate docs on your server. and your deployment process involves a `git pull`, you might encounter problems with Git warning of your local changes being overwritten. In that case, you should use `git restore .` before `git pull`.
 :::
 
+## Post-production
+The `.scribe` folder allows you to edit your docs _after_ the generation process. You can do this by:
+- editing the endpoint YAML files (in `.scribe/endpoints`)
+- adding extra endpoints (there's an example file at `.scribe/endpoints/custom.0.yaml`)
+- editing the introduction and authentication sections (`.scribe/index.md` and `.scribe/authentication.md`)
+- appending some content to the end of the docs (by adding a `.scribe/append.md` file)
+
 ## _Try It Out_
 By default, your generated docs will include an API tester that lets users test your endpoints in their browser. You can set the URL that requests will be sent to with the `try_it_out.base_url` config item, or turn it off with `try_it_out.enabled`.
 

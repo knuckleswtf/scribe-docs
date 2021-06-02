@@ -10,7 +10,11 @@ In this guide, we'll try it out by creating a template for Ruby. If you just wan
 ## Step 1: Create template file
 First, create a file called `{language-code}.md.blade.php` in the `resources/views/vendor/scribe/partials/example-requests` directory. Since we're creating a Ruby template, we'll create in this case, `ruby.md.blade.php`.
 
-If you're editing an existing template, you can copy [the one Scribe uses](https://github.com/knuckleswtf/scribe/tree/master/resources/views/partials/example-requests) to create your own template. (You could also [publish the vendor views](todo) instead, but that will publish *all* the Scribe templates, and you might not want that.)
+If you're editing an existing template, you can copy [the one Scribe uses](https://github.com/knuckleswtf/scribe/tree/master/resources/views/partials/example-requests) to create your own template.
+
+:::tip
+You can also run `php artisan vendor:publish --tag=scribe-examples` instead to automatically copy all Scribe's example templates to the vendor views directory. Note that this will publish *all* the example templates.
+:::
 
 
 ## Step 2: Write the template
@@ -64,6 +68,10 @@ p response.body
 As you can see, it's a regular Blade view, so we can use the usual Blade directives and constructs.
 
 If you need more examples, you can check out the [included example requests](https://github.com/knuckleswtf/scribe/tree/master/resources/views/partials/example-requests).
+
+:::tip
+The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities that might save you some work; for instance, printing query parameters as a key-value hash.
+:::
 
 ## Step 3: Add to config
 

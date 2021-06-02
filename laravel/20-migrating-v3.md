@@ -7,6 +7,7 @@ id: migrating-v3
 We've included an upgrade tool that will make the needed changes.
 
 ## New feature highlights
+- Camel (removed md files, include frontmatter)
 - More validation rules support
 - Inline validators
 - 3 base URLs
@@ -14,6 +15,7 @@ We've included an upgrade tool that will make the needed changes.
 - Infer URL parameter type, name, description
 - Include responses in Postman collection
 - Body parameters array
+- Removed Pastel
 
 ## New features
 - `static` docs now work properly. Previously, they didn't work if your Laravel app was running (which was silly). Now you can access them through your Laravel app /docs as well.
