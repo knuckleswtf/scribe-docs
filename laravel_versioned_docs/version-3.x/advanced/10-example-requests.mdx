@@ -1,0 +1,89 @@
+---
+id: example-requests
+---
+
+# Example requests
+For each endpoint, an example request is shown in [each language in your config](../reference/config#example-languages). If you aren't happy with the generated examples, you can change the template Scribe uses. You can also add a language which isn't included with Scribe by creating your own Blade template.
+
+In this guide, we'll try it out by creating a template for Ruby. If you just want to edit an existing template, you should follow along, as it's almost exactly the same process.
+
+## Step 1: Create template file
+First, create a file called `{language-code}.md.blade.php` in the `resources/views/vendor/scribe/partials/example-requests` directory. Since we're creating a Ruby template, we'll create in this case, `ruby.md.blade.php`.
+
+If you're editing an existing template, you can copy [the one Scribe uses](https://github.com/knuckleswtf/scribe/tree/master/resources/views/partials/example-requests) to create your own template.
+
+:::tip
+You can also run `php artisan vendor:publish --tag=scribe-examples` instead to automatically copy all Scribe's example templates to the vendor views directory. Note that this will publish *all* the example templates.
+:::
+
+
+## Step 2: Write the template
+In this Blade template, you'll write the Markdown for the example request. You have access to two variables, `$baseUrl` and `$endpoint`.
+
+`$baseUrl` is the base URL for the API (for instance, `http://your-api.dev`).
+
+`$endpoint` contains details about the current endpoint. It's an instance of `Knuckles\Camel\Output\OutputEndpointData` with the following properties:
+- `httpMethods`: an array of the HTTP methods for that endpoint
+- `boundUri`: the URL for the endpoint, with any url parameters replaced (`users/{id}` -> `users/1`)
+- `headers`: key-value array of request headers
+- `cleanQueryParameters`: key-value array of query parameters and examples
+- `cleanBodyParameters`: key-value array of body parameters and examples
+- `fileParameters`: key-value array of file parameters and examples. Each example is an instance of `\Illuminate\Http\UploadedFile`.
+
+:::note
+Parameters which have been excluded from the example requests (see [Specifying example values](../documenting/query-body-parameters#specifying-or-omitting-examples)) will not be present in `cleanQueryParameters`, `cleanBodyParameters`, or `fileParameters`.
+:::
+
+We can work with this information to write a basic Ruby template:
+
+````php title=resources/views/vendor/scribe/ruby.md.blade.php
+```ruby
+
+require 'rest-client'
+
+@if(!empty($endpoint->cleanBodyParameters))
+body = {!! json_encode($endpoint->cleanBodyParameters, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+@endif
+@if(!empty($endpoint->headers))
+headers = {
+@foreach($endpoint->headers as $header => $value)
+    "{{$header}}": "{{$value}}",
+@endforeach
+}
+@endif
+
+response = RestClient.{{strtolower($endpoint->httpMethods[0])}}(
+  '{{ $baseUrl }}/{{ $endpoint->boundUri }}'@if(!empty($endpoint->cleanBodyParameters)),
+  body @endif
+@if(!empty($endpoint->headers)),
+  headers
+@endif
+)
+
+p response.body
+
+```
+````
+
+As you can see, it's a regular Blade view, so we can use the usual Blade directives and constructs.
+
+If you need more examples, you can check out the [included example requests](https://github.com/knuckleswtf/scribe/tree/master/resources/views/partials/example-requests).
+
+:::tip
+The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities that might save you some work; for instance, printing query parameters as a key-value hash.
+:::
+
+## Step 3: Add to config
+
+Finally, if you added a new language template, add the language to the `example_languages` array in your config and generate your documentation as usual.
+
+```php {3} title=config/scribe.php
+'example_languages' => [
+  'javascript',
+  'ruby',
+] 
+ ```
+
+Now run `php artisan scribe:generate`, and your example requests should include a `ruby` tab:
+
+![](/img/screenshots/customization-example-requests.png)

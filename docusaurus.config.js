@@ -1,3 +1,29 @@
+// Manually build version dropdowns, because we need to change the label
+const laravelVersions = require('./laravel_versions.json');
+const nodejsVersions = ['2.x'];
+const laravelVersionDropdown = laravelVersions.map((version, idx) => ({
+    to: `laravel/${idx === 0 ? '' : version}`,
+    label: `Laravel: ${version}`,
+}));
+laravelVersionDropdown.push({
+    to: 'https://scribe.rtfd.io',
+    label: 'Laravel: 2.x',
+});
+const nodejsVersionDropdown = nodejsVersions.map((version, idx) => ({
+    to: `nodejs/${idx === 0 ? '' : version}`,
+    label: `Node.js: ${version}`,
+}));
+nodejsVersionDropdown.push({
+    to: 'https://scribe-js.rtfd.io',
+    label: 'Node.js: 1.x',
+});
+const versionDropdown = {
+    label: 'Version',
+    position: 'right',
+    items: [...laravelVersionDropdown, ...nodejsVersionDropdown],
+};
+
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
     title: 'Scribe',
@@ -31,6 +57,7 @@ module.exports = {
                     to: 'nodejs',
                     label: 'Node.js',
                 },
+                versionDropdown,
                 {
                     to: '/blog',
                     label: 'Blog',
@@ -88,7 +115,7 @@ module.exports = {
             apiKey: '2c11f083773e4ff5012ff63779332fe5',
             indexName: 'scribe',
             contextualSearch: true,
-            searchParameters: { 'facetFilters': ["type:$TYPE"] },
+            searchParameters: {'facetFilters': ["type:$TYPE"]},
         },
     },
     presets: [
@@ -96,11 +123,20 @@ module.exports = {
             '@docusaurus/preset-classic',
             {
                 docs: {
-                    sidebarPath: require.resolve('./sidebars.js'),
+                    sidebarPath: require.resolve('./sidebarsLaravel.js'),
+                    id: 'laravel',
                     path: 'laravel',
                     routeBasePath: 'laravel',
-                    editUrl:
-                        'https://github.com/knuckleswtf/scribe-docs/edit/master/laravel/',
+                    editUrl: ({locale, versionDocsDirPath, docPath}) =>
+                        `https://github.com/knuckleswtf/scribe-docs/edit/master/${versionDocsDirPath}/${docPath}`,
+                    lastVersion: "3.x",
+                    versions: {
+                        current: {
+                            label: "3.x",
+                            path: "3.x"
+                        }
+                    },
+                    onlyIncludeVersions: ["3.x"],
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
@@ -112,11 +148,12 @@ module.exports = {
         [
             '@docusaurus/plugin-content-docs',
             {
-                sidebarPath: require.resolve('./sidebars.js'),
+                sidebarPath: require.resolve('./sidebarsNodejs.js'),
                 id: 'nodejs',
                 path: 'nodejs',
                 routeBasePath: 'nodejs',
-                editUrl: 'https://github.com/knuckleswtf/scribe-docs/edit/master/nodejs/',
+                editUrl: ({locale, versionDocsDirPath, docPath}) =>
+                    `https://github.com/knuckleswtf/scribe-docs/edit/master/${versionDocsDirPath}/${docPath}`,
             },
         ],
     ],

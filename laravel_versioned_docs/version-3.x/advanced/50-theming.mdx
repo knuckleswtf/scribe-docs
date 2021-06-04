@@ -1,0 +1,132 @@
+---
+id: theming
+---
+
+# Theming
+
+:::note
+The theming system is still experimental. We may change things for v4, if we find ways to make it simpler and more consistent. We're open to [your suggestions](https://github.com/knuckleswtf/scribe/issues)!
+:::
+
+Scribe v3 comes with support for themes, allowing you to customize how your docs look.  Scribe currently only comes with one theme, `default`, but you can create a new theme. Let's see how.
+
+## Anatomy of a theme
+A theme consists of:
+- an `index.blade.php` file that takes the API details and renders to HTML. For custom themes, this file has to be in `resources/views/vendor/scribe/themes/{themeName}/`.
+- any accompanying CSS and JS files. You can place these anywhere in your codebase, as long as you reference them correctly from the theme file (keeping in mind the actual path your docs/ page will be visited from).
+
+When you run `php artisan scribe:generate`, Scribe will use the theme template to generate the HTML. For inbuilt themes, it will also copy any CSS and JS files to your app's public directory. For custom themes, you'll have to manage that part yourself.
+
+## Creating a new theme
+To create a new theme (let's call this theme `nasty`), place the `index.blade.php` in `resources/views/vendor/scribe/themes/nasty/`. Next, we change the value of `theme` in our config:
+
+```php title=config/scribe.php
+    'theme' => 'nasty',
+```
+
+Now we write the theme. Writing a theme file can be a lot of work, so we recommend using [the default theme](https://github.com/knuckleswtf/scribe/tree/master/resources/views/themes/default) as a starting point. Here's a very simple theme file:
+
+```html title=resources/views/vendor/scribe/themes/nasty/index.blade.php
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{!! $metadata['title'] !!}</title>
+
+    <link rel="stylesheet" href="../docs/css/nasty.css">
+
+    <link rel="stylesheet"
+          href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="//unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <div class="content">
+        {!! $index !!}
+
+        {!! $authentication !!}
+
+        @include("scribe::themes.default.groups")
+    </div>
+</body>
+</html>
+```
+
+Our theme file is a regular Blade/HTML page. We can do whatever we wish in here, and use Blade constructs as normal. Let's see what's going on here:
+
+First, we're using the `$metadata` object that's passed to our theme. This object has the following structure:
+```php
+[
+  'title' => 'The title of the API',
+  'example_languages' => ['bash', 'javascript'], // Your `example_languages` config
+  'logo' => 'logo_url', // Your `logo` config
+  'last_updated' => '2021-09-12', // Current date string
+  'auth' => [
+    'location' => 'header', // or 'query', or 'body'
+    'prefix' => 'Bearer ', // or 'Basic ' or ''
+    // Plus the rest of your `auth` config
+  ],
+  'try_it_out' => [ // Your `try_it_out` config
+    'enabled' => true,
+    'base_url' => '',
+  ]
+  // List of HTML links to be placed at the bottom of the sidebar (including Postman collection and OpenAPI links)
+  'links' => ['<a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a>'],
+]
+```
+
+Next, we reference a stylesheet, `nasty.css`, which we've placed in our `public/docs` folder, as well as the [highlight.js](https://highlightjs.org/) CSS and JS for syntax highlighting.
+
+Then, in the `<body>`, we output the `$index` and `$authentication` information. Those variables hold basic HTML containing the text for the introduction and authentication sections.
+
+In addition to these variables, the theme file has access to the following variables:
+- `$baseUrl`: the base URL to be displayed in the docs
+- `$tryItOut`: the `try_it_out` section from your config file
+- `$append`: the HTMl from any `.scribe/append.md` file added by the user
+- `$groupedEndpoints`: the endpoints in the API, organized by groups. Each item in this array is an array with the following shape:
+   ```php
+   [
+     'name' => 'The group name',
+     'description' => 'The description',
+     'endpoints' => [
+       // Array of Knuckles\Camel\Output\OutputEndpointData
+     ]
+   ]
+   ```
+
+Finally, you'll notice that at the end, we include `"scribe::themes.default.groups"`. This means our theme just changed the outer page structure, and falls back to the default theme to render the actual endpoints and groups. This is a great way to modify an existing theme. If we wanted to create a totally new theme, then we would replace the include directive with our own custom Blade that would loop over the groups and render endpoints.
+
+Now when you run `php artisan scribe:generate`, Laravel will load your custom theme instead of the default.
+
+If you need a starting point or more guidance to create your own theme, you should look at the [included theme files](https://github.com/knuckleswtf/scribe/tree/master/resources/views/themes).
+
+:::tip
+The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities that might save you some work; for instance, printing query parameters as a key-value hash.
+:::
+
+## Advanced
+If you really want to customise *all* the templates Scribe uses for generating, you can publish the vendor views:
+
+
+import {LaravelLumenTabs, TabItem} from '@site/src/components/LaravelLumenTabs';
+
+<LaravelLumenTabs>
+<TabItem value="laravel">
+
+Run:
+
+```bash
+php artisan vendor:publish --tag=scribe-views
+```
+
+</TabItem>
+<TabItem value="lumen">
+
+- Create the `resources/views/vendor/scribe/` directory in your app
+- Copy the contents of `vendor/knuckleswtf/scribe/resources/views/` into it.
+
+</TabItem>
+
+</LaravelLumenTabs>
