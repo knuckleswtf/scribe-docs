@@ -101,42 +101,31 @@ article h3 {
   color: var(--ifm-color-primary-lightest);
 }
 
-html[data-theme='light'] .DocSearch {
-  /* --docsearch-primary-color: var(--ifm-color-primary); */
-  /* --docsearch-text-color: var(--ifm-font-color-base); */
-  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
-  --docsearch-container-background: rgba(94, 100, 112, 0.7);
-  /* Modal */
-  --docsearch-modal-background: var(--ifm-color-secondary-lighter);
-  /* Search box */
-  --docsearch-searchbox-background: var(--ifm-color-secondary);
-  --docsearch-searchbox-focus-background: var(--ifm-color-white);
-  /* Hit */
-  --docsearch-hit-color: var(--ifm-font-color-base);
-  --docsearch-hit-active-color: var(--ifm-color-white);
-  --docsearch-hit-background: var(--ifm-color-white);
-  /* Footer */
-  --docsearch-footer-background: var(--ifm-color-white);
-}
-
-html[data-theme='dark'] .DocSearch {
-  --docsearch-text-color: var(--ifm-font-color-base);
+/** Make search look the same (dark) in both dark/light mode */
+.DocSearch {
+  --docsearch-text-color: white;
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
   --docsearch-container-background: rgba(47, 55, 69, 0.7);
   /* Modal */
-  --docsearch-modal-background: var(--ifm-background-color);
+  --docsearch-modal-background: #1e2125;
   /* Search box */
-  --docsearch-searchbox-background: var(--ifm-background-color);
+  --docsearch-searchbox-background: #1e2125;
   --docsearch-searchbox-focus-background: var(--ifm-color-black);
   /* Hit */
   --docsearch-hit-color: var(--ifm-font-color-base);
   --docsearch-hit-active-color: var(--ifm-color-white);
   --docsearch-hit-background: var(--ifm-color-emphasis-100);
   /* Footer */
-  --docsearch-footer-background: var(--ifm-background-surface-color);
+  --docsearch-footer-background: #121212;
   --docsearch-key-gradient: linear-gradient(
           -26.5deg,
-          var(--ifm-color-emphasis-200) 0%,
-          var(--ifm-color-emphasis-100) 100%
+          var(--ifm-color-gray-800) 0%,
+          var(--ifm-color-gray-900) 100%
   );
+
+
+  --docsearch-key-shadow: inset 0 -2px 0 0 #282d55, inset 0 0 1px 1px #51577d, 0 2px 2px 0 rgba(3, 4, 9, 0.3);
+  --docsearch-footer-shadow: #121212;
+  --docsearch-hit-shadow: none;
+  --docsearch-modal-shadow: inset 1px 1px 0 0 #2c2e40,0 3px 8px 0 #000309;
 }
