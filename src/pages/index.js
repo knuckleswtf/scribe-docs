@@ -12,6 +12,7 @@ function HomepageHeader() {
         <header className={clsx('hero hero--primary', styles.heroBanner)}>
             <div className="container">
                 <h1 className="hero__title">{siteConfig.title}</h1>
+                <br />
                 <p className="hero__subtitle">{siteConfig.tagline}</p>
                 <br/>
                 <div style={{fontSize: "1.2rem", paddingBottom: "15px"}}>
@@ -22,6 +23,7 @@ function HomepageHeader() {
                         className="button button--secondary button--lg"
                         to="/laravel">
                         Laravel
+
                     </Link>
                     &nbsp;
                     &nbsp;

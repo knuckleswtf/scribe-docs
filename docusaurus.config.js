@@ -74,15 +74,12 @@ module.exports = {
             style: 'dark',
             links: [
                 {
+                    title: 'Docs',
                     items: [
                         {
                             label: 'Laravel',
                             to: '/laravel',
                         },
-                    ],
-                },
-                {
-                    items: [
                         {
                             label: 'Node.js',
                             to: '/nodejs',
@@ -90,10 +87,19 @@ module.exports = {
                     ],
                 },
                 {
+                    title: 'GitHub',
                     items: [
                         {
-                            label: 'GitHub',
-                            href: 'https://github.com/knuckleswtf',
+                            label: 'Scribe for Laravel',
+                            href: 'https://github.com/knuckleswtf/scribe',
+                        },
+                        {
+                            label: 'Scribe for JS',
+                            href: 'https://github.com/knuckleswtf/scribe-js',
+                        },
+                        {
+                            label: 'Scribe Docs',
+                            href: 'https://github.com/knuckleswtf/scribe-docs',
                         },
                     ],
                 },
