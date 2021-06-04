@@ -121,7 +121,6 @@ module.exports = {
             apiKey: '2c11f083773e4ff5012ff63779332fe5',
             indexName: 'scribe',
             contextualSearch: true,
-            searchParameters: {'facetFilters': ["type:$TYPE"]},
         },
     },
     presets: [

@@ -413,8 +413,8 @@ There are three levels of support for validation rules:
 
 ### Using validation rules for query parameters
 By default, validation rules are interpreted as body parameters. If you use yours for query parameters instead, you can tell Scribe this by either:
-- adding the text `"Query parameters"` in the FormRequest docblock or in a comment above the inline validator call, or
-- (FormRequests only) adding a `queryParameters()` method (instead of `bodyParameters()`).
+- adding the text `"Query parameters"` in the form request docblock or in a comment above the inline validator call, or
+- (form requests only) adding a `queryParameters()` method (instead of `bodyParameters()`).
 
 <Tabs
 defaultValue="inline"
@@ -438,9 +438,10 @@ public function createPost($request)
 </TabItem>
 <TabItem value="formrequest">
 
-```php {1-3}
+```php {2,14}
 /**
  * Query parameters
+ * You can still have other stuff in your docblock.
  */
 class CreatePostRequest extends FormRequest
 {
