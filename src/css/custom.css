@@ -5,7 +5,7 @@
  * work well for content-centric websites.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 /* You can override the default Infima variables here. */
 :root {
@@ -30,11 +30,11 @@
   --ifm-color-success: #28a745;
   --ifm-color-danger: #dc3545;
   --ifm-color-warning: #fd7e14;
-  --ifm-menu-color: #dadde1;
-  --ifm-menu-color-active: var(--ifm-color-secondary-dark);
+  --ifm-menu-color: black;
+  --ifm-menu-color-active: var(--ifm-color-secondary-darkest);
   --ifm-link-color: var(--ifm-color-secondary-darker);
 
-  --ifm-font-family-base: 'PT Sans', sans-serif;
+  --ifm-font-family-base: 'Rubik', sans-serif;
   --doc-sidebar-width: 250px !important;
 }
 
@@ -47,6 +47,7 @@
 html[data-theme='dark'] {
   --ifm-color-primary: var(--ifm-color-primary-darker);
   --ifm-color-info: #54C7EC;
+  --ifm-menu-color: #dadde1;
   --ifm-menu-color-active: var(--ifm-color-secondary);
   --ifm-link-color: var(--ifm-color-secondary);
   --ifm-background-color: #1e2125;
@@ -94,4 +95,48 @@ article h3 {
 
 .navbar__brand:hover {
   color: var(--ifm-navbar-link-hover-color);
+}
+
+.tabs__item--active {
+  color: var(--ifm-color-primary-lightest);
+}
+
+html[data-theme='light'] .DocSearch {
+  /* --docsearch-primary-color: var(--ifm-color-primary); */
+  /* --docsearch-text-color: var(--ifm-font-color-base); */
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(94, 100, 112, 0.7);
+  /* Modal */
+  --docsearch-modal-background: var(--ifm-color-secondary-lighter);
+  /* Search box */
+  --docsearch-searchbox-background: var(--ifm-color-secondary);
+  --docsearch-searchbox-focus-background: var(--ifm-color-white);
+  /* Hit */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-white);
+  /* Footer */
+  --docsearch-footer-background: var(--ifm-color-white);
+}
+
+html[data-theme='dark'] .DocSearch {
+  --docsearch-text-color: var(--ifm-font-color-base);
+  --docsearch-muted-color: var(--ifm-color-secondary-darkest);
+  --docsearch-container-background: rgba(47, 55, 69, 0.7);
+  /* Modal */
+  --docsearch-modal-background: var(--ifm-background-color);
+  /* Search box */
+  --docsearch-searchbox-background: var(--ifm-background-color);
+  --docsearch-searchbox-focus-background: var(--ifm-color-black);
+  /* Hit */
+  --docsearch-hit-color: var(--ifm-font-color-base);
+  --docsearch-hit-active-color: var(--ifm-color-white);
+  --docsearch-hit-background: var(--ifm-color-emphasis-100);
+  /* Footer */
+  --docsearch-footer-background: var(--ifm-background-surface-color);
+  --docsearch-key-gradient: linear-gradient(
+          -26.5deg,
+          var(--ifm-color-emphasis-200) 0%,
+          var(--ifm-color-emphasis-100) 100%
+  );
 }
