@@ -15,6 +15,7 @@ module.exports = {
         },
         image: 'img/og-image-scribe.png',
         navbar: {
+            hideOnScroll: true,
             style: 'dark',
             title: 'Scribe',
             logo: {
@@ -82,6 +83,12 @@ module.exports = {
         },
         prism: {
             additionalLanguages: ['php'],
+        },
+        algolia: {
+            apiKey: '2c11f083773e4ff5012ff63779332fe5',
+            indexName: 'scribe',
+            contextualSearch: true,
+            searchParameters: { 'facetFilters': ["type:$TYPE"] },
         },
     },
     presets: [
