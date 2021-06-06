@@ -18,7 +18,7 @@ nodejsVersionDropdown.push({
     label: 'Node.js: 1.x',
 });
 const versionDropdown = {
-    label: 'Version',
+    label: 'Switch version',
     position: 'right',
     items: [...laravelVersionDropdown, ...nodejsVersionDropdown],
 };
@@ -120,7 +120,7 @@ module.exports = {
         algolia: {
             apiKey: '2c11f083773e4ff5012ff63779332fe5',
             indexName: 'scribe',
-            contextualSearch: true,
+            contextualSearch: false,
         },
     },
     presets: [
