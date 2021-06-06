@@ -37,6 +37,10 @@ Parameters which have been excluded from the example requests (see [Specifying e
 We can work with this information to write a basic Ruby template:
 
 ````php title=resources/views/vendor/scribe/ruby.md.blade.php
+@php
+    // Adding this so we get IDE code completion for $endpoint
+    /** @var \Knuckles\Camel\Output\OutputEndpointData $endpoint */
+@endphp
 ```ruby
 
 require 'rest-client'

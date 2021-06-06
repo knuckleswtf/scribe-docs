@@ -25,7 +25,7 @@ Here's a high-level overview of what Scribe does on first run:
    $groupedEndpoints = Camel::groupEndpoints($endpoints);
    ```
    
-   The grouped endpoints are written to a bunch of YAML files, in a `.scribe/endpoints` directory in your app. We don't need them now, but we'll come back to those files later. See [What are those YAML files for?](#what-are-those-yaml-files-for)
+   The grouped endpoints are written to a bunch of YAML files, in a `.scribe/endpoints` directory in your app. We don't need them right now, but we'll come back to those files later. See [What are those YAML files for?](#what-are-those-yaml-files-for)
  
    Alright, the extraction phase is done. Over to output. 
    
@@ -72,7 +72,7 @@ Earlier, we said that the grouped endpoints are written to some YAML files, in a
     responseFields: []
    ```
 
-Internally, we call these _Camel_ files, and they're very useful! Here's what they enable:
+Internally, we call these _Camel_ files, and they're very useful! They're _intermediate output_, which means they let you modify the data Scribe has extracted, before Scribe goes on to convert to HTML. This means:
 
 1. You can **edit an endpoint's details**. For instance, if Scribe made a mistake, or wasn't able to figure out some data, you can just find the YAML file and edit it. Then when you run `scribe:generate` again, Scribe will use _your_ changes instead of what it figured out.
 
@@ -88,7 +88,7 @@ You can run `php artisan scribe:generate --no-extraction` for Scribe to complete
 
 
 ## The `.scribe` folder
-The `.scribe` folder contains information about your API that Scribe has extracted.
+The `.scribe` folder contains intermediate output—information about your API that Scribe has extracted.
 
 ```
 .scribe/
@@ -99,16 +99,16 @@ The `.scribe` folder contains information about your API that Scribe has extract
 |- endpoints.cache/
    |- 0.yaml
    |- 1.yaml
-|- authentication.md
-|- index.md
+|- auth.md
+|- intro.md
 |- .filehashes
 
 ```
 
-- The `endpoints` folder holds the endpoint information as YAML files. You can edit them to add/overwrite endpoints.
-- The `endpoints.cache` folder _also_ holds endpoint information, but these files are not meant to be edited by the user. Scribe uses the files here to figure out when you've edited something in `endpoints`.
-- The `authentication.md` and `index.md` files contain the generated text for the "Authentication" and "Introduction" section of your docs. You can edit these.
-- The `.filehashes` file is how Scribe keeps track of changes you make to `authentication.md` and `index.md`.
+- The `endpoints` folder holds the endpoints information as YAML files. You can edit them to add/overwrite endpoints.
+- The `endpoints.cache` folder _also_ holds endpoints information, but these files are not meant to be edited by the user. Scribe uses the files here to figure out when you've edited something in `endpoints`.
+- The `auth.md` and `intro.md` files contain the generated text for the "Authentication" and "Introduction" section of your docs. You can edit these.
+- The `.filehashes` file is how Scribe keeps track of changes you make to `auth.md` and `intro.md`.
 
 Scribe regenerates the `.scribe` folder on every run, while preserving any changes you've made to endpoints or Markdown files. Special cases:
 - When you specify `--no-extraction`, Scribe will not go through an extraction phase or regenerate the folder. Instead, it will use the information here to generate the output (HTML, Postman, OpenAPI). 

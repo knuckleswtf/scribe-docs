@@ -42,7 +42,7 @@ If you're using `static` type, you can also open the `public/docs/index.html` lo
 You can change the default docs paths with the config items `static.output_path` and `laravel.docs_url`.
 
 ## The `.scribe` folder
-After you generate your docs, you should also have a `.scribe` folder. This folder contains information about your API that Scribe has extracted. See [How Scribe works](./architecture#the-scribe-folder) for details.
+After you generate your docs, you should also have a `.scribe` folder. This folder is the "intermediate" output; it holds information about your API that Scribe has extracted, allowing you to overwrite some things before Scribe converts to HTML. See [How Scribe works](./architecture#the-scribe-folder) for details.
 
 You can choose to commit this folder, or not. If you commit this folder, you can make edits to the info Scribe has extracted, and Scribe will respect them when generating your docs on any machine, local or server.
 
@@ -52,12 +52,47 @@ If you don't commit, you can't make any edits to what Scribe has extracted, so g
 If you commit the folder, and you generate docs on your server. and your deployment process involves a `git pull`, you might encounter problems with Git warning of your local changes being overwritten. In that case, you should use `git restore .` before `git pull`.
 :::
 
-## Post-production
-The `.scribe` folder allows you to edit your docs _after_ the generation process. You can do this by:
+## Modifying the docs after generating
+The `.scribe` folder holds Scribe's intermediate output, allowing you to modify the data Scribe has extracted before Scribe turns them into HTML. You can do this by:
 - editing the endpoint YAML files (in `.scribe/endpoints`)
 - adding extra endpoints (there's an example file at `.scribe/endpoints/custom.0.yaml`)
-- editing the introduction and authentication sections (`.scribe/index.md` and `.scribe/authentication.md`)
+- editing the introduction and authentication sections (`.scribe/intro.md` and `.scribe/auth.md`)
 - appending some content to the end of the docs (by adding a `.scribe/append.md` file)
+  
+### Discarding your changes
+On future runs, Scribe will respect your changes and try to merge them into any information it extracts. If you'd like to discard your changes and have Scribe extract afresh, you can pass the `--force` flag.
+
+```shell
+php artisan scribe:generate --force
+```
+
+### Skipping the extraction phase
+You can also use the `--no-extraction` flag. With this, Scribe will skip extracting data about your API and use the data already present in the `.scribe` folder.
+
+```bash
+php artisan scribe:generate --no-extraction
+```
+
+This allows you to quickly edit the extracted YAMl and view your changes without having to extract from all your endpoints again.
+
+## Sorting endpoints and groups
+By default, endpoint groups will be ordered alphabetically in the docs, but you can customise override this by editing the files in `.scribe/endpoints/`. Groups are ordered by file name, so you can reorder groups by renaming the files. For instance, the group in `0.yaml` will always be shown before the one in `1.yaml`, and so on, so you can swap those two filenames if you want the order reversed.
+
+Endpoints in a group are listed within one file, so to sort endpoints in a group, rearrange the items in the `endpoints` array of the group YAML file.
+
+```yaml title=.scribe/endpoints/0.yaml
+name: Endpoints
+description: ''
+endpoints:
+  # This endpoint will be shown first
+  - httpMethods: [ "GET" ]
+    uri: api/healthcheck
+    # ...
+  # This endpoint will be shown next
+  - httpMethods: [ "GET" ]
+    # ...
+```
+
 
 ## _Try It Out_
 By default, your generated docs will include an API tester that lets users test your endpoints in their browser. You can set the URL that requests will be sent to with the `try_it_out.base_url` config item, or turn it off with `try_it_out.enabled`.
@@ -102,23 +137,3 @@ If you're using [response calls](./documenting/responses#response-calls), you sh
 You'll also want to set your URLs:
 - the base URL, which will be displayed in the docs and examples. You can set this with the config item `base_url`. You'll probably want to set this to your production URL.
 - the Try It Out URL, which is the URL where the in-browser API tester's requests will go to. You can set this with the config item `try_it_out.base_url`. You could set this to your production or staging server.
-
-## Skipping the extraction phase
-If you only want Scribe to transform the YAML files to the HTML output, you  can use the `--no-extraction` flag. With this, Scribe will skip extracting data from your endpoints and use the data in the YAML files.
-
-```bash
-php artisan scribe:generate --no-extraction
-```
-
-This allows you to quickly edit the extracted YAMl and view your changes without having to extract from all your endpoints again.
-
-## Overwriting your changes
-If you've modified the generated YAML files manually, Scribe will respect your changes and try to merge them into any information it extracts. If you'd like to discard your changes and have Scribe extract afresh, you can pass the `--force` flag.
-
-```shell
-php artisan scribe:generate --force
-```
-
-(Alternatively, you can just delete the `.scribe` folder.🙂)
-
-
