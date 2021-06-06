@@ -114,7 +114,7 @@ article h3 {
   /* Hit */
   --docsearch-hit-color: var(--ifm-font-color-base);
   --docsearch-hit-active-color: var(--ifm-color-white);
-  --docsearch-hit-background: var(--ifm-color-emphasis-100);
+  --docsearch-hit-background: var(--ifm-color-gray-900);
   /* Footer */
   --docsearch-footer-background: #121212;
   --docsearch-key-gradient: linear-gradient(
