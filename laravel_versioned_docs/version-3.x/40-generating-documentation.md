@@ -49,15 +49,19 @@ You can choose to commit this folder, or not. If you commit this folder, you can
 If you don't commit, you can't make any edits to what Scribe has extracted, so generating on a different machine might give different results. Of course, you can still use annotations and other strategies to customise the information that gets passed to Scribe.
 
 :::note
-If you commit the folder, and you generate docs on your server. and your deployment process involves a `git pull`, you might encounter problems with Git warning of your local changes being overwritten. In that case, you should use `git restore .` before `git pull`.
+If you commit the folder, and you generate docs on your server. and your deployment process involves a `git pull`, you might get warnings from Git about your local changes being overwritten. In that case, you should use `git restore .` before `git pull` and `scribe:generate`.
 :::
 
 ## Modifying the docs after generating
-The `.scribe` folder holds Scribe's intermediate output, allowing you to modify the data Scribe has extracted before Scribe turns them into HTML. You can do this by:
-- editing the endpoint YAML files (in `.scribe/endpoints`)
-- adding extra endpoints (there's an example file at `.scribe/endpoints/custom.0.yaml`)
-- editing the introduction and authentication sections (`.scribe/intro.md` and `.scribe/auth.md`)
-- appending some content to the end of the docs (by adding a `.scribe/append.md` file)
+The `.scribe` folder holds Scribe's intermediate output, allowing you to modify the data Scribe has extracted before it turns them into HTML. You can:
+- edit the endpoint YAML files (in `.scribe/endpoints`)
+- add more endpoints, following the example file at `.scribe/endpoints/custom.0.yaml`
+- edit the introduction and authentication sections (`.scribe/intro.md` and `.scribe/auth.md`)
+- append some content to the end of the docs (by adding a `.scribe/append.md` file)
+- sort endpoints in a group (by reordering them in the appropriate YAMl file)
+- sort groups (by renaming the group files)
+
+See [sorting endpoints and groups](#sorting-endpoints-and-groups).
   
 ### Discarding your changes
 On future runs, Scribe will respect your changes and try to merge them into any information it extracts. If you'd like to discard your changes and have Scribe extract afresh, you can pass the `--force` flag.
@@ -73,7 +77,7 @@ You can also use the `--no-extraction` flag. With this, Scribe will skip extract
 php artisan scribe:generate --no-extraction
 ```
 
-This allows you to quickly edit the extracted YAMl and view your changes without having to extract from all your endpoints again.
+This allows you to quickly edit the extracted YAML and view your changes without having to extract from all your endpoints again.
 
 ## Sorting endpoints and groups
 By default, endpoint groups will be ordered alphabetically in the docs, but you can customise override this by editing the files in `.scribe/endpoints/`. Groups are ordered by file name, so you can reorder groups by renaming the files. For instance, the group in `0.yaml` will always be shown before the one in `1.yaml`, and so on, so you can swap those two filenames if you want the order reversed.

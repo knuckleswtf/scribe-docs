@@ -64,12 +64,12 @@ Earlier, we said that the grouped endpoints are written to some YAML files, in a
          required: true
          example: something
          type: string
-    responses:
-    - status: 200
-      content: '{"hey": "there"}'
-      headers: []
-      description: '200, Success'
-    responseFields: []
+     responses:
+     - status: 200
+       content: '{"hey": "there"}'
+       headers: []
+       description: '200, Success'
+     responseFields: []
    ```
 
 Internally, we call these _Camel_ files, and they're very useful! They're _intermediate output_, which means they let you modify the data Scribe has extracted, before Scribe goes on to convert to HTML. This means:

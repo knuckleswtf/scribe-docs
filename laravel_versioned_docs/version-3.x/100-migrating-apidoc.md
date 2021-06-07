@@ -13,7 +13,7 @@ The core documentation process remains largely the same. The major changes are i
 - Laravel/Lumen version: 6+
 
 ## Before you start
-- Follow the installation guide in the [introduction](./#installation).
+- Follow the installation guide in the [introduction](./).
 
 - Remove the old package:
 

@@ -6,7 +6,7 @@ id: getting-started
 # Getting Started
 
 ## Set up the package
-First, follow the installation guide in the [introduction](./#installation).
+First, follow the installation guide in the [introduction](./intro).
 
 When you're done, you should have a `scribe.php` file in your config directory. Cool, now you're ready to take it for a spin. But there are two important settings we need to verify in our `scribe.php` config file first...
 
