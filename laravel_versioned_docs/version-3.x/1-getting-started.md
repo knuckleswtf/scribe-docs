@@ -6,7 +6,7 @@ id: getting-started
 # Getting Started
 
 ## Set up the package
-First, follow the installation guide in the [introduction](./intro).
+First, follow the installation guide in the [introduction](/laravel).
 
 When you're done, you should have a `scribe.php` file in your config directory. Cool, now you're ready to take it for a spin. But there are two important settings we need to verify in our `scribe.php` config file first...
 
@@ -41,7 +41,7 @@ The second thing you'll need to do is tell Scribe what routes you want to docume
     ],
 ```
 
-Each entry in the `routes` array defines a route _group_. The main purpose of these groups is to let you apply different settings to different sets of endpoints (for instance, adding an `Api-Version` header to some routes). By default, all your routes are in a single group. For now, let's leave them like that. See more about route groups [here](here).
+Each entry in the `routes` array defines a route _group_. The main purpose of these groups is to let you apply different settings to different sets of endpoints (for instance, adding an `Api-Version` header to some routes). By default, all your routes are in a single group. For now, let's leave them like that. See more about route groups [here](/laravel/reference/config#routes).
 
 The important key here is the `prefixes`. Set it to a path matching your API routes. For instance, the default config (`["api/*]`) will match any endpoints that start with `<your-app-url>/api/`. You can set it to `["*"]` to match all endpoints.
 
@@ -58,7 +58,7 @@ Visit your newly generated docs:
 - If you're using `static` type, find the `docs/index.html` file in your `public/` folder and open it in your browser.
 - If you're using `laravel` type, start your app (`php artisan serve`), then visit `/docs`.
 
-Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](./generating-documentation) for details.
+Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](/laravel/generating) for details.
 
 Great! You've seen what Scribe can do. Now, let's refine our docs to match what we want.
 
@@ -90,4 +90,4 @@ After making changes as needed, you can run `php artisan scribe:generate` as man
 When you're happy with how your documentation looks, you're good to go. You can add the generated documentation to your version control and deploy as normal, and your users will be able to access it as you've configured.
 
 ## Need advanced customization?
-Don't like how the template looks? Want to change how things are organized, or add a custom language for the examples? Thinking of custom ways to extract more information about your routes?  Check out the guide on [advanced customization](customization).
+Don't like how the template looks? Want to change how things are organized, or add a custom language for the examples? Thinking of custom ways to extract more information about your routes?  Check out the guides on [plugins](/laravel/advanced/plugins), [example requests](/laravel/advanced/example-requests) and [UI customisation](/laravel/advanced/theming).

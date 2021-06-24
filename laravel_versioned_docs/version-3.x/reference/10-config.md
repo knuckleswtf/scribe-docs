@@ -12,7 +12,7 @@ If you aren't sure what an option does, it's best to leave it set to the default
 
 ## Output settings
 ### `theme`
-The theme of the docs. Currently, the only included theme is the default. See the [theming guide](../advanced/theming).
+The theme of the docs. Currently, the only included theme is the default. See the [theming guide](/laravel/advanced/theming).
 
 Default: `"default"`
 
@@ -81,12 +81,12 @@ For best results, the image width should be 230px. Set this to `false` if you're
 Default: `false`.
 
 ### `default_group`
-When [documenting your api](documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `default_group`. 
+When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `default_group`. 
 
 Default: `"Endpoints"`.
 
 ### `example_languages`
-For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](../advanced#adding-example-languages)).
+For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](/laravel/advanced/example-requests)).
 
 Default: `["bash", "javascript"]`
 

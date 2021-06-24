@@ -67,7 +67,7 @@ Sure, our docblock is a bit noisier now, but that's not such a bad thing! In fac
 
 Scribe tries to keep docblocks human-readable, so they make sense to you, not just to the machine.
 
-Apart from docblocks, Scribe supports some other ways to annotate your API. For example, you can provide general API information and defaults in your `config/scribe.php`, add or edit YAML files containing the endpoint details (more on that [here](../architecture#what-are-those-yaml-files-for)), or use custom strategies that read your code.
+Apart from docblocks, Scribe supports some other ways to annotate your API. For example, you can provide general API information and defaults in your `config/scribe.php`, add or edit YAML files containing the endpoint details (more on that [here](/laravel/architecture#what-are-those-yaml-files-for)), or use custom strategies that read your code.
 
 We'll demonstrate these in the next few sections of the docs.
 

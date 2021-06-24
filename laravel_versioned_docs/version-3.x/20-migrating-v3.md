@@ -4,7 +4,7 @@ id: migrating-v3
 
 # Migrating to v3
 
-Hi, hello, welcome to Scribe v3.👋 While the core parts are unchanged, some parts of Scribe's behaviour have been reworked to make customization easier. This guide aims to help you migrate from v2 as easily as possible. See [the release blog post](../../blog/2021/06/07/laravel-v3) for the list of new features.
+Hi, hello, welcome to Scribe v3.👋 While the core parts are unchanged, some parts of Scribe's behaviour have been reworked to make customization easier. This guide aims to help you migrate from v2 as easily as possible. See [the release blog post](/blog/2021/06/08/laravel-v3) for the list of new features.
 
 ## Requirements
 Scribe v3 requires PHP 7.4 and Laravel/Lumen 6+. If you're on an older version, you'll need to upgrade. 
