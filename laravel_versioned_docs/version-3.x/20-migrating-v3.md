@@ -104,12 +104,9 @@ endpoints:
       - status: 200
         content: '{"status":"up","services":{"database":"up","redis":"up"}}'
         headers:
-          content-type:
-            - application/json
-          x-ratelimit-limit:
-            - 60
-          x-ratelimit-remaining:
-            - 59
+          content-type: application/json
+          x-ratelimit-limit: 60
+          x-ratelimit-remaining: 59
         description: null
   - # Another endpoint
 ```
@@ -126,10 +123,8 @@ endpoints:
       - status: 200
         content: '{"status":"up","services":{"database":"up","redis":"up"}}'
         headers:
-          content-type:
-            - application/json
-          some-new-header:
-            - heyy
+          content-type: application/json
+          some-new-header: heyy
         description: null
   - # Another endpoint
 ```
