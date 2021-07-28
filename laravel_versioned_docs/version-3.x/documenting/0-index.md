@@ -6,6 +6,10 @@ id: documenting
 # Start here
 Scribe tries to extract as much information about your API as it can from your code, but you can (and should) help it by providing more information.
 
+:::tip
+By default (and in the examples here), Scribe extracts info from your controller/request handler. However, if you prefer an alternative approach, the third-party plugin [Scribe-TDD](https://github.com/ajcastro/scribe-tdd) allows Scribe to extract the documentation from your API tests instead.
+:::
+
 For example, let's take a simple "healthcheck" endpoint:
 
 ```php title=routes/api.php
@@ -69,7 +73,7 @@ Scribe tries to keep docblocks human-readable, so they make sense to you, not ju
 
 Apart from docblocks, Scribe supports some other ways to annotate your API. For example, you can provide general API information and defaults in your `config/scribe.php`, add or edit YAML files containing the endpoint details (more on that [here](/laravel/architecture#what-are-those-yaml-files-for)), or use custom strategies that read your code.
 
-We'll demonstrate these in the next few sections of the docs.
+We'll demonstrate these in the next few sections.
 
 :::tip
 You can exclude an endpoint from the documentation by using the `@hideFromAPIDocumentation` tag in its docblock.
