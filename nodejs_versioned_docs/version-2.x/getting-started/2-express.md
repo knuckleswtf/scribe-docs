@@ -72,7 +72,7 @@ You might have routes in your app that aren't part of your API. By default, Scri
 
 2. Set the `routes` key in your `.scribe.config.js`. Here's what it looks like:
 
-  ```js title=scribe.config.js
+  ```js title=.scribe.config.js
       routes: [
           {
               include: ['*'],
