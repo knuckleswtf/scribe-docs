@@ -54,7 +54,7 @@ module.exports = {
                     label: 'Laravel',
                 },
                 {
-                    to: 'nodejs',
+                    to: '/nodejs',
                     label: 'Node.js',
                 },
                 versionDropdown,
@@ -159,6 +159,14 @@ module.exports = {
                 routeBasePath: 'nodejs',
                 editUrl: ({locale, versionDocsDirPath, docPath}) =>
                     `https://github.com/knuckleswtf/scribe-docs/edit/master/${versionDocsDirPath}/${docPath}`,
+                lastVersion: "2.x",
+                versions: {
+                    current: {
+                        label: "2.x",
+                        path: "2.x"
+                    }
+                },
+                onlyIncludeVersions: ["2.x"],
             },
         ],
     ],
