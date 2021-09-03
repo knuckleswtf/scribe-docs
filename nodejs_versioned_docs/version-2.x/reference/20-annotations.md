@@ -7,7 +7,7 @@ id: annotations
 ## Format
 Annotations in docblocks typically consist of a _tag_ (`@-something`) followed by text in a certain format. Some important details:
 
-- The `@hideFromAPIDocumentation`, `@authenticated` and `@unauthenticated` tags are the only _boolean_ tags; they don't take any text after them.
+- The `@hideFromApiDocs`, `@authenticated` and `@unauthenticated` tags are the only _boolean_ tags; they don't take any text after them.
 - In the "Format" sections below, `?` indicates an optional value.
 - Most annotations are written in a "natural" format, `@tag value1 value2`, where Scribe figures out what value1 and value2 represent, based on the order. However, some tags also support _attributes_ (`@tag key1=value1 value2` or `@tag value2 key1=value1`).
 
@@ -23,7 +23,7 @@ All metadata annotations can be used on the method or class docblock. Using them
 
 Tag | Description | Format
 ----|-------------|--------
-`@hideFromAPIDocumentation` | Excludes an endpoint from the docs | `@hideFromAPIDocumentation`
+`@hideFromApiDocs` | Excludes an endpoint from the docs | `@hideFromApiDocs`
 `@group` | Adds an endpoint to a group | `@group <groupName>` <br /> Example: `@group User management`
 `@authenticated` | Indicates that an endpoint needs auth | `@authenticated` 
 `@unauthenticated` | Opposite of `@authenticated` | `@unauthenticated`

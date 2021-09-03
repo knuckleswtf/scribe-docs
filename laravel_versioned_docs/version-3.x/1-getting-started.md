@@ -43,9 +43,9 @@ The second thing you'll need to do is tell Scribe what routes you want to docume
 
 Each entry in the `routes` array defines a route _group_. The main purpose of these groups is to let you apply different settings to different sets of endpoints (for instance, adding an `Api-Version` header to some routes). By default, all your routes are in a single group. For now, let's leave them like that. See more about route groups [here](/laravel/reference/config#routes).
 
-The important key here is the `prefixes`. Set it to a path matching your API routes. For instance, the default config (`["api/*]`) will match any endpoints that start with `<your-app-url>/api/`. You can set it to `["*"]` to match all endpoints.
+The important key here is the `prefixes`. Set it to a path matching your API routes. For instance, the default config (`["api/*"]`) will match any endpoints that start with `<your-app-url>/api/`. You can set it to `["*"]` to match all endpoints.
 
-[Here's the full documentation on configuring routes](reference/config#routes).
+[Here's the full documentation on configuring routes](/laravel/reference/config#routes).
 
 ## Do a test run
 Now, let's do a test run. Run the command to generate your docs.
@@ -69,7 +69,7 @@ Here are some things you can customise with Scribe:
 - Languages for the example requests
 - A logo to show in your docs.
 
-You can set all these in the config file. For details, see [documenting API information](documenting/api-information).
+You can set all these in the config file. For details, see [documenting API information](/laravel/documenting/api-information).
 
 
 ## Add information to your routes
@@ -82,7 +82,7 @@ Scribe tries to figure out information about your routes, but you can make it be
 - Example responses
 - Fields in the response
 
-Check out how to do this in the guide on [Documenting your API](documenting/).
+Check out how to do this in the guide on [Documenting your API](/laravel/documenting/).
 
 ## Generate and publish
 After making changes as needed, you can run `php artisan scribe:generate` as many times as you want.
