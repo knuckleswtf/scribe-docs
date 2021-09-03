@@ -33,7 +33,7 @@ Example: `@group User management`
 ### `@header`
 Describes a request header.
 
-Format: `{name} {example?}`
+Format: `@header {name} {example?}`
 
 Examples: 
 
@@ -45,7 +45,7 @@ Examples:
 ### `@urlParam`
 Describes a URL parameter.
 
-Format: `{name} {type?} required? {description?} Example: {example?}`
+Format: `@urlParam {name} {type?} required? {description?} Example: {example?}`
 
 Notes:
 - If you don't supply a `type`, `string` is assumed.
@@ -65,7 +65,7 @@ Examples:
 ### `@queryParam`
 Describes a query parameter.
 
-Format: `{name} {type?} required? {description?} Example: {example?}`
+Format: `@queryParam {name} {type?} required? {description?} Example: {example?}`
 
 Notes:
 - If you don't supply a `type`, `string` is assumed.
@@ -83,7 +83,7 @@ Examples:
 ### `@bodyParam`
 Describes a body parameter.
 
-Format: `{name} {type} required? {description?} Example: {example?}`
+Format: `@bodyParam {name} {type} required? {description?} Example: {example?}`
 
 Notes:
 - Ending with `No-example` will prevent Scribe from including this parameter in example requests.
@@ -112,7 +112,7 @@ Examples:
 ### `@response`
 Describes an example response.
 
-Format: `{status?} {response}`
+Format: `@response {status?} {response}`
 
 Notes:
 - If you don't specify a status, Scribe will assume `200`.
@@ -131,7 +131,7 @@ Examples:
 ### `@responseFile`
 Describes the path to a file containing an example response.
 
-Format: `{status?} {filePath}`
+Format: `@responseFile {status?} {filePath}`
 
 Notes:
 - If you don't specify a status, Scribe will assume `200`.
@@ -148,7 +148,7 @@ Examples:
 ### `@responseField`
 Describes a field in the response.
 
-Format: `{name} {type?} {description?}`
+Format: `@responseField {name} {type?} {description?}`
 
 Notes:
 - You can omit the `type`; Scribe will try to figure it out from your example responses.
@@ -162,7 +162,7 @@ Examples:
 ### `@apiResource`
 Tells Scribe how to generate a response using an [Eloquent API resource](https://laravel.com/docs/eloquent-resources). Must be used together with [`@apiResourceModel`](#apiresourcemodel).
 
-Format: `{status?} {resourceClass}`
+Format: `@apiResource {status?} {resourceClass}`
 
 Notes:
 - If you don't specify a status, Scribe will assume `200`.
@@ -181,7 +181,7 @@ Examples:
 
 Tells Scribe how to generate a response using an [Eloquent API resource](https://laravel.com/docs/eloquent-resources) collection. Must be used together with [`@apiResourceModel`](#apiresourcemodel).
 
-Format: `{status?} {resourceClass}`
+Format: `@apiResourceCollection {status?} {resourceClass}`
 
 Notes:
 - If you don't specify a status, Scribe will assume `200`.
@@ -202,7 +202,7 @@ Examples:
 ### `@apiResourceModel`
 Tells Scribe the model to use when generating the [Eloquent API resource](https://laravel.com/docs/eloquent-resources) response. Must be used together with [`@apiResource`](#apiresource) or [`@apiResourceCollection`](#apiresourcecollection).
 
-Format: `{modelClass}`
+Format: `@apiResourceModel {modelClass}`
 
 Notes:
 - Supported attributes:
@@ -234,7 +234,7 @@ Notes:
 ### `@transformer`
 Tells Scribe how to generate a response using a [Fractal transformer](https://fractal.thephpleague.com/transformers/). Can be used together with [`@transformerModel`](#transformermodel).
 
-Format: `{status?} {transformerClass}`
+Format: `@transformer {status?} {transformerClass}`
 
 Notes:
 - If you don't specify a status, Scribe will assume `200`.
@@ -254,7 +254,7 @@ Examples:
 
 Tells Scribe how to generate a response using a [Fractal transformer](https://fractal.thephpleague.com/transformers/) collection. Can be used together with [`@transformerModel`](#transformermodel) and [`@transformerPaginator`](#transformerpaginator).
 
-Format: `{status?} {transformerClass}`
+Format: `@transformerCollection {status?} {transformerClass}`
 
 Examples:
 
@@ -271,7 +271,7 @@ Examples:
 
 Tells Scribe the model to use when generating the [Fractal transformer](https://fractal.thephpleague.com/transformers/) response. Can only be used together with [`@transformer`](#transformer) or [`@transformerCollection`](#transformercollection) (along with [`@transformerPaginator`](#transformerpaginator)).
 
-Format: `{modelClass}`
+Format: `@transformerModel {modelClass}`
 
 Notes:
 - Supported attributes:
@@ -293,7 +293,7 @@ Notes:
 ### `@transformerPaginator`
 Tells Scribe the paginator to use when generating the [Fractal transformer](https://fractal.thephpleague.com/transformers/) response. Can only be used together with [`@transformerCollection`](#transformercollection).
 
-Format: `{adapterClass} {perPage?}`
+Format: `@transformerPaginator {adapterClass} {perPage?}`
 
 Examples:
 
