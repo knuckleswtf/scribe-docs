@@ -1,0 +1,103 @@
+---
+slug: /
+id: intro
+---
+
+# Introduction
+
+Scribe helps you generate API documentation for humans from your Node.js codebase. See a live example at [demo.scribe.knuckles.wtf](https://demo.scribe.knuckles.wtf).
+
+## Features
+- Pretty single-page HTML doc, with human-friendly text, code samples, and included in-browser API tester ("Try It Out")
+- Safely calls API endpoints to get sample responses
+- Generates Postman collection and OpenAPI spec
+- Statically define extra endpoints that aren't in your codebase
+
+:::info Quick links
+
+Wondering where to start? Try the [getting started guide](getting-started), or the [v2 upgrade guide](migrating-v2).
+:::
+
+
+:::tip
+Scribe helps you generate docs automatically, but if you really want to make friendly, maintainable and testable API docs, there's some more stuff you need to know. So I made [a course](https://apidocsfordevs.com?utm_source=scribe-laravel-docs&utm_medium=referral&utm_campaign=none) for you.🤗
+:::
+
+## Installation
+
+:::info Requirements
+Node.js 12.4.0 or higher is required.
+:::
+
+Scribe currently supports three frameworks: [AdonisJS v4](https://legacy.adonisjs.com/), [Express v4](https://expressjs.com/) and [Restify v8](http://restify.com/).
+
+
+import {AdonisExpressRestifyTabs, TabItem} from '@site/src/components/AdonisExpressRestifyTabs';
+
+<AdonisExpressRestifyTabs>
+<TabItem value="adonis">
+
+Install with:
+
+```sh
+npm i @knuckleswtf/scribe-adonis
+```
+
+Then add the service provider to the `aceProviders` array in your `start/app.js`:
+
+```js {3}
+const aceProviders = [
+  '@adonisjs/lucid/providers/MigrationsProvider',
+  '@knuckleswtf/scribe-adonis/providers/ScribeProvider', // <-- Add this
+]
+```
+
+To generate your docs, run the Ace command `scribe:generate`:
+
+```bash
+node ace scribe:generate
+```
+
+See the [Getting Started Guide](./guide-getting-started/adonis TODO) for more.
+
+</TabItem>
+<TabItem value="express">
+
+Install with:
+
+```sh
+npm i @knuckleswtf/scribe-express
+```
+
+To generate your docs, you'll need to locate your "app file" (the file where you create and configure your Express app). Then pass the path to Scribe:
+
+```sh
+npx scribe generate -a <your-app-file>.js
+```
+
+See the [Getting Started Guide](./guide-getting-started/express TODO) for more.
+
+
+</TabItem>
+<TabItem value="restify">
+
+Install with:
+
+```sh
+npm i @knuckleswtf/scribe-restify
+```
+
+To generate your docs, you'll need to locate your "server file" (the file where you set up and start your Restify server). Then pass the path to Scribe:
+
+```sh
+npx scribe generate -s <your-server-file>.js
+```
+
+See the [Getting Started Guide](./guide-getting-started/restify TODO) for more.
+
+</TabItem>
+</AdonisExpressRestifyTabs>
+
+<hr />
+
+Alright, you're ready to start documenting! Follow the [Getting Started guide](getting-started) to see what you can do with Scribe.

@@ -35,7 +35,10 @@ The rest of this document is only important if you're making code changes.
 ## Installing dependencies
 To install the regular Laravel dependencies, run `composer install`.
 
-However, if you're testing something related to Dingo, you'll need to install the Dingo dependencies instead. To do that, set the shell variable `COMPOSER=composer.dingo.json` before running `composer install` (ie `COMPOSER=composer.dingo.json composer install`). On Windows, you can use the npm package [cross-env](https://npmjs.com/package/cross-env) to easily run set this.
+However, if you're testing something related to Dingo, you'll need to install the Dingo dependencies instead. To do that, set the shell variable `COMPOSER=composer.dingo.json` before running `composer install` (ie `COMPOSER=composer.dingo.json composer install`). On Windows, you can use the Node.js package [cross-env](https://npmjs.com/package/cross-env) to easily run set this.
+
+## Local development
+If you need a project to test the generated doc output on, you can use [this](https://github.com/knuckleswtf/TheSideProjectAPI) (Laravel). Change the path in the `repositories` section of the `composer.json` to point to your local clone of Scribe.
 
 ## Running tests
 - To run tests for Laravel, run `composer test`. This will run all tests excluding the ones for Dingo and stop on the first failure.
@@ -68,9 +71,6 @@ You can run the checks by running `composer lint`.
 If any errors are reported, you should normally fix the offending code. However, there are scenarios where we can't avoid some errors (for instance, due to Laravel's "magic"). In such cases, add an exception to the `phpstan.neon` file, following the examples you already see there.
 
 ## Making pull requests
-:::tip
-If you need a project to test the generated doc output on, you can use [this](http://github.com/shalvah/thecensorshipapi). Replace the path in the `repositories` section of the `composer.json` to point to your local clone of Scribe.
-:::
 
 Add a short description to your PR, so the reviewer knows what to look out for before looking through your changes. If you're fixing a bug, include a description of its behaviour and how your fix resolves it. If you're adding a feature, explain what it is and why.
 
