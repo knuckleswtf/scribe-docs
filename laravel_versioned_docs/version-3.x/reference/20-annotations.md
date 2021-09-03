@@ -126,6 +126,7 @@ Examples:
 @response 201 {"a": "b"} scenario="Operation successful"
 @response status=201 scenario="Operation successful" {"a": "b"}
 @response scenario=Success {"a": "b"}
+@response 201 scenario="Operation successful" {"a": "b"}
 ```
 
 ### `@responseFile`
@@ -143,6 +144,7 @@ Examples:
 @responseFile /an/absolute/path
 @responseFile 400 relative/path/from/your/project/root
 @responseFile status=400 scenario="Failed" path/from/your/Laravel/storage/directory
+@responseFile 400 scenario="Failed" path/from/your/Laravel/storage/directory
 ```
 
 ### `@responseField`
