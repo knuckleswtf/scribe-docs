@@ -156,7 +156,7 @@ By default, your generated docs will include an API tester that lets users test 
 
 For _Try It Out_ to work, you'll need to make sure CORS is enabled on your API. Here are some useful CORS middleware for [Adonis](https://legacy.adonisjs.com/docs/4.1/cors), [Express](http://expressjs.com/en/resources/middleware/cors.html), and [Restify](https://www.npmjs.com/package/restify-cors-middleware).
 
-## Postman collections and OpenAPI specs
+## Postman collection and OpenAPI spec
 By default, Scribe will also generate a Postman collection and OpenAPI spec which you can import into API clients like Postman or Insomnia. Scribe will include the links to them in the menu of your docs.
 
 You can configure these in the `postman` and `openapi` sections of your `scribe.php` file. 

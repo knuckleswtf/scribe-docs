@@ -103,7 +103,7 @@ By default, your generated docs will include an API tester that lets users test 
 
 For _Try It Out_ to work, you'll need to make sure CORS is enabled. An easy package for this is [`fruitcake/laravel-cors`](https://github.com/fruitcake/laravel-cors).
 
-## Postman collections and OpenAPI specs
+## Postman collection and OpenAPI spec
 By default, Scribe will also generate a Postman collection and OpenAPI spec which you can import into API clients like Postman or Insomnia. Scribe will include the links to them in the menu of your docs.
 
 You can configure these in the `postman` and `openapi` sections of your `scribe.php` file. 

@@ -26,7 +26,7 @@ Default: `"static"`
 ### `static`
 Settings for the `static` type output.
 
-- `output_path`: Output folder. The HTML documentation, assets and Postman collection will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
+- `output_path`: Output folder. The docs, Postman collection and OpenAPI spec will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
   
    Default: `"public/docs"`.
 
@@ -47,7 +47,7 @@ Settings for the `laravel` type output.
 The base URL to be displayed in the docs. If you leave this empty, Scribe will use the current app URL (`config('app.url')`).
 
 ### `title`
-The HTML `<title>` for the generated documentation, and the name of the generated Postman collection and OpenAPI specs. If this is `null`, Scribe will infer it from `config('app.name')`.
+The HTML `<title>` for the generated documentation, and the name of the generated Postman collection and OpenAPI spec. If this is `null`, Scribe will infer it from `config('app.name')`.
 
 ### `description`
 A description for your API. This will be placed in the "Introduction" section, before the `intro_text`. It will also be used as the `info.description` field in the generated Postman collection and OpenAPI spec.
@@ -86,14 +86,14 @@ When [documenting your api](/laravel/documenting/), you use `@group` annotations
 Default: `"Endpoints"`.
 
 ### `example_languages`
-For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](/laravel/advanced/example-requests)).
+For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (Fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](/laravel/advanced/example-requests)).
 
 Default: `["bash", "javascript"]`
 
 ### `postman`
 Along with the HTML docs, Scribe can automatically generate a Postman collection for your API. This section is where you can configure or disable that.
 
-For `static` output, the collection will be created in `public/docs/collection.json`. For `laravel` output, the collection will be generated to `storage/app/scribe/collection.json`. Setting `laravel.add_routes` to `true` will add a `/collection.json` endpoint to fetch it.
+For `static` output, the collection will be created in `{static.output_path}/collection.json`. For `laravel` output, the collection will be generated to `storage/app/scribe/collection.json`. Setting `laravel.add_routes` to `true` will add a `/collection.json` endpoint to fetch it.
 
 - `enabled`: Whether or not to generate a Postman API collection.
   
@@ -108,7 +108,7 @@ Scribe can also generate an OpenAPI (Swagger) spec for your API. This section is
 The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs in the wild (such as optional URL parameters). Scribe does its best, but there's no guarantee that the spec generated will exactly match your API structure.
 :::
 
-For `static` output, the spec will be created in `public/docs/openapi.yaml`. For `laravel` output, the spec will be generated to `storage/app/scribe/openapi.yaml`. Setting `laravel.add_routes` to `true` will add a `/openapi.yaml` endpoint to fetch it.
+For `static` output, the spec will be created in `{static.output_path}/openapi.yaml`. For `laravel` output, the spec will be generated to `storage/app/scribe/openapi.yaml`. Setting `laravel.add_routes` to `true` will add a `/openapi.yaml` endpoint to fetch it.
 
 - `enabled`: Whether or not to generate an OpenAPI spec.
   
@@ -303,7 +303,7 @@ Route::get('/api/getUsers', [UserControllerV!::class, 'listUsers']);
 #### `apply`
 The `apply` section of the route group is where you specify any additional settings to be applied to those routes when generating documentation. There are a number of settings you can tweak here:
 
-- `headers`: Any headers you specify here will be added in example requests and response calls. Headers are specified as key => value strings.
+- `headers`: Any headers you specify here will be added in example requests and response calls. Headers are specified as `key => value` strings.
 
 - `response_calls`: These are the settings that will be applied when making ["response calls"](../documenting/responses#response-calls).
 
