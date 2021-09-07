@@ -139,7 +139,7 @@ If you don't want a parameter in your docs to be included in a response call, yo
 
 Some key things about response calls:
 
-1. Response calls aim to be "safe" by default. Scribe doesn't want to accidentally delete a user or anything like that. By default:
+1. Response calls aim to be "safe" by default. We don't want to accidentally delete a user or anything like that. By default:
    - Scribe will try to start a database transaction and roll it back afterwards (see [database transactions](#database-transactions) for some important details about that).
    - Scribe will only make response calls for GET endpoints.
 
@@ -167,6 +167,7 @@ There are two ways to do this:
            'app.debug' => false,
            'database.default' => 'sqlite',  
        ],
+   ],
    ```
 
 2. Add a `.env.docs` file to your repo with the desired config. This env file will be loaded when you run `php artisan scribe:generate --env docs`, and will apply to all of Scribe, not just response calls, so you can use this to configure a database where models will be fetched from when using `@apiResource` or `@transformer` (see [How model instances are generated](#how-model-instances-are-generated)).
