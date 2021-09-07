@@ -5,6 +5,8 @@ id: adonis
 
 # Adonis
 
+Scribe currently supports Adonis v4.
+
 ## Set up the package
 First, install the package:
 

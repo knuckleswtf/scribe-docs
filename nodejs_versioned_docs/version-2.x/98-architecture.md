@@ -6,34 +6,56 @@ slug: architecture
 # How Scribe Works
 Read this page if you want a deeper understanding of how Scribe works (for instance, for the purpose of contributing).
 
-## When you run `scribe:generate` for the first time
+## When you run `generate` for the first time
 Here's a high-level overview of what Scribe does on first run:
+1. The appropriate entrypoint file for your framework is located and run by npm ([Adonis](https://github.com/knuckleswtf/scribe-js/blob/master/frameworks/adonis/commands/GenerateDocumentation.js), [Express](https://github.com/knuckleswtf/scribe-js/tree/master/frameworks/express/src/cli/generate.js), [Restify](https://github.com/knuckleswtf/scribe-js/tree/master/frameworks/restify/src/cli/generate.js)).
+2. Each entrypoint's job is to extract the routes from your API and pass them to the core Scribe tool, along with any settings and strategies specific to the framework. Each framework has its own entrypoint, because the process of fetching the routes is different for each:
+   - **Adonis** gives us the `Route` object that makes this easy:
+    ```js
+    const Route = use('Route');
+    const endpoints = Route.list();
+    ```
+   - For **Express** and **Restify**, we use a decorator that wraps their internal APIs, intercepts any route definitions (eg `app.get(...)`) and records them. You can learn more about that [here](https://blog.shalvah.me/posts/monkey-patching-the-express-router).
+   
+   Additionally, the entrypoint also figures out the `serverStartCommand`, the command it must run to start your app locally (such as `node server.js`). This is needed in case we need to make response calls. 
+ 
+   The entrypoint also attaches some custom extraction strategies to the config. For instance, the Adonis endpoint adds a strategy that allows it to extract URL parameters from the Adonis `Route` API. These strategies are framework-specific, so they are not a part of the main package, only added dynamically when generating.
+   
+   All this information is passed to the core package's `generate` function:
 
-1. The `GenerateDocumentationCommand` calls the `RouteMatcher` class to get the routes you want to document. The `RouteMatcher` does this by fetching all your application's routes from the router (Laravel/Dingo) and filtering them based on your config.
-  ```php
-  $routes = $routeMatcher->getRoutes($yourConfig);
-  ```
+   ```js
+   const config = require('.scribe.config');
+   config.strategies.urlParameters = [
+     'strategies/url_parameters/adonis_route_api', 
+     ...config.strategies.urlParameters
+   ];
+   const { generate } = require('@knuckleswtf/scribe');
+   await generate(endpoints, config, 'adonis', `node ${path.resolve('server.js')}`, {
+     force: options.force,
+     verbose: options.verbose
+   });
+   ```
 
-2. Next, the `Extractor` processes each route and uses your configured strategies to extract info about it—metadata (eg name and description), parameters, and sample responses.
+3. Next, the generate function filters the routes to the ones you specified in your config, then processes each route, using the specified strategies to extract info about it—metadata (eg name and description), parameters, and sample responses.
 
-   ```php
-   $endpoints = $this->extractEndpointsInfoFromLaravelApp($yourRoutes);
+   ```js
+   let parsedEndpoints = await extractor.extract(routes);
    ```
    
-3. After that, the endpoints are grouped (based on their `@group` tags). The grouping makes it easy for Scribe to loop over them and generate the output.
-   ```php
-   $groupedEndpoints = Camel::groupEndpoints($endpoints);
+4. After that, the endpoints are grouped (based on their `@group` tags). The grouping makes it easy for Scribe to loop over them and generate the output.
+   ```js
+   let groupedEndpoints = camel.groupEndpoints(parsedEndpoints);
    ```
    
    The grouped endpoints are written to a bunch of YAML files, in a `.scribe/endpoints` directory in your app. We don't need them right now, but we'll come back to those files later. See [What are those YAML files for?](#what-are-those-yaml-files-for)
  
    Alright, the extraction phase is done. Over to output. 
    
-4. When it's time for output, we call the `Writer` class, and pass in those grouped endpoints. It uses a couple of Blade templates to generate the HTML output.
+5. When it's time for output, we call the `Writer` class, and pass in those grouped endpoints. It uses a couple of [EJS](https://ejs.co/) templates to generate the HTML output.
 
-5. Finally, the writer copies the generated HTMl, plus the included CSS and JS to your configured `static.output_path` folder (typically `public/docs`), and your docs are ready!
+6. Finally, the writer copies the generated HTMl, plus the included CSS and JS to your configured `static.output_path` folder (typically `public/docs`), and your docs are ready!
 
-   If you enabled Postman or OpenAPI generation, the writer will also generate those. If you chose `laravel`-type docs, the writer will convert the generated HTMl back into Blade files, and move them into the `resources/views/scribe` folder.
+   If you enabled Postman or OpenAPI generation, the writer will also generate those.
 
 ## On subsequent runs
 On subsequent runs, the same thing happens. The only difference is that Scribe first checks to see if there are any YAML files present. If there are, it merges whatever it finds there with what it can extract from your endpoints.
@@ -84,7 +106,7 @@ You can run `php artisan scribe:generate --no-extraction` for Scribe to complete
 
 3. You can also **sort groups**. You'll notice the example above is `0.yaml`. To sort groups, just rename the files how you wish, since it's one group per file. For instance, if I rename this file to `1.yaml`, and another file to `0.yaml`, that group will appear before this one in the docs.
 
-4. You can **add new endpoints**. This is useful if you're using a package that adds extra routes (like Laravel Passport), and you want to document those. Custom endpoint files use a slightly different format from regular endpoints, so Scribe automatically adds an example `custom.0.yaml` file to the `.scribe/endpoints` folder, and you can edit it to add additional endpoints.
+4. You can **add new endpoints**. This is useful if you're using a package that adds extra routes, and you want to document those. Custom endpoint files use a slightly different format from regular endpoints, so Scribe automatically adds an example `custom.0.yaml` file to the `.scribe/endpoints` folder, and you can edit it to add additional endpoints.
 
 
 ## The `.scribe` folder
