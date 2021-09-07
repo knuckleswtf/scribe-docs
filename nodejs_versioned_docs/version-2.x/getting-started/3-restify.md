@@ -56,7 +56,7 @@ You might have routes in your app that aren't part of your API. By default, Scri
   ```js
   class PagesController {
     /**
-     * This won'r work. ❌
+     * This won't work. ❌
      * @hideFromApiDocs
      */
     homePage(req, res) {
@@ -67,7 +67,7 @@ You might have routes in your app that aren't part of your API. By default, Scri
    * This will work.
    * @hideFromApiDocs
    */
-  app.get('/home', PagesController.homePage);
+  server.get('/home', PagesController.homePage);
   ```
 
 2. Set the `routes` key in your `.scribe.config.js`. Here's what it looks like:

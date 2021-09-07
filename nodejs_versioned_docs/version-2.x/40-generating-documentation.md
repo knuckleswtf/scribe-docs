@@ -159,9 +159,9 @@ For _Try It Out_ to work, you'll need to make sure CORS is enabled on your API. 
 ## Postman collection and OpenAPI spec
 By default, Scribe will also generate a Postman collection and OpenAPI spec which you can import into API clients like Postman or Insomnia. Scribe will include the links to them in the menu of your docs.
 
-You can configure these in the `postman` and `openapi` sections of your `scribe.php` file. 
+You can configure these in the `postman` and `openapi` sections of your `.scribe.config.js` file. 
 
-```php title=.scribe.config.js
+```js title=.scribe.config.js
 postman: {
     enabled: true,
     overrides: {

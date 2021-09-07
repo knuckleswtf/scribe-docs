@@ -56,7 +56,7 @@ You might have routes in your app that aren't part of your API. By default, Scri
   ```js
   class PagesController {
     /**
-     * This won'r work. ❌
+     * This won't work. ❌
      * @hideFromApiDocs
      */
     homePage(req, res) {

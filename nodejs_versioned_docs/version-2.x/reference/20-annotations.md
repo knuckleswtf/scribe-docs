@@ -11,7 +11,11 @@ Annotations in docblocks typically consist of a _tag_ (`@-something`) followed b
 - In the "Format" sections below, `?` indicates an optional value.
 - Most annotations are written in a "natural" format, `@tag value1 value2`, where Scribe figures out what value1 and value2 represent, based on the order. However, some tags also support _attributes_ (`@tag key1=value1 value2` or `@tag value2 key1=value1`).
 
-  Attributes don't have to follow a specific order; they can be at the start or end of the tag (but they generally cannot be in the middle). Attribute values which consist of multiple words should use quotes (eg `@tag key1="this is value1" value2`).
+Attributes don't have to follow a specific order; they can be at the start or end of the tag (but they generally cannot be in the middle). Attribute values which consist of multiple words should use quotes (eg `@tag key1="this is value1" value2`).
+
+:::note
+Remember, for Express and Restify, docblocks [must go on the route definition](/nodejs/documenting#an-important-note-about-docblocks).
+:::
 
 Here's a list of all the docblock annotations Scribe supports.
 

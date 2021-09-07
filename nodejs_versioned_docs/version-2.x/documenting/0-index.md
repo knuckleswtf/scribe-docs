@@ -67,6 +67,29 @@ Sure, our docblock is a bit noisier now, but that's not such a bad thing! In fac
 
 Scribe tries to keep docblocks human-readable, so they make sense to you, not just to the machine.
 
+## An important note about docblocks
+With **Express** and **Restify**, docblocks must be added to the route definition, not the controller/handler function. For example:
+
+```js
+class ApiController {
+  /**
+   * This won't work. ❌
+   * @response {"success": true}
+   */
+  healthcheck(req, res) {
+  }   
+}
+
+/**
+ * This will work.
+ * @response {"success": true}
+ */
+app.get('/home', PagesController.homePage);
+```
+
+This is due to a limitation in how JavaScript and these frameworks work—there's no way to access the docblock or trace the file where a function was declared without complicated heuristics.
+
+## Beyond docblocks
 Apart from docblocks, Scribe supports some other ways to annotate your API. For example, you can provide general API information and defaults in your `.scribe.config.js`, add or edit YAML files containing the endpoint details (more on that [here](/nodejs/architecture#what-are-those-yaml-files-for)), or use custom strategies that read your code.
 
 We'll demonstrate these in the next few sections.

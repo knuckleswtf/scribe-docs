@@ -9,7 +9,7 @@ You can add basics such as the title, introductory text, base URL and authentica
 To set the HTML `<title>` for the generated docs, use the `title` key. This title will also be used in the Postman collection and OpenAPI spec.
 
 ```php title=config/scribe.php
-    'title' => 'The SideProject API',
+  'title' => 'The SideProject API',
 ```
 
 If you leave `title` empty, Scribe will infer it from the value of `config('app.name')`.
@@ -22,8 +22,8 @@ The `intro_text` key is where you'll set the text shown in the "Introduction" se
 Markdown and HTML are also supported (see [HTML helpers](../reference/html))
 
 ```php title=config/scribe.php
-    'description' => 'Start (and never finish) side projects with this API.',
-    'intro_text' => <<<INTRO
+  'description' => 'Start (and never finish) side projects with this API.',
+  'intro_text' => <<<INTRO
 This documentation will provide all the information you need to work with our API.
 
 <aside>
@@ -39,7 +39,7 @@ INTRO
 By default, Scribe will use the current app URL (`config('app.url)`) as the base URL in your docs (also known as the _display URL_). However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
 
 ```php title=config/scribe.php
-    'base_url' => 'http://sideprojects.knuckles.wtf',
+  'base_url' => 'http://sideprojects.knuckles.wtf',
 ```
 
 ...means that `http://sideprojects.knuckles.wtf` will be shown in the generated docs, even if you ran the `generate` command on localhost or in CI.
@@ -82,15 +82,18 @@ Scribe uses the auth information you specify for four things:
 Here's how you'd configure auth with a query parameter named `apiKey`:
 
 ```php title=config/scribe.php
-    'auth' => [
-        'enabled' => true,
-        'default' => false,
-        'in' => 'query',
-        'name' => 'apiKey',
-        'use_value' => env('SCRIBE_API_KEY'),
-        'placeholder' => 'YOUR-API-KEY',
-        'extra_info' => 'You can retrieve your key by going to settings and clicking <b>Generate API key</b>.',
-    ],
+return [
+  // ...
+  'auth' => [
+    'enabled' => true,
+    'default' => false,
+    'in' => 'query',
+    'name' => 'apiKey',
+    'use_value' => env('SCRIBE_API_KEY'),
+    'placeholder' => 'YOUR-API-KEY',
+    'extra_info' => 'You can retrieve your key by going to settings and clicking <b>Generate API key</b>.',
+  ],
+];
 ```
 
 If `apiKey` were to be a body parameter, the config would be same. Just set `in` to `'body'`.
@@ -98,31 +101,37 @@ If `apiKey` were to be a body parameter, the config would be same. Just set `in`
 Here's an example with a bearer token (also applies to basic auth, if you change `in` to `'basic'`):
 
 
-```php
-    'auth' => [
-        'enabled' => true,
-        'default' => false,
-        'in' => 'bearer',
-        'name' => 'hahaha', // <--- This value is ignored for bearer and basic auth
-        'use_value' => env('SCRIBE_AUTH_KEY'),
-        'placeholder' => '{ACCESS_TOKEN}',
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
-    ],
+```php title=config/scribe.php
+return [
+  // ...
+  'auth' => [
+    'enabled' => true,
+    'default' => false,
+    'in' => 'bearer',
+    'name' => 'hahaha', // <--- This value is ignored for bearer and basic auth
+    'use_value' => env('SCRIBE_AUTH_KEY'),
+    'placeholder' => '{ACCESS_TOKEN}',
+    'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+  ],
+];
 ```
 
 And here's an example with a custom header:
 
 
-```php
-    'auth' => [
-        'enabled' => true,
-        'default' => false,
-        'in' => 'header',
-        'name' => 'Api-Key', // <--- The name of the header
-        'use_value' => env('SCRIBE_AUTH_KEY'),
-        'placeholder' => 'YOUR-API-KEY',
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
-    ],
+```php title=config/scribe.php
+return [
+  // ...
+  'auth' => [
+    'enabled' => true,
+    'default' => false,
+    'in' => 'header',
+    'name' => 'Api-Key', // <--- The name of the header
+    'use_value' => env('SCRIBE_AUTH_KEY'),
+    'placeholder' => 'YOUR-API-KEY',
+    'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+  ],
+];
 ```
 The `default` field is the default behaviour of our API. If your endpoints are authenticated by default, set this to `true`, then use `@unauthenticated` on the method doc block if you need to turn off auth for specific endpoints. If your endpoints are open by default, leave this as `false`, then use `@authenticated` on the method doc block if you need to turn on auth for specific endpoints.
 
