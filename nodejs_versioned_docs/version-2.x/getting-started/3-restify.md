@@ -108,7 +108,7 @@ Scribe tries to figure out information about your routes, but you can make it be
 - Example responses
 - Fields in the response
 
-Check out how to do this in the guide on [Documenting your API](documenting/).
+Check out how to do this in the guide on [Documenting your API](/nodejs/documenting/).
 
 ## Generate and publish
 After making changes as needed, you can run `node ace scribe:generate` as many times as you want.
