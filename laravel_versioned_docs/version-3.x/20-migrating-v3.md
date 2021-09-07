@@ -10,7 +10,7 @@ Hi, hello, welcome to Scribe v3.👋 While the core parts are unchanged, some pa
 Scribe v3 requires PHP 7.4 and Laravel/Lumen 6+. If you're on an older version, you'll need to upgrade. 
 
 ## Start
-Upgrade the package version in your `composer.json` to `^3.0` and then install:
+Upgrade the package version (`knuckleswtf/scribe`) in your `composer.json` to `^3.0` and then install:
 
 ```bash
 composer update knuckleswtf/scribe
@@ -133,7 +133,7 @@ And just like that, Scribe will show only these headers in the example response.
 
 For the "Introduction" and "Authentication" sections, Scribe still uses Markdown files in `.scribe`, but they are now called `intro.md` and `auth.md`. `append.md` is also still supported, but `prepend.md` has been dropped. If you were using a `prepend.md`, you should put its content in the `intro.md` file.
 
-If you're using the old system, you'll need to run `scribe:gnerate`, then redo your changes in this new format. See [modifying docs](./generating#modifying-the-docs-after-generating) and [_What are those YAML files for?_](./architecture##what-are-those-yaml-files-for) for details.
+If you're using the old system, you'll need to run `scribe:generate`, then redo your changes in this new format. See [modifying docs](./generating#modifying-the-docs-after-generating) and [_What are those YAML files for?_](./architecture##what-are-those-yaml-files-for) for details.
 
 :::note
 Ideally, you shouldn't have to modify your docs after extraction. We generally recommend using annotations, config and available/custom strategies to guide Scribe _during_ extraction.  
