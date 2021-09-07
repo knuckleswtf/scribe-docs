@@ -9,7 +9,7 @@ Scribe supports multiple ways to describe query and body parameters. You can man
 ## `@queryParam` and `@bodyParam`
 To describe query or body parameters for your endpoint, use the `@queryParam` and `@bodyParam` annotations on the method handling it.
 
-The `@bodyParam` tag takes the name of the parameter, a type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format, but the type is optional. If you don't specify a type, Scribe will try to figure out the type based on the parameter name.
+The `@bodyParam` tag takes the name of the parameter, a type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format, but the type is optional. If you don't specify a type, Scribe will try to figure out the type based on the parameter name (or fallback to `string`).
 
 Valid types:
 - `string`

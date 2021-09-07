@@ -181,12 +181,6 @@ Each section has two options:
 
 - `overrides`: Fields to merge with the collection/spec after generating. For instance, if you set `postman.overrides` to `{'info.version': '2.0.0'}`, then the `version` key in the `info` object of your Postman collection will always be set to `"2.0.0"`.
 
-
-## Customising the environment
-You can pass the `--env` option to run this command with a specific env file. For instance, if you have a `.env.docs` file, running `scribe:generate --env docs` will make Laravel use the `.env.docs` file.
-
-This is a handy way to customise the behaviour of your app for documentation purposes—for example, you can disable things like notifications when response calls are running.
-
 ## Running on CI/CD
 You might want to generate your docs as part of your deployment process. Here are a few things to note:
 

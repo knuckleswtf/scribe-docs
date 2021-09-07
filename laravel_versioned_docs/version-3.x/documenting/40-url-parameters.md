@@ -6,7 +6,7 @@ id: url-parameters
 Scribe automatically extracts details about your URL parameters from your routes. It can figure out the names, required/optional status and sometimes the types of your parameters. However, you can overwrite this information or add new details, such as a description, using the `@urlParam` annotation.
 
 :::tip
-Scribe is pretty good at figuring out details about ID parameters. For example, if you have a route like `/users/{id}` or `/users/{user}`, Scribe will guess the parameter name (`id`), type (type of your `User` model's primary key), and description ("The ID of the user."). Of course, you can use `@urlParam` to override these.
+Scribe can figure out a few details about ID parameters in URLs. For example, if you have a route like `/users/{id}`, `/users/{user}`, `/{user_id}`, Scribe will guess the parameter name (`id`/`user_id`), type (type of your `User` model's primary key), and description ("The ID of the user."). Of course, you can use `@urlParam` to override these.
 :::
 
 The annotation takes the name of the parameter, an optional type (defaults to "string"), an optional "required" label, and an optional description. Valid types are `string`, `integer`, and `number`. For instance, if you defined your Laravel route like this:

@@ -1,0 +1,214 @@
+---
+id: query-body-parameters
+---
+
+# Query and body parameters
+
+Scribe automatically extracts details about your URL parameters from your routes. It can figure out the names, required/optional status and sometimes the types of your parameters. However, you can overwrite this information or add new details, such as a description, using the  [`@queryParam`/`@bodyParam`](#queryparam-and-bodyparam) annotations
+
+:::note
+Remember, for Express and Restify, docblocks [must go on the route definition](/nodejs/documenting#an-important-note-about-docblocks).
+:::
+
+## `@queryParam` and `@bodyParam`
+To describe query or body parameters for your endpoint, use the `@queryParam` and `@bodyParam` annotations on the method handling it.
+
+The `@bodyParam` tag takes the type of the parameter (within braces `{}`), its type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format.
+
+Valid types:
+- `string`
+- `integer`/`int`
+- `number`
+- `boolean`/`bool`
+- `object` (see [Array and object parameters](#array-and-object-parameters) below)
+- `file` (see [File uploads](#file-uploads) below)
+
+Additionally, you can append `[]` to a type any number of times to indicate an array field (`integer[]` = array of integers).
+
+:::note
+`array` is _not_ a supported type, and may lead to unexpected errors. You should rather define the type of the array (eg `int[]`, `string[]`).
+:::
+
+Examples:
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+    defaultValue="bodyParameters"
+    values={[
+        {label: 'Body parameters', value: 'bodyParameters'},
+        {label: 'Query parameters', value: 'queryParameters'},
+]}>
+<TabItem value="bodyParameters">
+
+```js
+/**
+* @bodyParam {int} user_id required The id of the user. Example: 9
+* @bodyParam {string} room_id The id of the room.
+* @bodyParam {boolean} forever Whether to ban the user forever. Example: false
+* @bodyParam {number} another_one This won't be added to the examples. No-example
+*/
+```
+
+![](/img/screenshots/endpoint-bodyparams-1.png)
+
+</TabItem>
+<TabItem value="queryParameters">
+
+```js
+/**
+ * @queryParam {string} sort Field to sort by. Defaults to 'id'.
+ * @queryParam {string} fields required Comma-separated list of fields to include in the response. Example: title,published_at,is_public
+ * @queryParam {string} filters[published_at] Filter by date published.
+ * @queryParam {integer} filters[is_public] integer Filter by whether a post is public or not. Example: 1
+ */
+```
+
+![](/img/screenshots/endpoint-queryparams-1.png)
+
+![](/img/screenshots/endpoint-queryparams-2.png)
+
+</TabItem>
+</Tabs>
+
+
+### Specifying or omitting examples
+By default, Scribe will generate a random value for each parameter, to be used in the example requests and response calls. If you'd like to use a specific example value, you can do so by adding `Example: <your-example>` to the end of the parameter description.
+
+If you want Scribe to omit a certain optional parameter in examples and response calls, end the description with `No-example`. It will still be present in the docs.
+
+For instance:
+
+```js
+/**
+ * @queryParam {string} sort Field to sort by. Defaults to 'id'. Example: published_at
+ * @queryParam {string} fields required Comma-separated fields to include in the response. Example: title,published_at,id
+ * @queryParam {string} filters[published_at] Filter by date published. No-example
+ * @queryParam {string} filters[title] Filter by title. No-example
+*/
+```
+
+gives:
+
+![](/img/screenshots/endpoint-queryparams-4.png)
+
+### Array and object parameters
+Sometimes you have parameters that are arrays or objects. To handle them in `@bodyParam` and `@queryParam`, Scribe uses the following convention:
+
+:::caution
+If you can, you should avoid using query parameters that are arrays or objects. [There isn't a standardised format for handling them](https://stackoverflow.com/a/9547490/7370522), so the way your API clients set them may be different from what your server expects (and what Scribe generates).
+:::
+
+#### Arrays
+For arrays, use a single field with type `<type of items>[]`. For instance, to denote an array `cars` of elements of type `integer`:
+```
+@bodyParam {integer[]} cars
+
+@bodyParam {integer[]} cars This is a description. Example: [4, 6]
+```
+
+#### Objects
+For objects, you need:
+- a parent field with type `object`
+- an entry for each field, named with the dot notation `<parent name>.<field>`
+
+For instance, to denote an object `cars` with a field `name` of type `string` and a field `year` of type `number`:
+```
+@bodyParam {object} cars
+@bodyParam {string} cars.name
+@bodyParam {number} cars.year
+```
+
+You can also add descriptions and examples to the parent or children fields if you wish:
+```
+@bodyParam {object} cars Car details. Example: {"name": "Carpenter", "year": 2019}
+@bodyParam {string} cars.name Name of the car.
+@bodyParam {int} cars.year Example: 1997
+```
+
+#### Arrays of objects
+For an array of objects, you need:
+- a parent field with type `object[]`
+- an entry for each field, named with the dot notation `<parent name>[].<field>`.
+
+For instance, to denote an array of objects `cars` with each item having field `name` and `year`:
+```
+@bodyParam {object[]} cars List of car details. Example: [{"name": "Carpenter", "year": 2019}]
+@bodyParam {string} cars.name Name of the car.
+@bodyParam {int} cars.year Example: 1997
+```
+
+
+If your entire request body is an array, just omit the field name:
+```
+@bodyParam {object[]} []
+@bodyParam {string} [].name
+@bodyParam {int} [].year
+```
+
+Examples:
+
+<Tabs
+defaultValue="bodyParameters"
+values={[
+    {label: 'Body parameters', value: 'bodyParameters'},
+    {label: 'Query parameters', value: 'queryParameters'},
+]}>
+<TabItem value="bodyParameters">
+
+```js
+/**
+* @bodyParam {object} user required The user details
+* @bodyParam {string} user.name required The user's name
+* @bodyParam {string} user.age required The user's age
+* @bodyParam {int[]} friend_ids List of the user's friends.
+* @bodyParam {object[]} cars List of cars
+* @bodyParam {string} cars[].year The year the car was made. Example: 1997
+* @bodyParam {string} cars[].make The make of the car. Example: Toyota
+*/
+```
+
+![](/img/screenshots/endpoint-bodyparams-2.png)
+
+</TabItem>
+<TabItem value="queryParameters">
+
+```js
+/**
+* @queryParam {string} sort Field to sort by. Defaults to 'id'.
+* @queryParam {string[]} fields required Comma-separated list of fields to include in the response. Example:
+title,published_at,is_public
+* @queryParam {object} filters Fields to filter by
+* @queryParam {string} filters.published_at Filter by date published.
+* @queryParam {string} filters.is_public integer Filter by whether a post is public or not. Example: 1
+*/
+```
+
+![](/img/screenshots/endpoint-queryparams-4.png)
+
+</TabItem>
+</Tabs>
+
+### File uploads
+To document file inputs with `@bodyParam`, use the type `file`. You can add a description and example as usual.
+
+:::note
+Adding a file parameter will automatically set the 'Content-Type' header in example requests and response calls to `multipart/form-data`.
+:::
+
+For files, your example should be the path to a file that exists on your machine. This path should be either:
+- absolute, or
+- relative to your project directory.
+
+If you don't specify an example, Scribe will generate a fake file for example requests and response calls.
+
+```js
+/**
+ * @bodyParam {string} caption The image caption
+ * @bodyParam {file} image required The image.
+ */
+```
+
+![](/img/screenshots/endpoint-bodyparams-4.png)
