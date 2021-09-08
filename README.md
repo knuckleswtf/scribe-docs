@@ -14,21 +14,13 @@ yarn install
 
 ## Local Development
 
-```console
-yarn start
-```
-
-This command starts a local development server on http://localhost:3000 and opens up a browser window. Most changes are reflected live without having to restart the server.
+`yarn start` starts a local development server on http://localhost:3000 and opens up a browser window. Most changes are reflected live without having to restart the server.
 
 Note that the search bar won't be shown at all in local dev mode.
 
 ## Build
 
-```console
-yarn build
-```
-
-This command creates a production build in the `build` directory, which can then be served on localhost:3000 with `yarn serve`. 
+`yarn build` creates a production build in the `build` directory, which can then be served on localhost:3000 with `yarn serve`. 
 
 ## Deployment
 
