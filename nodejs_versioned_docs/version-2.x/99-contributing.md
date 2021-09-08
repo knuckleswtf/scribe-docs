@@ -26,7 +26,7 @@ Please read this guide before sending in your contribution! There aren't many ru
 
 ## Updating documentation
 
-Documentation is powered by [Docusaurus](https://docusaurus.io) and lives as Markdown files in the [`knuckleswtf/scribe-docs`](https://github.com/knuckleswtf/scribe-docs) repository. There are two folders, `laravel` and `nodejs`. Follow the README in the docs repo for a guide on editing the docs.
+Documentation is powered by [Docusaurus](https://docusaurus.io) and lives as Markdown files in the [`knuckleswtf/scribe-docs`](https://github.com/knuckleswtf/scribe-docs) repository. There are two folders, `laravel_versioned_docs` and `nodejs_versioned_docs`. You can also just click on **Edit this page** at the bottom of any page to go directly to the page in the repo. Follow the README in the docs repo for a guide on editing the docs.
 
 :::note
 The rest of this document is only important if you're making code changes.

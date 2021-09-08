@@ -1,6 +1,10 @@
 # scribe-docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus 2](https://docusaurus.io/).
+
+## Requiremrents
+- Node.js 12+
+- npm or Yarn (Ideally, Yarn, but npm works too.)
 
 ## Installation
 
@@ -14,7 +18,9 @@ yarn install
 yarn start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This command starts a local development server on http://localhost:3000 and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+Note that the search bar won't be shown at all in local dev mode.
 
 ## Build
 
@@ -22,18 +28,11 @@ This command starts a local development server and opens up a browser window. Mo
 yarn build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+This command creates a production build in the `build` directory, which can then be served on localhost:3000 with `yarn serve`. 
 
 ## Deployment
 
-```console
-GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy
-```
+The site is currently deployed to [scribe.knuckles.wtf](http://scribe.knuckles.wtf) via [Render](http://render.com). The site will build and auto-deploy on push to any branch in the repo.
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
-
-## PRs
-
-
-Versioned - https://docusaurus.io/docs/versioning
-Multi-instance - https://docusaurus.io/docs/docs-multi-instance
+## Editing
+Docs are Markdown files, located within `laravel_versioned_docs/` and `nodejs_versioned_docs/`. Images and assets go in `static/`. A few custom React components, styles and pages are in `src/`.
