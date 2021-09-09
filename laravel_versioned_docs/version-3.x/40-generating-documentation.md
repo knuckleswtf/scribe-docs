@@ -101,13 +101,9 @@ endpoints:
 ## _Try It Out_
 By default, your generated docs will include an API tester that lets users test your endpoints in their browser. You can set the URL that requests will be sent to with the `try_it_out.base_url` config item, or turn it off with `try_it_out.enabled`.
 
-For _Try It Out_ to work, you'll need to make sure CORS is enabled. An easy package for this is [`fruitcake/laravel-cors`](https://github.com/fruitcake/laravel-cors).
+For _Try It Out_ to work, you'll need to make sure CORS is enabled on your endpoints. An easy package for this is [`fruitcake/laravel-cors`](https://github.com/fruitcake/laravel-cors).
 
-:::important
-If you are using [Laravel Sanctum](https://laravel.com/docs/sanctum), or another token-based authentication system on your API, you may need to enable `use_csrf` in the scribe config.
-:::
-
-By default, the setup assumes you are using [Laravel Sanctum](https://laravel.com/docs/sanctum) for your authentication system. The config includes options to tweak how CSRF tokens are fetched in case you are using something else. If `use_csrf` is enabled, before each request is processed, the CSRF token is fetched and applied to the subsequent request.
+If you're using [Laravel Sanctum](https://laravel.com/docs/sanctum), or another token-based SPA authentication system on your API, you'll need to set `try_it_out.use_csrf` to `true`. Scribe will then visit the `try_it_out.csrf_url` before each request, retrieve the CSRF token from the `XSRF-TOKEN` cookie, and add it as an `X-XSRF-TOKEN` header to the request.
 
 ## Postman collection and OpenAPI spec
 By default, Scribe will also generate a Postman collection and OpenAPI spec which you can import into API clients like Postman or Insomnia. Scribe will include the links to them in the menu of your docs.

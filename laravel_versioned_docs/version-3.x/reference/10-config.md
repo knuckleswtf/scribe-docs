@@ -66,18 +66,15 @@ Configure the API tester included in the docs.
 For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpoints. An easy package for this is [fruitcake/laravel-cors](https://github.com/fruitcake/laravel-cors).
 :::
 
-- `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server.
-- `use_csrf`: Add the X-XSRF-TOKEN to requests being run in Try It Out
+- `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server. Leave as `null` to use the current app URL (`config(app.url)`).
+
+- `use_csrf`: Fetch a CSRF token before each Try It Out request, and add it as an `X-XSRF-TOKEN` header to the request. This is needed if you're using [Laravel Sanctum](https://laravel.com/docs/sanctum),.
 
   Default: `false`.
 
-- `csrf_url`: The URL where the CSRF token will be added as a cookie in the response
+- `csrf_url`: The URL to fetch the CSRF token from (if `use_csrf` is true).
 
   Default: `'/sanctum/csrf-token'`.
-
-- `csrf_cookie_name`: The name of the cookie that is being used to store the CSRF token
-
-  Default: `'X-XSRF-TOKEN'`.
 
 ### `logo`
 Path to an image to use as your logo in the docs. This will be used as the value of the `src` attribute for the `<img>` tag, so make sure it points to a public URL or path accessible from your server.
