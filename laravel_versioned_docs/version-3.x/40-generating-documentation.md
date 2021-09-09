@@ -13,7 +13,7 @@ php artisan scribe:generate
 
 This will:
 - extract information about your API and endpoints
-- transform the extracted information into a HTML docs webpage (+ Postman collection and OpenAPI spec, if enabled) 
+- transform the extracted information into a HTML docs webpage (+ Postman collection and OpenAPI spec, if enabled)
 - store the extracted API details in some YAML files (in `.scribe/endpoints`), so you can manually edit them later
 
 If you're using [`static` type](./getting-started#1-pick-a-type), your docs (`index.html`, CSS and JS files) will be generated to the `public/docs` folder.
@@ -62,7 +62,7 @@ The `.scribe` folder holds Scribe's intermediate output, allowing you to modify 
 - sort groups (by renaming the group files)
 
 See [sorting endpoints and groups](#sorting-endpoints-and-groups).
-  
+
 ### Discarding your changes
 On future runs, Scribe will respect your changes and try to merge them into any information it extracts. If you'd like to discard your changes and have Scribe extract afresh, you can pass the `--force` flag.
 
@@ -103,10 +103,16 @@ By default, your generated docs will include an API tester that lets users test 
 
 For _Try It Out_ to work, you'll need to make sure CORS is enabled. An easy package for this is [`fruitcake/laravel-cors`](https://github.com/fruitcake/laravel-cors).
 
+:::important
+If you are using [Laravel Sanctum](https://laravel.com/docs/sanctum), or another token-based authentication system on your API, you may need to enable `use_csrf` in the scribe config.
+:::
+
+By default, the setup assumes you are using [Laravel Sanctum](https://laravel.com/docs/sanctum) for your authentication system. The config includes options to tweak how CSRF tokens are fetched in case you are using something else. If `use_csrf` is enabled, before each request is processed, the CSRF token is fetched and applied to the subsequent request.
+
 ## Postman collection and OpenAPI spec
 By default, Scribe will also generate a Postman collection and OpenAPI spec which you can import into API clients like Postman or Insomnia. Scribe will include the links to them in the menu of your docs.
 
-You can configure these in the `postman` and `openapi` sections of your `scribe.php` file. 
+You can configure these in the `postman` and `openapi` sections of your `scribe.php` file.
 
 ```php title=config/scribe.php
 'postman' => [
@@ -131,7 +137,7 @@ Each section has two options:
 ## Customising the environment
 You can pass the `--env` option to run this command with a specific env file. For instance, if you have a `.env.docs` file, running `scribe:generate --env docs` will make Laravel use the `.env.docs` file.
 
-This is a handy way to customise the behaviour of your app for documentation purposes—for example, you can disable things like notifications when response calls are running. 
+This is a handy way to customise the behaviour of your app for documentation purposes—for example, you can disable things like notifications when response calls are running.
 
 ## Running on CI/CD
 You might want to generate your docs as part of your deployment process. Here are a few things to note:
