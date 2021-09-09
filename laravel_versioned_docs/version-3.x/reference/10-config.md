@@ -73,7 +73,7 @@ For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpo
 
 - `csrf_url`: The URL where the CSRF token will be added as a cookie in the response
 
-  Default: `'/sanctum/csrf-token'`.
+  Default: `'/sanctum/csrf-cookie'`.
 
 - `csrf_cookie_name`: The name of the cookie that is being used to store the CSRF token
 
