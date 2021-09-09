@@ -27,7 +27,7 @@ Default: `"static"`
 Settings for the `static` type output.
 
 - `output_path`: Output folder. The docs, Postman collection and OpenAPI spec will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
-  
+
    Default: `"public/docs"`.
 
 ### `laravel`
@@ -38,7 +38,7 @@ Settings for the `laravel` type output.
    Default: `true`
 
 - `docs_url`: The path for the documentation endpoint (if `add_routes` is true).
-  
+
    Default: `"/docs"`.
 
 - `middleware`: List of middleware to be attached to the documentation endpoint (if `add_routes` is true).
@@ -67,6 +67,17 @@ For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpo
 :::
 
 - `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server.
+- `use_csrf`: Add the X-XSRF-TOKEN to requests being run in Try It Out
+
+  Default: `false`.
+
+- `csrf_url`: The URL where the CSRF token will be added as a cookie in the response
+
+  Default: `'/sanctum/csrf-token'`.
+
+- `csrf_cookie_name`: The name of the cookie that is being used to store the CSRF token
+
+  Default: `'X-XSRF-TOKEN'`.
 
 ### `logo`
 Path to an image to use as your logo in the docs. This will be used as the value of the `src` attribute for the `<img>` tag, so make sure it points to a public URL or path accessible from your server.
@@ -81,7 +92,7 @@ For best results, the image width should be 230px. Set this to `false` if you're
 Default: `false`.
 
 ### `default_group`
-When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `default_group`. 
+When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `default_group`.
 
 Default: `"Endpoints"`.
 
@@ -96,7 +107,7 @@ Along with the HTML docs, Scribe can automatically generate a Postman collection
 For `static` output, the collection will be created in `{static.output_path}/collection.json`. For `laravel` output, the collection will be generated to `storage/app/scribe/collection.json`. Setting `laravel.add_routes` to `true` will add a `/collection.json` endpoint to fetch it.
 
 - `enabled`: Whether or not to generate a Postman API collection.
-  
+
    Default: `true`
 
 - `overrides`: Fields to merge with the collection after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
@@ -111,7 +122,7 @@ The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs 
 For `static` output, the spec will be created in `{static.output_path}/openapi.yaml`. For `laravel` output, the spec will be generated to `storage/app/scribe/openapi.yaml`. Setting `laravel.add_routes` to `true` will add a `/openapi.yaml` endpoint to fetch it.
 
 - `enabled`: Whether or not to generate an OpenAPI spec.
-  
+
    Default: `false`
 
 - `overrides`: Fields to merge with the spec after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
@@ -126,7 +137,7 @@ Specify authentication details about your API. This information will be used:
 
 Here are the available settings:
 - `enabled`: Set this to `true` if _any endpoints_ in your API use authentication.
-  
+
    Default: `false`.
 
 - `default`: Specify the default auth behaviour of your API.
@@ -152,7 +163,7 @@ Even if you set `auth.default`, you must also set `auth.enabled` to `true` if yo
 
 - `use_value`: The value of the parameter to be used by Scribe to authenticate response calls. This will **not** be included in the generated documentation. If this is empty, Scribe will use a randomly generated value.
 
-- `placeholder`: The placeholder your users will see for the auth parameter in the example requests. If this is empty, Scribe will generate a realistic-looking auth token instead (for example, "jh86fccvbAx6CmA9VS"). 
+- `placeholder`: The placeholder your users will see for the auth parameter in the example requests. If this is empty, Scribe will generate a realistic-looking auth token instead (for example, "jh86fccvbAx6CmA9VS").
 
   Default: `"{YOUR_AUTH_KEY}"`.
 
@@ -257,7 +268,7 @@ Finally, if you're using Dingo, you can also limit the `versions` you want to ma
 'match' => [
   'prefixes' => ['api/*'],
   'domains' => ['v2.acme.co'],
-  'versions' => ['v2'], 
+  'versions' => ['v2'],
 ],
 
 // 👍 Will match
@@ -281,7 +292,7 @@ For example:
 ],
 'include' => ['public.metrics'],
 'exclude' => ['internal/*'],
-    
+
 
 Route::group(['domain' => 'v2.acme.co'], function () {
   // 👍 Will match
@@ -326,7 +337,7 @@ The `apply` section of the route group is where you specify any additional setti
 ```
 
   - The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish. Set it to `['*']` to mean all methods. Leave it as an empty array to turn off response calls for that route group.
-  
+
   - The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
 
   - The `config` key allows you to customise your Laravel app's config for the response call.
