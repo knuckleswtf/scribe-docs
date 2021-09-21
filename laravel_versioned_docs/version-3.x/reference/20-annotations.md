@@ -171,10 +171,10 @@ Notes:
 Examples:
 
 ```
-@apiResource App\Resources\UserApiResource
+@apiResource App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User
 
-@apiResource 201 App\Resources\UserApiResource
+@apiResource 201 App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User
 ```
 
@@ -190,13 +190,13 @@ Notes:
 Examples:
 
 ```
-@apiResourceCollection App\Resources\UserApiResource
+@apiResourceCollection App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User
 
-@apiResourceCollection App\Resources\UserApiResourceCollection
+@apiResourceCollection App\Http\Resources\UserApiResourceCollection
 @apiResourceModel App\Models\User
 
-@apiResourceCollection 201 App\Resources\UserApiResourceCollection
+@apiResourceCollection 201 App\Http\Resources\UserApiResourceCollection
 @apiResourceModel App\Models\User
 ```
 
@@ -212,22 +212,22 @@ Notes:
   - `paginate`: The number of items per page (when generating a collection). To use [simple pagination](https://laravel.com/docs/8.x/pagination#simple-pagination) instead, add `,simple` after the number.
 
 ```
-@apiResource App\Resources\UserApiResource
+@apiResource App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User
 
-@apiResourceCollection App\Resources\UserApiResource
+@apiResourceCollection App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User states=editor,verified
 
-@apiResource App\Resources\UserApiResource
+@apiResource App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User with=accounts,pets
 
-@apiResourceCollection App\Resources\UserApiResource
+@apiResourceCollection App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User paginate=5
 
-@apiResourceCollection App\Resources\UserApiResourceCollection
+@apiResourceCollection App\Http\Resources\UserApiResourceCollection
 @apiResourceModel App\Models\User paginate=5,simple
 
-@apiResource App\Resources\UserApiResource
+@apiResource App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User with=accounts states=editor,verified
 ```
 

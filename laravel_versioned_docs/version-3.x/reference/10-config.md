@@ -158,7 +158,7 @@ Even if you set `auth.default`, you must also set `auth.enabled` to `true` if yo
 
 - `name`: The name of the parameter (eg `token`, `key`, `apiKey`) or header (eg `Authorization`, `Api-Key`). When `in` is set to `bearer` or `basic`, this value will be ignored, and the header used will be `Authorization`.
 
-- `use_value`: The value of the parameter to be used by Scribe to authenticate response calls. This will **not** be included in the generated documentation. If this is empty, Scribe will use a randomly generated value.
+- `use_value`: The value of the parameter to be used by Scribe to authenticate response calls. This will **not** be included in the generated documentation. If this is empty, Scribe will use a randomly generated value. If you need to customize this value dynamically, you can use the [`beforeResponseCall()` method](../documenting/responses#authentication-and-customization).
 
 - `placeholder`: The placeholder your users will see for the auth parameter in the example requests. If this is empty, Scribe will generate a realistic-looking auth token instead (for example, "jh86fccvbAx6CmA9VS").
 

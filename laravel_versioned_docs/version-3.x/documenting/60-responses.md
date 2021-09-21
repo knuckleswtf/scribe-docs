@@ -148,6 +148,31 @@ Some key things about response calls:
    - specify Laravel config values that should be set for the response call  (`config`)
    - specify query, body and file parameters to be included in the response call  (`queryParams`, `bodyParams`, and `fileParams`)
 
+### Authentication and customization
+If your endpoints are authenticated, Scribe will use the configured `use_value` in your `auth` config. However, if you need more customization, you can use the `beforeResponseCall()` method to manually set it up. Typically, you'd do this in the `boot` method of your `AppServiceProvider`.
+
+```php title=app\Providers\AppServiceProvider.php
+
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
+use Symfony\Component\HttpFoundation\Request;
+use Knuckles\Scribe\Scribe;
+
+public function boot()
+{
+    // Be sure to wrap in a `class_exists()`, 
+    // so production doesn't break if you installed Scribe as dev-only
+    if (class_exists(\Knuckles\Scribe\Scribe::class)) {
+        Scribe::beforeResponseCall(function (Request $request, ExtractedEndpointData $endpointData) {
+            $token = User::first()->api_token;
+            $request->headers->add(["Authorization" => "Bearer $token"]);
+        });
+    }
+    // ...
+}
+```
+
+The callback you provide will receive the current `Symfony\Component\HttpFoundation\Request` instance and the details of the current endpoint being extracted. If you have database transactions configured, they will already be activated at that point, allowing you to modify your database freely, and have your changes rolled back after the request.
+
 ### Database transactions
 Response calls involve invoking your endpoint, which may lead to changes in your database. To avoid any permanent changes, Scribe tries to run response calls within a database transaction.
 
@@ -186,7 +211,7 @@ Examples:
 
 ```php
 /**
- * @apiResource App\Resources\UserResource
+ * @apiResource App\Http\Resources\UserResource
  * @apiResourceModel App\Models\User
  */
 public function showUser(User $user)
@@ -195,7 +220,7 @@ public function showUser(User $user)
 }
 
 /**
- * @apiResourceCollection App\Resources\UserResource
+ * @apiResourceCollection App\Http\Resources\UserResource
  * @apiResourceModel App\Models\User
  */
 public function listUsers()
@@ -204,7 +229,7 @@ public function listUsers()
 }
 
 /**
- * @apiResourceCollection App\Resources\UserCollection
+ * @apiResourceCollection App\Http\Resources\UserCollection
  * @apiResourceModel App\Models\User
  */
 public function listMoreUsers()
@@ -220,7 +245,7 @@ If your endpoint returns a paginated resource response, you can tell Scribe how 
 
 ```php
 /**
- * @apiResourceCollection App\Resources\UserCollection
+ * @apiResourceCollection App\Http\Resources\UserCollection
  * @apiResourceModel App\Models\User paginate=10
  */
 public function listMoreUsers()
@@ -229,7 +254,7 @@ public function listMoreUsers()
 }
 
 /**
- * @apiResourceCollection App\Resources\UserCollection
+ * @apiResourceCollection App\Http\Resources\UserCollection
  * @apiResourceModel App\Models\User paginate=15,simple
  */
 public function listMoreUsers()
@@ -321,7 +346,7 @@ If you want specific [states](https://laravel.com/docs/database-testing#factory-
 
 ```php
 /**
- * @apiResourceCollection App\Resources\UserCollection
+ * @apiResourceCollection App\Http\Resources\UserCollection
  * @apiResourceModel App\Models\User states=student,verified
  */
 ```
@@ -331,7 +356,7 @@ If you want specific relations to be loaded with your model, you can use the `wi
 
 ```php
 /**
- * @apiResourceCollection App\Resources\UserCollection
+ * @apiResourceCollection App\Http\Resources\UserCollection
  * @apiResourceModel App\Models\User with=teacher,classmates
  */
 ```

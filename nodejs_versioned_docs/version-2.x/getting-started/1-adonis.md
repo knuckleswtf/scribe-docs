@@ -50,6 +50,7 @@ Great! You've seen what Scribe can do. Now, let's refine our docs to match what 
 
 ## Add general information about your API
 Here are some things you can customise with Scribe:
+- The API URL shown in your docs
 - The introductory text
 - Authentication information
 - Languages for the example requests

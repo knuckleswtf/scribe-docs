@@ -137,7 +137,7 @@ The `default` field is the default behaviour of our API. If your endpoints are a
 
 You can set whatever you want as the `extra_info`. A good idea would be to tell your users where to get their auth key. 
 
-The `use_value` field is only used by Scribe for response calls. It won't be included in the generated output or examples.
+The `use_value` field is only used by Scribe for response calls. It won't be included in the generated output or examples. If you need to customize this value dynamically, you can use the [`beforeResponseCall()` method](responses#authentication-and-customization).
 The `placeholder` is the opposite of `use_value`. It will be used only as a placeholder in the generated example requests.
 
 For more information, see the [reference documentation on the auth section](../reference/config#auth).
