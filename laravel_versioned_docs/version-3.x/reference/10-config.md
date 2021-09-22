@@ -74,7 +74,7 @@ For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpo
 
 - `csrf_url`: The URL to fetch the CSRF token from (if `use_csrf` is true).
 
-  Default: `'/sanctum/csrf-token'`.
+  Default: `'/sanctum/csrf-cookie'`.
 
 ### `logo`
 Path to an image to use as your logo in the docs. This will be used as the value of the `src` attribute for the `<img>` tag, so make sure it points to a public URL or path accessible from your server.
