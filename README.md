@@ -1,8 +1,8 @@
 # scribe-docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/).
+Documentation repo for [Scribe](http://scribe.knuckles.wtf). Built using [Docusaurus 2](https://docusaurus.io/).
 
-## Requiremrents
+## Requirements
 - Node.js 12+
 - npm or Yarn (Ideally, Yarn, but npm works too.)
 
