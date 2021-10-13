@@ -17,6 +17,10 @@ You can add a description of your API using the `description` key. This descript
 
 The `introText` key is where you'll set the text shown in the "Introduction" section of your docs (after the `description`).
 
+:::tip
+You can also edit the `.scribe/intro.md` file that is added to your app after running `generate`.
+:::
+
 Markdown and HTML are also supported (see [HTML helpers](../reference/html))
 
 ```js title=.scribe.config.js
@@ -62,7 +66,11 @@ Maybe you've got a pretty logo for your API or company, and you'd like to displa
 - If you don't want a logo, set `logo` to `false`.
 
 ## Authentication
-You can add authentication information for your API using the `auth` section in `.scribe.config.js`. 
+You can add authentication information for your API using the `auth` section in `.scribe.config.js`.
+
+:::tip
+You can also edit the `.scribe/auth.md` file that is added to your app after running `generate`.
+:::
 
 :::important
 Scribe uses the auth information you specify for four things:
