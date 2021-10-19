@@ -66,7 +66,7 @@ This method may return `null` or an empty array if it has no data to add. Otherw
     'authenticated' => true,
   ];
   ```
-- For `heaaders`, a map (key => value) of headers and values.
+- For `headers`, a map (key => value) of headers and values.
   ```php
   return [
     'Api-Version' => null,
