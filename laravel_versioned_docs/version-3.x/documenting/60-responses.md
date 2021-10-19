@@ -173,6 +173,10 @@ public function boot()
 
 The callback you provide will receive the current `Symfony\Component\HttpFoundation\Request` instance and the details of the current endpoint being extracted. If you have database transactions configured, they will already be activated at that point, allowing you to modify your database freely, and have your changes rolled back after the request.
 
+:::tip 
+You can use `beforeResponseCall()` to modify anything about the outgoing request, not just authentication.
+:::
+
 ### Database transactions
 Response calls involve invoking your endpoint, which may lead to changes in your database. To avoid any permanent changes, Scribe tries to run response calls within a database transaction.
 
