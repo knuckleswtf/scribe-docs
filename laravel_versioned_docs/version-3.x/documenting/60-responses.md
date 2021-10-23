@@ -17,6 +17,10 @@ You can use all of these strategies within the same endpoint. Scribe will displa
 
 Additionally, you can [add descriptions for fields in your responses](#response-fields).
 
+:::tip
+We'll describe all of these here, but for more details and valid values, you can see the [list of supported annotations](../reference/annotations).
+:::
+
 ## `@response`
 You can provide an example response for an endpoint by using the `@response` annotation with valid JSON (on one line or multiple):
 
@@ -99,7 +103,7 @@ Like with `@response`. you can include a status code, or have multiple `@respons
 /**
  * @responseFile responses/users.get.json
  * @responseFile status=200 scenario="when authenticated as admin" responses/user.get.admin.json
- * @responseFile status=404 responses/user.not_found.json
+ * @responseFile 404 responses/user.not_found.json
  */
 ```
 
@@ -118,7 +122,7 @@ We can change the `type` to `User` on the fly like this:
 
 ```php
 /**
- * @responseFile status=404 responses/model.not_found.json {"type": "User"}
+ * @responseFile 404 responses/model.not_found.json {"type": "User"}
  */
 ```
 
@@ -244,6 +248,15 @@ public function listMoreUsers()
 
 Scribe will generate an instance (or instances) of the model and pass the model(s) to the resource class to get the example response. To understand how Scribe generates an instance of your model and how you can customize that, you should check out the section on [How model instances are generated](#how-model-instances-are-generated).
 
+As with `@response`, you can also specify a status code on `@apiResource` or `@apiResourceCollection`.
+
+```php
+/**
+ * @apiResource 201 App\Http\Resources\UserResource
+ * @apiResourceModel App\Models\User
+ */
+```
+
 ### Pagination
 If your endpoint returns a paginated resource response, you can tell Scribe how to paginate by using the `paginate` attribute on `@apiResourceModel`.
 
@@ -308,6 +321,14 @@ If your response data is nested within a Fractal [resource key](https://fractal.
 /**
  * @transformer App\Transformers\UserTransformer
  * @transformerModel App\Models\User resourceKey=user
+ */
+```
+As with `@response`, you can also specify a status code on `@transformer` or `@transformerCollection`.
+
+```php
+/**
+ * @transformer 201 App\Transformers\UserTransformer
+ * @transformerModel App\Models\User
  */
 ```
 

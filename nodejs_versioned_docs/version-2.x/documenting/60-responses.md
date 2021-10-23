@@ -20,6 +20,10 @@ Additionally, you can [add descriptions for fields in your responses](#response-
 Remember, for Express and Restify, docblocks [must go on the route definition](/nodejs/documenting#an-important-note-about-docblocks).
 :::
 
+:::tip
+We'll describe all of these here, but for more details and valid values, you can see the [list of supported annotations](../reference/annotations).
+:::
+
 ## `@response`
 You can provide an example response for an endpoint by using the `@response` annotation with valid JSON (on one line or multiple):
 
