@@ -153,7 +153,7 @@ Some key things about response calls:
    - specify query, body and file parameters to be included in the response call  (`queryParams`, `bodyParams`, and `fileParams`)
 
 ### Authentication and customization
-If your endpoints are authenticated, Scribe will use the configured `use_value` in your `auth` config. However, if you need more customization, you can use the `beforeResponseCall()` method to manually set it up. Typically, you'd do this in the `boot` method of your `AppServiceProvider`.
+If your endpoints are authenticated, Scribe will use the configured `use_value` in your `auth` config. However, if you need more customization, you can use the `beforeResponseCall()` method to manually set it up. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
 
 ```php title=app\Providers\AppServiceProvider.php
 
