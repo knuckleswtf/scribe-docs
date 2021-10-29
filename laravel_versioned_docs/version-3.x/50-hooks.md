@@ -9,8 +9,8 @@ Scribe allows you to modify its behaviour in many ways. SOme ways are very obvio
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
 Scribe currently provides two hooks:
-- `beforeResponseCall()`
-- `afterGenerating()`
+- `beforeResponseCall()` (from v3.11.0)
+- `afterGenerating()` (from v3.13.0)
 
 To define a hook, you'll simply call these methods and pass in a callback where you do whatever. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
 

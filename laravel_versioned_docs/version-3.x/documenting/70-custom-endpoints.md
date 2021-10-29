@@ -104,7 +104,7 @@ The `custom.*` files have a different format from the other YAML files, so don't
 
 Here's an example of a `custom.*.yaml` file. The file contains an array of endpoints, and you can simply edit the example to add yours:
 
-```yaml title=<your-app>.scribe/endpoints/custom.0.yaml
+```yaml title=<your-app>/.scribe/endpoints/custom.0.yaml
 - httpMethods:
     - POST
   uri: api/doSomething/{param}/{optionalParam?}
@@ -153,3 +153,39 @@ Here's an example of a `custom.*.yaml` file. The file contains an array of endpo
       description: Who knows?
       type: string # This is optional
 ```
+
+## Extra: sorting groups in custom endpoint files
+When you add custom endpoints as described above, if the `metadata.groupName` doesn't already exist, the group will be created. Unfortunately, this means the group might be placed at the bottom of your docs, or in a position you don't want. To fix this, you can use the `beforeGroup` or `afterGroup` parameters (from v3.14.0).
+
+For example, if you're adding endpoints that will belong to a new group, "Access Tokens", a file like this...
+
+```yaml {6} title=<your-app>/.scribe/endpoints/custom.0.yaml
+- httpMethods:
+    - POST
+  uri: api/doSomething
+  metadata:
+    groupName: Access Tokens
+    beforeGroup: Users
+    # ...
+```
+...will ensure that the `Access Tokens` group is placed just before the `Users` group.
+
+Similarly, this...
+
+```yaml {6} title=<your-app>/.scribe/endpoints/custom.0.yaml
+- httpMethods:
+    - POST
+  uri: api/doSomething
+  metadata:
+    groupName: Subscriptions
+    afterGroup: Users
+    # ...
+```
+
+...will place the `Subscriptions` group just after the `Users` group.
+
+A few things to note:
+- You don't need to specify `beforeGroup`/`afterGroup` on all the custom endpoints in that group. Only the first occurrence is used.
+- `beforeGroup`/`afterGroup` can only reference groups that exist already (either in your main codebase or created by an earlier custom endpoint)
+- You can't use both `beforeGroup` _and_ `afterGroup` on one group.
+- Remember, `beforeGroup`/`afterGroup` only applies when creating new groups in your custom endpoints. For existing groups, sort them as normal by renaming the generated files.

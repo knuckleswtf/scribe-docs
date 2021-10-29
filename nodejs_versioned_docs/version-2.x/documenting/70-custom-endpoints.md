@@ -104,7 +104,7 @@ The `custom.*` files have a different format from the other YAML files, so don't
 
 Here's an example of a `custom.*.yaml` file. The file contains an array of endpoints, and you can simply edit the example to add yours:
 
-```yaml title=<your-app>.scribe/endpoints/custom.0.yaml
+```yaml title=<your-app>/.scribe/endpoints/custom.0.yaml
 - httpMethods:
     - POST
   uri: api/doSomething/{param}/{optionalParam?}
