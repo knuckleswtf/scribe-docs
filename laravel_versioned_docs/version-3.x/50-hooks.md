@@ -56,8 +56,8 @@ public function boot()
         Scribe::afterGenerating(function (array $paths) {
             dump($paths);
             // Move the files, upload to S3, etc...
-            rename($files['postman'], "some/where/else");
-            Storage::disk('s3')->put('collection.json', file_get_contents($files['postman']));
+            rename($paths['postman'], "some/where/else");
+            Storage::disk('s3')->put('collection.json', file_get_contents($paths['postman']));
         });
     }
 }
