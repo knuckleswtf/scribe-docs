@@ -386,6 +386,55 @@ If you want specific relations to be loaded with your model, you can use the `wi
  */
 ```
 
+Nested relations can be specified using dot notation. `HasMany` and `BelongsToMany` relations are supported for factories:
+
+```php
+/**
+ * @apiResourceCollection App\Http\Resources\AuthorCollection
+ * @apiResourceModel App\Models\Author with=posts.categories
+ */
+```
+
+:::note
+If your many-to-many relation has extra columns in its pivot table, you'll need to create a helper method named `pivot<RelationName>` in **both factories**. For instance, if our `post_category` table has a `priority` column:
+
+```php
+class PostFactory extends Factory
+{
+  protected $model = Post::class;
+
+  public function definition(): array
+  {
+    // ...
+  }
+
+  public function pivotCategories(): array
+  {
+    return [
+      'priority' => $this->faker->randomNumber(),
+    ];
+  }
+}
+
+class CategoryFactory extends Factory
+{
+  protected $model = Category::class;
+
+  public function definition(): array
+  {
+    // ...
+  }
+
+  public function pivotCategories(): array
+  {
+    return [
+      'priority' => $this->faker->randomNumber(),
+    ];
+  }
+}
+```
+:::
+
 ## Response fields
 You can add descriptions for fields in your response by adding a `@responseField` annotation to your controller method.
 
