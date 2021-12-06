@@ -4,7 +4,7 @@ id: hooks
 
 # Hooks
 
-Scribe allows you to modify its behaviour in many ways. SOme ways are very obvious, like in the config file and via annotations (see the pages in the **Documenting your API** category in the sidebar). Others are more involved, like writing custom strategies and customising the views (the pages under **Advanced Customization**).
+Scribe allows you to modify its behaviour in many ways. Some ways are very obvious, like in the config file and via annotations (see the pages in the **Documenting your API** category in the sidebar). Others are more involved, like writing custom strategies and customising the views (the pages under **Advanced Customization**).
 
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
