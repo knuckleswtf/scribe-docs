@@ -79,15 +79,15 @@ The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities t
 
 ## Step 3: Add to config
 
-Finally, if you added a new language template, add the language to the `example_languages` array in your config and generate your documentation as usual.
+Finally, if you added a new language template, add the language to the `example_languages` array in your config and generate your documentation as usual. If you want to use a specific name for the language you can provide it as the array key.
 
 ```php {3} title=config/scribe.php
 'example_languages' => [
   'javascript',
-  'ruby',
-] 
+  'ruby', // or 'Ruby 3' => 'ruby',
+]
  ```
 
-Now run `php artisan scribe:generate`, and your example requests should include a `ruby` tab:
+Now run `php artisan scribe:generate`, and your example requests should include a `ruby` (or `Ruby 3`) tab:
 
 ![](/img/screenshots/customization-example-requests.png)
