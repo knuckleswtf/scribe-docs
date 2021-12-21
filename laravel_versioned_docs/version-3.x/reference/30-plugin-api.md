@@ -75,7 +75,7 @@ This method may return `null` or an empty array if it has no data to add. Otherw
     'Content-Type' => 'application/xml',
   ];
   ```
-- For `urlParameters`, `queryParameters`, and `bodyParameters`, a map (key => value) of parameters.
+- For `urlParameters`, `queryParameters`, and `bodyParameters`, a map (key => value) of parameters. Each parameter may specify a `type`, `description`, `example`, and a `required` flag.
   ```php
   return [
     'room_id' => [
@@ -83,6 +83,20 @@ This method may return `null` or an empty array if it has no data to add. Otherw
       'description' => '',
       'example' => 'r4oiu78t63ns3',
       'required' => true, 
+    ]
+  ];
+  ```
+  
+- You may also add any custom data you wish to pass around in a `custom` field.
+  ```php
+  return [
+    'submission_date' => [
+      'type' => 'string',
+      'example' => '2021-02-03T01:00:00Z',
+      'required' => true, 
+      'custom' => [
+        'format' => 'datetime'
+      ]
     ]
   ];
   ```
