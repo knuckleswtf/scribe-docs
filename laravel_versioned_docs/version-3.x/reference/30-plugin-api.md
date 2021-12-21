@@ -57,7 +57,6 @@ This is the method that is called to process a route. Parameters:
 
 This method may return `null` or an empty array if it has no data to add. Otherwise, it should return an array with the relevant information, which varies depending on the type of strategy/stage of route processing:
 - For `metadata`, a map (key => value) of metadata attributes (as shown in the example below). If you'd like to set a custom attribute so you can access it later, you can add items to the `$endpointData->metadata->custom` array directly.
-- ```
   ```php
   return [
     'groupName' => 'User management',
@@ -87,7 +86,7 @@ This method may return `null` or an empty array if it has no data to add. Otherw
   ];
   ```
   
-- You may also add any custom data you wish to pass around in a `custom` field.
+  You may also add any custom data you wish to pass around in a `custom` field.
   ```php
   return [
     'submission_date' => [
