@@ -69,7 +69,25 @@ This will create a `scribe.php` file in your `config` folder.
        $app->configure('scribe');
    }
    ```
-
+3. Add these lines to your `Console/Kernel.php` to enable artisan commands:
+   
+   ```php title=Console/Kernel.php
+   use Laravel\Lumen\Application;
+   ...
+   public function __construct(Application $app)
+    {
+        parent::__construct($app);
+        if (class_exists(\Knuckles\Scribe\Commands\GenerateDocumentation::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\GenerateDocumentation::class;
+        }
+        if (class_exists(\Knuckles\Scribe\Commands\MakeStrategy::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\MakeStrategy::class;
+        }
+        if (class_exists(\Knuckles\Scribe\Commands\Upgrade::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\Upgrade::class;
+        }
+    }
+   ```
 </TabItem>
 </LaravelLumenTabs>
 
