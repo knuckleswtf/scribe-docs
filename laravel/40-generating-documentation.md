@@ -5,7 +5,7 @@ id: generating
 # Generating Docs
 
 ## First steps
-After you've [documented your API](./documenting), you can generate the docs using the `scribe:generate` Artisan command.
+After you've [documented your API](documenting), you can generate the docs using the `scribe:generate` Artisan command.
 
 ```sh
 php artisan scribe:generate
@@ -138,7 +138,7 @@ This is a handy way to customise the behaviour of your app for documentation pur
 ## Running on CI/CD
 You might want to generate your docs as part of your deployment process. Here are a few things to note:
 
-If you're using [response calls](./documenting/responses#response-calls), you should see the [recommended setup](./documenting/responses#recommendations), to avoid any unintended side effects and get the best possible responses.
+If you're using [response calls](documenting/responses#response-calls), you should see the [recommended setup](documenting/responses#recommendations), to avoid any unintended side effects and get the best possible responses.
 
 You'll also want to set your URLs:
 - the base URL, which will be displayed in the docs and examples. You can set this with the config item `base_url`. You'll probably want to set this to your production URL.

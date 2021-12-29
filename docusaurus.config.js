@@ -1,9 +1,9 @@
 // Manually build version dropdowns, because we need to change the label
-const laravelVersions = require('./laravel_versions.json');
+const laravelVersions = ['3.x'];
 const nodejsVersions = ['2.x'];
 const laravelVersionDropdown = laravelVersions.map((version, idx) => ({
     to: `laravel/${idx === 0 ? '' : version}`,
-    label: `Laravel: ${version}`,
+    label: `Laravel: ${version}${idx === 0 ? ' (current)' : ''}`,
 }));
 laravelVersionDropdown.push({
     to: 'https://scribe.rtfd.io',
@@ -11,7 +11,7 @@ laravelVersionDropdown.push({
 });
 const nodejsVersionDropdown = nodejsVersions.map((version, idx) => ({
     to: `nodejs/${idx === 0 ? '' : version}`,
-    label: `Node.js: ${version}`,
+    label: `Node.js: ${version}${idx === 0 ? ' (current)' : ''}`,
 }));
 nodejsVersionDropdown.push({
     to: 'https://scribe-js.rtfd.io',
@@ -121,7 +121,7 @@ module.exports = {
             appId: 'WMFPPEFVT6',
             apiKey: '6fc653b221399821574f6c08538d0ab7',
             indexName: 'scribe',
-            contextualSearch: false,
+            contextualSearch: true,
         },
     },
     presets: [
@@ -135,14 +135,13 @@ module.exports = {
                     routeBasePath: 'laravel',
                     editUrl: ({locale, versionDocsDirPath, docPath}) =>
                         `https://github.com/knuckleswtf/scribe-docs/edit/master/${versionDocsDirPath}/${docPath}`,
-                    lastVersion: "3.x",
+                    lastVersion: "current",
                     versions: {
                         current: {
                             label: "3.x",
-                            path: "3.x"
                         }
                     },
-                    onlyIncludeVersions: ["3.x"],
+                    onlyIncludeVersions: ["current"],
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
@@ -160,14 +159,13 @@ module.exports = {
                 routeBasePath: 'nodejs',
                 editUrl: ({locale, versionDocsDirPath, docPath}) =>
                     `https://github.com/knuckleswtf/scribe-docs/edit/master/${versionDocsDirPath}/${docPath}`,
-                lastVersion: "2.x",
+                lastVersion: "current",
                 versions: {
                     current: {
                         label: "2.x",
-                        path: "2.x"
                     }
                 },
-                onlyIncludeVersions: ["2.x"],
+                onlyIncludeVersions: ["current"],
             },
         ],
     ],

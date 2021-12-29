@@ -27,4 +27,4 @@ Note that the search bar won't be shown at all in local dev mode.
 The site is currently deployed to [scribe.knuckles.wtf](http://scribe.knuckles.wtf) via [Render](http://render.com). The site will build and auto-deploy on push to any branch in the repo.
 
 ## Editing
-Docs are Markdown files, located within `laravel_versioned_docs/` and `nodejs_versioned_docs/`. Images and assets go in `static/`. A few custom React components, styles and pages are in `src/`.
+Docs are Markdown files, located within `laravel/` and `nodejs/`. Images and assets go in `static/`. A few custom React components, styles and pages are in `src/`.

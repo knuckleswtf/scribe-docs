@@ -75,7 +75,7 @@ If you've written custom strategies, the core API remains the same, but the clas
   ```
   The route, http methods, controller, method, and other data about the endpoint are now properties on the `EndpointData` class. The aim here is to improve the developer experience; we've reduced the number of parameters, and switched to typed value objects over plain arrays.
 
-See the [plugin API reference](./reference/plugin-api) and guide to [writing a plugin](./advanced/plugins) for details.
+See the [plugin API reference](reference/plugin-api) and guide to [writing a plugin](advanced/plugins) for details.
 
 ## Modifying the generated docs
 Scribe has always had the concept of "intermediate" output—a place where it writes the data it has extracted about your API, giving you a chance to overwrite some things before it converts to HTML. In the past, this was a set of Markdown file (with one group of endpoints per file). Overwriting was on a per-file basis—once you edit a file, Scribe could no longer update that file (even if you changed one line), so, on future runs, all endpoints in that file would keep the same data until you discarded your changes.
@@ -143,7 +143,7 @@ Ideally, you shouldn't have to modify your docs after extraction. We generally r
 ### Example requests
 We've made it easier to customise example requests. It's still the same basic format, but the differences are:
 - Files have to end with `.md.blade.php` (eg `ruby.md.blade.php`) if you want to use Markdown.
-- You still have the `$baseUrl` variable, but `$route` is now `$endpoint`, an instance of `Knuckles\Camel\Output\OutputEndpointData`, which provides the http methods, url, parameters, and other attributes as properties. This means you can now get IDE autocomplete when writing example templates (see [the guide](./advanced/example-requests)).
+- You still have the `$baseUrl` variable, but `$route` is now `$endpoint`, an instance of `Knuckles\Camel\Output\OutputEndpointData`, which provides the http methods, url, parameters, and other attributes as properties. This means you can now get IDE autocomplete when writing example templates (see [the guide](advanced/example-requests)).
 
 Additionally, you can now publish examples **only** (rather than _all_ Scribe templates) with `php artisan vendor:publish --tag=scribe-examples`. This is useful if you only want to customise example requests.
 
@@ -164,4 +164,4 @@ php artisan vendor:publish --tag=scribe-themes
 php artisan vendor:publish --tag=scribe-markdown
 ```
 
-You can then use the new templates as a guide, and follow the [theming guide](./advanced/theming) to learn how to rework your changes.
+You can then use the new templates as a guide, and follow the [theming guide](advanced/theming) to learn how to rework your changes.
