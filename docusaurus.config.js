@@ -138,7 +138,8 @@ module.exports = {
                     lastVersion: "current",
                     versions: {
                         current: {
-                            label: "3.x",
+                            label: "Laravel 3.x (current)",
+                            badge: true,
                         }
                     },
                     onlyIncludeVersions: ["current"],
@@ -162,7 +163,8 @@ module.exports = {
                 lastVersion: "current",
                 versions: {
                     current: {
-                        label: "2.x",
+                        label: "Node.js 2.x (current)",
+                        badge: true,
                     }
                 },
                 onlyIncludeVersions: ["current"],
