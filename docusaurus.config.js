@@ -118,7 +118,8 @@ module.exports = {
             additionalLanguages: ['php'],
         },
         algolia: {
-            apiKey: '2c11f083773e4ff5012ff63779332fe5',
+            appId: 'WMFPPEFVT6',
+            apiKey: '6fc653b221399821574f6c08538d0ab7',
             indexName: 'scribe',
             contextualSearch: false,
         },
