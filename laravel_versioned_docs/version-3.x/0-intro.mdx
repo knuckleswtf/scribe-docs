@@ -69,11 +69,11 @@ This will create a `scribe.php` file in your `config` folder.
        $app->configure('scribe');
    }
    ```
-3. Add these lines to your `Console/Kernel.php` to enable artisan commands:
+3. Add these lines to your `Console/Kernel.php` to enable Artisan commands:
    
    ```php title=Console/Kernel.php
    use Laravel\Lumen\Application;
-   ...
+
    public function __construct(Application $app)
     {
         parent::__construct($app);
@@ -88,6 +88,7 @@ This will create a `scribe.php` file in your `config` folder.
         }
     }
    ```
+
 </TabItem>
 </LaravelLumenTabs>
 
