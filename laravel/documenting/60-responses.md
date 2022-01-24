@@ -284,22 +284,39 @@ public function listMoreUsers()
 If your endpoint returns a data with additional fields of meta information, you can tell Scribe it by using `@apiResourceAdditional`.
 
 ```php
-/**
- * @apiResource App\Http\Resources\UserResource
- * @apiResourceModel App\Models\User
- * @apiResourceAdditional message='user updated successfully'
- */
-public function updateUser(User $user)
+class UserResource extends JsonResource
+{
+    public function toArray($request)
+    {
+        return [ 'id' => $this->id ];
+    }
+}
+
+class UserController extends Controller
 {
     /**
-     * ...
-     * Some updating user code
-     * ...
+     * @apiResource App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
+     * @apiResourceAdditional title="User created" message="User successful created"
      */
-    
-    return UserResource::make($user)->additional([
-        'message' => 'user updated successfully'    
-    ]);
+    public function store($request): JsonResponse
+    {
+        // ... some store code ...
+        return UserResource::make($event)->additional([
+            'title' => __('User created'),
+            'message' => __('User successful created'),
+        ]);
+    }
+}
+```
+Produces output (with default `data`-wrapper):
+```json
+{
+  "data": {
+    "id": 1
+  },
+  "title": "User created",
+  "message": "User successful created"
 }
 ```
 
