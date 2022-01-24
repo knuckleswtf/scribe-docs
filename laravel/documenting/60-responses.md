@@ -280,6 +280,29 @@ public function listMoreUsers()
 }
 ```
 
+### Additional Data
+If your endpoint returns a data with additional fields of meta information, you can tell Scribe it by using `@apiResourceAdditional`.
+
+```php
+/**
+ * @apiResource App\Http\Resources\UserResource
+ * @apiResourceModel App\Models\User
+ * @apiResourceAdditional message='user updated successfully'
+ */
+public function updateUser(User $user)
+{
+    /**
+     * ...
+     * Some updating user code
+     * ...
+     */
+    
+    return UserResource::make($user)->additional([
+        'message' => 'user updated successfully'    
+    ]);
+}
+```
+
 ## Transformers
 If your endpoint uses "transformers" (via the league/fractal package) for its response, you can use the `@transformer` annotations to tell Scribe how to generate a sample response _without actually calling the endpoint_. To do this, you'll need two annotations:
 - `@transformer`: the name of the transformer class. Use `@transformerCollection` instead if you're returning a collection.
