@@ -232,7 +232,7 @@ Notes:
 ```
 
 ### `@apiResourceAdditional`
-Tells Scribe how to simulate [additional metadata](https://laravel.com/docs/8.x/eloquent-resources#adding-meta-data-when-constructing-resources) of Resource output. Can be used with `@apiResource` and `@apiResourceCollection`. It collects additional metadata from format as key-value pairs.
+Specifies [additional metadata](https://laravel.com/docs/8.x/eloquent-resources#adding-meta-data-when-constructing-resources) for an API resource. Can only be used with `@apiResource` and `@apiResourceCollection`. The additional metadata is specified as attributes (key-value pairs).
 
 Format: `@apiResourceAdditional <key1>=<value1> ... <keyN>=<valueN>`
 
@@ -241,22 +241,13 @@ Notes:
   - `key=value`
   - `key="long text with spaces"`
   - `"key with spaces"="long text with spaces"`
-- Key WILL NOT to be converted into snake_case or any other. Use with caution.
 
 Examples:
 
 ```
 @apiResource App\Http\Resources\UserApiResource
 @apiResourceModel App\Models\User
-@apiResourceAdditional title="User Created" message="User Created Successfully"
-
-@apiResource App\Http\Resources\UserApiResource
-@apiResourceModel App\Models\User
-@apiResourceAdditional custom_code=200 locale=en
-
-@apiResource App\Http\Resources\UserApiResource
-@apiResourceModel App\Models\User
-@apiResourceAdditional "disliked json key"=value
+@apiResourceAdditional result=success message="User created successfully"
 ```
 
 ### `@transformer`

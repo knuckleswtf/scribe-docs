@@ -218,6 +218,14 @@ If your endpoint uses [Eloquent API resources](https://laravel.com/docs/eloquent
 Examples:
 
 ```php
+class UserResource extends JsonResource
+{
+    public function toArray($request)
+    {
+        return [ 'id' => $this->id ];
+    }
+}
+
 /**
  * @apiResource App\Http\Resources\UserResource
  * @apiResourceModel App\Models\User
@@ -284,14 +292,6 @@ public function listMoreUsers()
 If your endpoint returns additional fields using the API resource's `additional()` method, you can indicate this with `@apiResourceAdditional`:
 
 ```php
-class UserResource extends JsonResource
-{
-    public function toArray($request)
-    {
-        return [ 'id' => $this->id ];
-    }
-}
-
 class UserController extends Controller
 {
     /**
