@@ -280,6 +280,46 @@ public function listMoreUsers()
 }
 ```
 
+### Additional Data
+If your endpoint returns additional fields using the API resource's `additional()` method, you can indicate this with `@apiResourceAdditional`:
+
+```php
+class UserResource extends JsonResource
+{
+    public function toArray($request)
+    {
+        return [ 'id' => $this->id ];
+    }
+}
+
+class UserController extends Controller
+{
+    /**
+     * @apiResource App\Http\Resources\UserResource
+     * @apiResourceModel App\Models\User
+     * @apiResourceAdditional result=success message="User created successfully"
+     */
+    public function store($request): JsonResponse
+    {
+        // ... some store code ...
+        return UserResource::make($event)->additional([
+            'result' => __('success'),
+            'message' => __('User created successfully'),
+        ]);
+    }
+}
+```
+Produces output (with default `data`-wrapper):
+```json
+{
+  "data": {
+    "id": 1
+  },
+  "result": "success",
+  "message": "User created successfully"
+}
+```
+
 ## Transformers
 If your endpoint uses "transformers" (via the league/fractal package) for its response, you can use the `@transformer` annotations to tell Scribe how to generate a sample response _without actually calling the endpoint_. To do this, you'll need two annotations:
 - `@transformer`: the name of the transformer class. Use `@transformerCollection` instead if you're returning a collection.

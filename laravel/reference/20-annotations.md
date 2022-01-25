@@ -231,6 +231,33 @@ Notes:
 @apiResourceModel App\Models\User with=accounts states=editor,verified
 ```
 
+### `@apiResourceAdditional`
+Tells Scribe how to simulate [additional metadata](https://laravel.com/docs/8.x/eloquent-resources#adding-meta-data-when-constructing-resources) of Resource output. Can be used with `@apiResource` and `@apiResourceCollection`. It collects additional metadata from format as key-value pairs.
+
+Format: `@apiResourceAdditional <key1>=<value1> ... <keyN>=<valueN>`
+
+Notes:
+- Supported formats for key-value pairs:
+  - `key=value`
+  - `key="long text with spaces"`
+  - `"key with spaces"="long text with spaces"`
+- Key WILL NOT to be converted into snake_case or any other. Use with caution.
+
+Examples:
+
+```
+@apiResource App\Http\Resources\UserApiResource
+@apiResourceModel App\Models\User
+@apiResourceAdditional title="User Created" message="User Created Successfully"
+
+@apiResource App\Http\Resources\UserApiResource
+@apiResourceModel App\Models\User
+@apiResourceAdditional custom_code=200 locale=en
+
+@apiResource App\Http\Resources\UserApiResource
+@apiResourceModel App\Models\User
+@apiResourceAdditional "disliked json key"=value
+```
 
 ### `@transformer`
 Tells Scribe how to generate a response using a [Fractal transformer](https://fractal.thephpleague.com/transformers/). Can be used together with [`@transformerModel`](#transformermodel).
