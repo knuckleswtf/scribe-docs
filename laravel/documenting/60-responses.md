@@ -281,7 +281,7 @@ public function listMoreUsers()
 ```
 
 ### Additional Data
-If your endpoint returns a data with additional fields of meta information, you can tell Scribe it by using `@apiResourceAdditional`.
+If your endpoint returns additional fields using the API resource's `additional()` method, you can indicate this with `@apiResourceAdditional`:
 
 ```php
 class UserResource extends JsonResource
@@ -297,14 +297,14 @@ class UserController extends Controller
     /**
      * @apiResource App\Http\Resources\UserResource
      * @apiResourceModel App\Models\User
-     * @apiResourceAdditional title="User created" message="User successful created"
+     * @apiResourceAdditional result=success message="User created successfully"
      */
     public function store($request): JsonResponse
     {
         // ... some store code ...
         return UserResource::make($event)->additional([
-            'title' => __('User created'),
-            'message' => __('User successful created'),
+            'result' => __('success'),
+            'message' => __('User created successfully'),
         ]);
     }
 }
@@ -315,8 +315,8 @@ Produces output (with default `data`-wrapper):
   "data": {
     "id": 1
   },
-  "title": "User created",
-  "message": "User successful created"
+  "result": "success",
+  "message": "User created successfully"
 }
 ```
 
