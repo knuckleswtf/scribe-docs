@@ -8,11 +8,12 @@ Scribe allows you to modify its behaviour in many ways. Some ways are very obvio
 
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
-Scribe currently provides two hooks:
+Scribe currently provides three hooks:
 - `beforeResponseCall()` (from v3.11.0)
 - `afterGenerating()` (from v3.13.0)
+- `instantiateFormRequestUsing()` (from v3.24.0)
 
-To define a hook, you'll simply call these methods and pass in a callback where you do whatever. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
+To define a hook, call these methods and pass in a callback where you do whatever. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
 
 :::caution
 Always wrap these method calls in an `if (class_exists(\Knuckles\Scribe\Scribe::class))` statement. That way, you can push this code to production safely, even if Scribe is installed in dev only.
@@ -85,3 +86,25 @@ Notes:
 - If you're using `static` type, `"blade"` will be null, and `"html"` will contain the `index.html` path.
 - If you disabled Postman and/or OpenAPI generation, those paths will be null.
 - Paths are generated using PHP's `realpath()`, so they'll use the appropriate directory separator for your platform (backslash on Windows, forwards slash on *nix).
+
+
+## `instantiateFormRequestUsing()`
+`instantiateFormRequestUsing()` allows you to customise how FormRequests are created by the FormRequest strategies. By default, these strategies simply call `new $yourFormRequestClass`, which means if you're using Laravel's constructor or method injection, your dependencies won't be resolved properly. If that's the case, you can use this hook to override how the FormRequest is created.
+
+The callback you provide will be passed the name of the FormRequest class, the current Laravel route being processed, and the controller method.
+
+```php title=app\Providers\AppServiceProvider.php
+
+use Knuckles\Scribe\Scribe;
+use Illuminate\Routing\Route;
+use ReflectionFunctionAbstract;
+
+public function boot()
+{
+    if (class_exists(Scribe::class)) {
+        Scribe::instantiateFormRequestUsing(function (string $className, Route $route, ReflectionFunctionAbstract $method) {
+            return app()->makeWith($className, $someDependencies);
+        });
+    }
+}
+```
