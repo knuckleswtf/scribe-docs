@@ -45,3 +45,6 @@ Generating docs for large APIs can be memory intensive. If you run into memory l
 ```bash
 php -d memory_limit=1G artisan scribe:generate
 ```
+
+## Remove or check template published folder
+If you upgrade scribe version and see some js error in broswer console, check if you published template files from older version do some nessery changes to resolve it.
