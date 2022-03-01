@@ -40,8 +40,16 @@ php artisan config:clear
 Sometimes you may run into conflicts if you switch from one output type to another. While we try to prevent this happening, we don't guarantee it. In such cases, please try clearing the old docs generated from your previous run (`laravel` would be in `resources/docs` and `storage/docs`, `static` would be in `public/docs`) and then running again. We recommend copying these out to a different location, just to be safe.
 
 ## Increase the memory
-Generating docs for large APIs can be memory intensive. If you run into memory limits, try running PHP with an increased memory limit (either by updating your CLI php.ini file or using a CLI flag):
+Generating docs for large APIs can be memory-intensive. If you run into memory limits, try running PHP with an increased memory limit (either by updating your CLI php.ini file or using a CLI flag):
 
 ```bash
 php -d memory_limit=1G artisan scribe:generate
 ```
+
+## Delete old published templates
+The default view templates may be modified between versions, so if you published the templates before upgrading your Scribe version, you might be using an outdated templates (and you might see a JavaScript error in your broswer console or experience other weird behaviour). You'll need to re-publish the templates and redo any custom changes.
+
+:::tip
+After publishing templates, you can delete the ones you don't wish to customise. That way, you easily know which templates you're overriding.
+:::
+
