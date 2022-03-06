@@ -36,6 +36,13 @@ Sometimes Laravel caches config files, and this may lead to Scribe failing with 
 php artisan config:clear
 ```
 
+## Clear cached view templates
+Sometimes Laravel caches view templates, and this may lead to your API changes not being reflected in the output. To fix this, clear the view cache:
+
+```bash
+php artisan view:clear
+```
+
 ## Clear previously generated docs
 Sometimes you may run into conflicts if you switch from one output type to another. While we try to prevent this happening, we don't guarantee it. In such cases, please try clearing the old docs generated from your previous run (`laravel` would be in `resources/docs` and `storage/docs`, `static` would be in `public/docs`) and then running again. We recommend copying these out to a different location, just to be safe.
 
