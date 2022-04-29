@@ -41,6 +41,10 @@ Settings for the `laravel` type output.
 
    Default: `"/docs"`.
 
+- `assets_directory`: Specify directory within `public` in which to store Laravel Scribe assets. By default, assets are stored in `public/vendor/scribe`. If set, assets will be stored in `public/{{asset_prefix}}/vendor/scribe`
+
+   Default: `null`.
+
 - `middleware`: List of middleware to be attached to the documentation endpoint (if `add_routes` is true).
 
 ### `base_url`
