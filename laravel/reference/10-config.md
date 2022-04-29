@@ -41,7 +41,7 @@ Settings for the `laravel` type output.
 
    Default: `"/docs"`.
 
-- `assets_directory`: Specify directory within `public` in which to store Laravel Scribe assets. By default, assets are stored in `public/vendor/scribe`. If set, assets will be stored in `public/{{asset_prefix}}/vendor/scribe`
+- `assets_directory`: Specify directory within `public` in which to store Laravel Scribe assets. By default, assets are stored in `public/vendor/scribe`. If set, assets will be stored in `public/{{assets_directory}}`
 
    Default: `null`.
 
