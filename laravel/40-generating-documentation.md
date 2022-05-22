@@ -32,14 +32,12 @@ If you're using `laravel` type, you may need to exclude `storage/app/scribe/` fr
 
 For more details on what happens when you run `generate`, see [How Scribe Works](./architecture).
 
-## Viewing the generated docs
-To access your generated docs, start your Laravel app (`php artisan serve` on local), then visit `/docs`. _This works for both types of docs._
+## Viewing the docs
+To access your generated docs, start your Laravel app (`php artisan serve` on local), then visit the path you configured (in `static.output_path` or `laravel.docs_url`). By default, this would be `<your app url>/docs`. _This works for both types of docs._
 
 :::tip
 If you're using `static` type, you can also open the `public/docs/index.html` locally in your browser.
 :::
-
-You can change the default docs paths with the config items `static.output_path` and `laravel.docs_url`.
 
 ## The `.scribe` folder
 After you generate your docs, you should also have a `.scribe` folder. This folder is the "intermediate" output; it holds information about your API that Scribe has extracted, allowing you to overwrite some things before Scribe converts to HTML. See [How Scribe works](./architecture#the-scribe-folder) for details.
@@ -63,14 +61,14 @@ The `.scribe` folder holds Scribe's intermediate output, allowing you to modify 
 
 See [sorting endpoints and groups](#sorting-endpoints-and-groups).
 
-### Discarding your changes
+## Discarding your changes
 On future runs, Scribe will respect your changes and try to merge them into any information it extracts. If you'd like to discard your changes and have Scribe extract afresh, you can pass the `--force` flag.
 
 ```shell
 php artisan scribe:generate --force
 ```
 
-### Skipping the extraction phase
+## Skipping extraction
 You can also use the `--no-extraction` flag. With this, Scribe will skip extracting data about your API and use the data already present in the `.scribe` folder.
 
 ```bash
@@ -134,6 +132,19 @@ Each section has two options:
 You can pass the `--env` option to run this command with a specific env file. For instance, if you have a `.env.docs` file, running `scribe:generate --env docs` will make Laravel use the `.env.docs` file.
 
 This is a handy way to customise the behaviour of your app for documentation purposes—for example, you can disable things like notifications when response calls are running.
+
+## Generating multiple docs
+As of version 3.29.1, you can generate multiple independent sets of docs with Scribe by using the `--config` flag. Supposing you want to have two sets of docs, one for your public API endpoints, and one for the admin endpoints. To do this:
+- Create a second config file. You can name it something like `scribe_admin.php`. This file will contain the config for our admin API docs, while `scribe.php` will retain the config for the public API docs.
+- Update the config in the new file. Make sure to correctly set:
+  - `routes`: Configure this so the only routes matched here are your admin endpoints
+  - `static.output_path`: If you're using `static` type, set this to a different path from the one in your `scribe.php` so the docs don't overwrite each other.
+  - `laravel.assets_directory`: If you're using `laravel` type, you can set this to a different path from the one in your `scribe.php` so the docs' assets don't overwrite each other. This only matters if you're using different assets (CSS, JS) for each set of docs.
+- Run `php artisan scribe:generate --config scribe_admin` (or whatever the name of your config file is).
+
+:::note
+`laravel.add_routes` will not work for multiple docs. You'll need to add those routes yourself. You can copy the examples from [the `routes/` folder](https://github.com/knuckleswtf/scribe/blob/5fc7d2531938541a53b7155230baa0b7cf45d487/routes) in the package repo.
+:::
 
 ## Running on CI/CD
 You might want to generate your docs as part of your deployment process. Here are a few things to note:
