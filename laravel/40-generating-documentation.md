@@ -142,8 +142,16 @@ As of version 3.29.1, you can generate multiple independent sets of docs with Sc
   - `laravel.assets_directory`: If you're using `laravel` type, you can set this to a different path from the one in your `scribe.php` so the docs' assets don't overwrite each other. This only matters if you're using different assets (CSS, JS) for each set of docs.
 - Run `php artisan scribe:generate --config scribe_admin` (or whatever the name of your config file is).
 
-:::note
-`laravel.add_routes` will not work for multiple docs. You'll need to add those routes yourself. You can copy the examples from [the `routes/` folder](https://github.com/knuckleswtf/scribe/blob/5fc7d2531938541a53b7155230baa0b7cf45d487/routes) in the package repo.
+:::important
+The inbuilt Scribe routing (`laravel.add_routes`, `laravel.docs_url` and related settings) will not work for multiple docs. You'll need to add your own routes. You can customise the logic from [the `routes/` folder](https://github.com/knuckleswtf/scribe/blob/5fc7d2531938541a53b7155230baa0b7cf45d487/routes) and [the `Controller` class](https://github.com/knuckleswtf/scribe/blob/5fc7d2531938541a53b7155230baa0b7cf45d487/src/Http/Controller.php) in the package repo.
+
+For example:
+
+```php
+Route::view('/docs', 'scribe.index')->name('public_docs');
+Route::view('/admin/docs', 'scribe_admin.index')->name('admin_docs');
+```
+
 :::
 
 ## Running on CI/CD
