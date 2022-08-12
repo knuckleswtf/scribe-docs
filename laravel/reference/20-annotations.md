@@ -153,6 +153,7 @@ Format: `@responseField <name> <type?> <description?>`
 
 Notes:
 - You can omit the `type`; Scribe will try to figure it out from your example responses.
+- Can be used on controller methods and (since v3.36.0) Eloquent API resource `toArray()` methods.
 
 Examples:
 ```

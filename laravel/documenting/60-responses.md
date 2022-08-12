@@ -476,7 +476,7 @@ class CategoryFactory extends Factory
 :::
 
 ## Response fields
-You can add descriptions for fields in your response by adding a `@responseField` annotation to your controller method.
+You can add descriptions for fields in your response by adding a `@responseField` annotation to your controller method. If you're using an Eloquent `@apiResource` to generate your response, you can place the annotation on your resource's `toArray()` method instead.
 
 ```php
 /**
