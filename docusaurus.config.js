@@ -1,5 +1,5 @@
 // Manually build version dropdowns, because we need to change the label
-const laravelVersions = ['3.x'];
+const laravelVersions = ['4.x', '3.x'];
 const nodejsVersions = ['2.x'];
 const laravelVersionDropdown = laravelVersions.map((version, idx) => ({
     to: `laravel/${idx === 0 ? '' : version}`,
@@ -11,12 +11,8 @@ laravelVersionDropdown.push({
 });
 const nodejsVersionDropdown = nodejsVersions.map((version, idx) => ({
     to: `nodejs/${idx === 0 ? '' : version}`,
-    label: `Node.js: ${version}${idx === 0 ? ' (current)' : ''}`,
+    label: `Node.js: ${version}${idx === 0 ? ' (unmaintained)' : ''}`,
 }));
-nodejsVersionDropdown.push({
-    to: 'https://scribe-js.rtfd.io',
-    label: 'Node.js: 1.x',
-});
 const versionDropdown = {
     label: 'Switch version',
     position: 'right',
@@ -138,11 +134,16 @@ module.exports = {
                     lastVersion: "current",
                     versions: {
                         current: {
-                            label: "Laravel 3.x (current)",
+                            label: "Laravel: 4.x (current)",
                             badge: true,
+                        },
+                        "3.x": {
+                            label: "Laravel: 3.x",
+                            badge: true,
+                            banner: 'unmaintained',
+                            path: '/3.x',
                         }
                     },
-                    onlyIncludeVersions: ["current"],
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
@@ -163,7 +164,7 @@ module.exports = {
                 lastVersion: "current",
                 versions: {
                     current: {
-                        label: "Node.js 2.x (current)",
+                        label: "Node.js: 2.x (unmaintained)",
                         badge: true,
                     }
                 },
