@@ -3,7 +3,7 @@ slug: getting-started
 id: getting-started
 ---
 
-# Getting Started
+# Getting started
 
 ## Set up the package
 First, follow the installation guide in the [introduction](/laravel).

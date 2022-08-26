@@ -27,7 +27,7 @@ abstract class Strategy
      */
     abstract public function __invoke(
         ExtractedEndpointData $endpointData,
-        array $routeRules
+        array $routeRules = []
     ): ?array;
 }
 ```
@@ -117,5 +117,7 @@ Setting a parameter to `required => false` and `example => null` tells Scribe to
   ```
   
 :::note
-The return values from each strategy are merged with the existing extracted data. This means a later strategy can overwrite an earlier one. The exception here is the `responses` stage. The responses from all strategies will be kept. Responses cannot overwrite each other, even if they have the same status code.
+The return values from each strategy are merged with the existing extracted data. This means a later strategy can overwrite an earlier one. The exception here is the `responses` stage. The responses from all strategies will be kept. Responses will not overwrite each other, even if they have the same status code.
+
+If you need to overwrite previous responses, modify the `$endpointData->responses` object directly (but this is at your own risk).
 :::

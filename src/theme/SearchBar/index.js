@@ -40,7 +40,7 @@ import { useDocsPreferredVersionByPluginId } from '@docusaurus/theme-common';
 function useContextualSearchFilters() {
     const activePluginAndVersion = useActivePluginAndVersion();
     const allDocsData = useAllDocsData();
-    // Laravel is much more popular, so we default to that if not on a docs page
+    //  We default to Laravel if not on a docs page
     const currentPluginId = activePluginAndVersion?.activePlugin?.pluginId || 'laravel';
     const docsPreferredVersionByPluginId = useDocsPreferredVersionByPluginId();
 

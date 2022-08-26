@@ -155,7 +155,7 @@ Here's an example of a `custom.*.yaml` file. The file contains an array of endpo
 ```
 
 ## Extra: sorting groups in custom endpoint files
-When you add custom endpoints as described above, if the `metadata.groupName` doesn't already exist, the group will be created. Unfortunately, this means the group might be placed at the bottom of your docs, or in a position you don't want. To fix this, you can use the `beforeGroup` or `afterGroup` parameters (from v3.14.0).
+When you add custom endpoints as described above, if the `metadata.groupName` doesn't already exist, the group will be created. Unfortunately, this means the group might be placed at the bottom of your docs, or in a position you don't want. To fix this, you can use the `beforeGroup` or `afterGroup` parameters.
 
 For example, if you're adding endpoints that will belong to a new group, "Access Tokens", a file like this...
 

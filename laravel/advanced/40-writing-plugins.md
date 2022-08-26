@@ -61,7 +61,7 @@ class AddPaginationParameters extends Strategy
      *
      * @return array|null
      */
-    public function __invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array
+    public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
     {
         return [];
     }
@@ -78,7 +78,7 @@ Let's add some code to make our strategy work:
 
 ```php title=app\Docs\Strategies\AddPaginationParameters.php
 
-public function __invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array
+public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
 {
     $isGetRoute = in_array('GET', $endpointData->httpMethods);
     $isIndexRoute = strpos($endpointData->route->getName(), '.index') !== false;
@@ -157,7 +157,7 @@ This allows you to implement your own custom tags. For instance, a `@usesPaginat
 
 ```php
 
-public function __invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array
+public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
 {
     $methodDocBlock = RouteDocBlocker::getDocBlocksFromRoute($endpointData->route)['method'];
     $tags = $methodDocBlock->getTagsByName('usesPagination');
