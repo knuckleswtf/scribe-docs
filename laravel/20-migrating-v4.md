@@ -42,7 +42,7 @@ If you use multi-docs, you can run the upgrade command for each of your config f
   - `models_source`, for configuring how Scribe generates example models for API resources and transformers. See [the docs](/laravel/reference/config#models_source) for usage.
 - A new `groups` key has been added. It comes with two items:
   - `default` (the old `default_group` was moved here)
-  - `order`, where you can order your groups, subgroups and endpoints. See [the docs](/laravel/common/generating#sorting-endpoints-and-groups) for usage.
+  - `order`, where you can order your groups, subgroups and endpoints. See [the docs](/laravel/tasks/sorting-and-inheritance) for usage.
 
 
 ## Plugin API

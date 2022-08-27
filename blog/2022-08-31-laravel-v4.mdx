@@ -1,0 +1,315 @@
+---
+slug: laravel-v4
+title: Scribe v4 is here
+description: "Check out what's new in Scribe v4"
+---
+
+# Scribe v4 is here
+
+Scribe v4 is here! Let's get right into it.
+
+<!--truncate-->
+
+Major features:
+- **PHP 8 attributes** are here (and PHP 8/Laravel 8 are now required)
+- A highly requested feature, **subgroups** are now supported
+- We finally figured out the easiest way to **sort** your groups (and subgroups, and endpoints)
+- You can now override docs for **inherited methods** (another much-requested feature)
+- You can now customise how Scribe fetches example models
+
+Breaking changes:
+- If you write custom strategies, the signature of the `Strategy` class has changed: `array $routeRules` in the `__invoke()` method is now optional (`array $routeRules = []`), and there's now an instance property `public ?ExtractedEndpointData $endpointData` (although it's not set by default)
+- `laravel.add_routes` now uses inline (Closure) routes (there's no more `Scribe\Controller` class). This way it's easier for you to copy and customise to make your own routes.
+
+See the [migration guide](/laravel/migrating-v4) for details on how to upgrade.
+
+
+## Attributes
+Scribe now comes with a bunch of PHP attributes equivalent to the old docblock tags. Here's a preview:
+
+```php
+#[Endpoint("Do a thing", "This endpoint does a thing.")]
+#[Authenticated]
+#[BodyParam("thing", "string", "Thing to do", required: true, example: "sing")]
+#[Response(["did" => "thing"])]
+#[ResponseFromFile("response_samples/response_error.json", 401, ["merge" => "this"])]
+public function doThing()
+{
+
+}
+````
+
+The old docblock tags are still supported, so you don't have to switch (you can even use both in the same endpoint). Check out [the docs on annotations](/laravel/reference/annotations) for some advantages (and disadvantages) you can get from the new attributes.
+
+## Subgrouos
+
+Previously, Scribe only supported endpoints with a top-level group. But after repeated requests, we finally understood that this isn't enough for most folks, so we figured out a way to support a second level of nesting.
+
+To specify a subgroup for an endpoint, use the subgroup annotation. You can also specify a description (you only need to do this once)
+
+
+import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTabs';
+
+<AttributesTagsTabs>
+<TabItem value="attributes">
+
+```php
+use Knuckles\Scribe\Attributes\Subgroup;
+
+#[Subgroup("A subgroup", "A description for the subgroup")]
+public function anEndpoint()
+```
+
+</TabItem>
+
+<TabItem value="tags">
+
+```php
+/**
+ * @subgroup A subgroup
+ * @subgroupDescription A description for the subgroup
+ */
+public function anEndpoint()
+```
+
+</TabItem>
+</AttributesTagsTabs>
+
+Of course, subgroups are optional, so you can still have endpoints in a group, but without subgroups. Also, like `group` annotations, `sbgroup` annotations can also be placed at the controller level to apply to all methods in the controller.
+
+## Easier sorting
+Sorting has always been a problem. First, Scribe sorted groups alphabetically, and endpoints in the order the routes were defined. But that doesn't always make sense for your API docs. So, in v3, we made it possible to sort endpoints and groups, by editing the generated YAML files. But that's still messy. We think we've found a better way in v4! 💪
+
+In v4, use the `groups.order` key. (Despite the name, it can also be used to order subgroups and endpoints.) List the items in the order you want them. For instance, if you want the "Tokens" group first, followed by "Users" and then "Instances", that would be:
+
+```php
+'groups' => [
+  'order' => [
+    'Tokens',
+    'Users',
+    'Instances',
+  ]
+]
+```
+
+Even better, you can order subgroups and endpoints within the groups:
+
+```php
+'groups' => [
+  'order' => [
+    'Tokens' => [
+      'POST /tokens'
+      'GET /tokens'
+    ],
+    'Users',
+    'Instances' => [
+      'Active instances', // <-- a subgroup
+      'Instance stats' => [
+        'GET /stats' // <- an endpoint in a subgroup
+        ],
+      'POST /end_all', // <-- an endpoint
+    ],
+  ]
+]
+```
+
+You don't have to specify all groups, subgroups and endpoints—only those you're interested in. Any others will be arranged in the normal order after these ones.
+
+## Inherited methods
+Sometimes you have a scenario where some endpoints are very similar—the usual CRUD, just with a different resource. Let's say /users and /notes. So you create a parent controller and extend from them.
+
+
+import Tabs from '@theme/Tabs';
+
+<Tabs
+    defaultValue="base"
+    values={[
+        {label: 'Base', value: 'base'},
+        {label: 'Children', value: 'children'},
+    ]}>
+<TabItem value="base">
+
+```php title=CRUDController.php
+class CRUDController
+{
+  public string $resource;
+
+  public function index()
+  {
+    $class = $this->resource;
+    return $class::paginate(20);
+  }
+
+  public function create()
+  {
+    // ...
+  }
+
+// ...
+}
+```
+
+</TabItem>
+
+<TabItem value="children">
+
+```php title=UserController.php
+class UserController extends CRUDController
+{
+  public string $resource = User::class;
+}
+```
+
+```php title=NoteController.php
+class NoteController extends CRUDController
+{
+  public string $resource = Note::class;
+}
+```
+
+</TabItem>
+</Tabs>
+
+But how do you document these with Scribe? There are no methods in the child classes, so there's nowhere to put your docblocks. And if you put it in the parent class, you'll have the same docs for both users and notes, which won't be correct. Before now, you had to create empty methods in the child classes just so you could add a docblock. But now you can add a static method called `inheritedDocsOverrides`:
+
+<Tabs
+    defaultValue="base"
+    values={[
+        {label: 'Base', value: 'base'},
+        {label: 'Users', value: 'child1'},
+        {label: 'Notes', value: 'child2'},
+    ]}>
+<TabItem value="base">
+
+```php title=CRUDController.php
+class CRUDController
+{
+  public string $resource;
+
+  #[QueryParam("filter")]
+  #[QueryParam("sort")]
+  #[Response(["status" => "unauthorized"], 401)]
+  public function index()
+  {
+    $class = $this->resource;
+    return $class::paginate(20);
+  }
+
+  public function create()
+  {
+    // ...
+  }
+
+// ...
+}
+```
+
+</TabItem>
+
+<TabItem value="child1">
+
+```php title=UserController.php
+class UserController extends CRUDController
+{
+  public string $resource = User::class;
+
+  public static function inheritedDocsOverrides()
+  {
+    return [
+      "index" => [
+        "metadata" => [
+          "title" => "List all users",
+          "groupName" => "Users",
+        ],
+        // Merges with any queryParameters from the parent
+        "queryParameters" => [
+          "active" => [
+            "description" => "Return only active users"
+          ],
+        ],
+        // Using an array *adds* responses to any in the parent
+        "responses" => [
+          [
+            "status" => 200,
+            "content" => json_encode(...)
+          ],
+        ]
+        // Using a function replaces all responses
+        "responses" => function (ExtractedEndpointData $endpointData) {
+          return [
+            [
+              "status" => 200,
+              "content" => json_encode(...)
+            ],
+          ]:
+        },
+      ],
+
+      'create' => [
+        // ...
+      ]
+    ];
+  }
+}
+```
+
+
+</TabItem>
+<TabItem value="child2">
+
+```php title=NoteController.php
+class NoteController extends CRUDController
+{
+  public string $resource = Note::class;
+
+  public static function inheritedDocsOverrides()
+  {
+    return [
+      "index" => [
+        "metadata" => [
+          "title" => "List all notes",
+          "groupName" => "Notes",
+        ],
+        // Using an array *adds* responses to any in the parent
+        "responses" => [
+          [
+            "status" => 200,
+            "content" => json_encode(...)
+          ],
+        ]
+        // Using a function replaces all responses
+        "responses" => function (ExtractedEndpointData $endpointData) {
+          return [
+            [
+              "status" => 200,
+              "content" => json_encode(...)
+            ],
+          ]:
+        },
+      ],
+
+      'create' => [
+        // ...
+      ]
+    ];
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+
+For more details, see [the docs](todo).
+
+
+## Model sources
+Finally, a small (but hopefully helpful) change if you use Eloquent API resources or Fractal transformers is the new `examples.models_source` config item. It describes the strategies Scribe uses to generate an example model. There are three default strategies:
+- the model factory's `create()`method (which generates a model and saves to the database)
+- the factory's `make()` method (which only generates a model)
+- the model's `::first()` from the database.
+
+Scribe tries these three in turn until one succeeds. Exposing them means you can reorder them or remove those yo don't want, so you have predictable results when generating docs.
+
+
+That's all from us. Enjoy!

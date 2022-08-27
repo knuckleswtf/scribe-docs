@@ -8,9 +8,9 @@ This page contains a few tips to help you figure out what's wrong when Scribe se
 
 ## Update your version
 First off, try updating your installed Scribe version. Maybe your problem is due to a bug we've fixed in a newer release. You can see a list of releases and major changes on [the changelog](https://github.com/knuckleswtf/scribe/blob/master/CHANGELOG.md).
-- To find the exact installed version, run `composer show knuckleswtf/scribe`
+- To see the exact installed version, run `composer show knuckleswtf/scribe`
 - To update to the latest version, run `composer update knuckleswtf/scribe`.
-- To update to a specific version (example: 3.0.1), run `composer update knuckleswtf/scribe:3.0.1`.
+- To update to a specific version (example: 4.0.1), run `composer update knuckleswtf/scribe:4.0.1`.
 
 ## Use `--verbose`
 By default, Scribe will try to keep going until it processes all routes and generates your docs. If it encounters any problems while processing a route (such as a missing `@responseFile` or some invalid configuration leading to an exception being thrown), it will output a warning and the exception message, then move on to the next route.
