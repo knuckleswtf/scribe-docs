@@ -58,7 +58,7 @@ Visit your newly generated docs:
 - If you're using `static` type, find the `docs/index.html` file in your `public/` folder and open it in your browser.
 - If you're using `laravel` type, start your app (`php artisan serve`), then visit `/docs`.
 
-Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](/laravel/generating) for details.
+Scribe can also generate a Postman collection and OpenAPI spec. See [generating documentation](/laravel/common/generating) for details.
 
 Great! You've seen what Scribe can do. Now, let's refine our docs to match what we want.
 
