@@ -2,11 +2,15 @@
 id: custom-endpoints
 ---
 
-# Custom endpoints, sorting and overriding
+# Custom endpoints
 Three scenarios: 
 - **Scenario 1**: Scribe keeps getting something wrong. You've tried everything else, and you can't still figure out how to get Scribe to describe `some_param` correctly.
 
-- **Scenario 2**: You want to sort your endpoints or groups in a specific order, but Scribe keeps going alphabetical.
+- **Scenario 2**: You want to sort your endpoints or groups in a specific order, but Scribe keeps going alphabetical. 
+
+  :::important
+  In v4, we introduced a new config item that makes this easier. You don't need to mess around with the Camel files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
+  :::
 
 - **Scenario 3**: Some packages (like Laravel Passport or Fortify) add extra routes to your application, but you can't document these the usual way, since you can't edit the controller's docblocks.
 
@@ -52,6 +56,10 @@ As you've probably figured, you can edit the contents of this file, and Scribe w
 To discard your changes at any time, run `scribe:generate --force`.
 
 ## Scenario 2: Sorting your endpoints or groups
+:::important
+In v4, we introduced a new config item that makes this easier. You don't need to mess around with the Camel files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
+:::
+
 To sort the endpoints in a group, **rearrange the endpoints** in its `endpoints` array. For instance, if your "User management" group is located in `0.yaml` and looks like this:
 
 ```yaml title=<your-app>/.scribe/endpoints/0.yaml

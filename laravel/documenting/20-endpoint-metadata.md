@@ -70,7 +70,7 @@ This becomes:
 For easy navigation, endpoints in your API are organized by groups. You can add an endpoint to a group by using the `@group` annotation (or the `#[Group]` attribute), followed by the name of the group.
 
 :::tip
-A better option is often to set `@group`/`#[Group]` on the controller instead. This will add all endpoints in that controller to the group, and you can add a group description below the group name
+A better option is often to set `@group`/`#[Group]` on the controller instead. This will add all endpoints in that controller to the group, and you can add a group description below the group name.
 :::
 
 <AttributesTagsTabs>
@@ -139,6 +139,77 @@ class UserController extends Controller
 ![](/img/screenshots/endpoint-groups.png)
 
 Grouping endpoints is optional. Any endpoints not in a group will be placed in a default group specified in your [config](../reference/10-config.md#groups).
+
+You can also specify subgroups, by using the `#[Subgroup]` attribute, or the `@subgroup` (and optionally `@subgroupDescription`) tag.
+
+<AttributesTagsTabs>
+<TabItem value="tags">
+
+```php
+/**
+ * @group Resource management
+ *
+ * APIs for managing resources
+ * 
+ * @subgroup Servers
+ * @subgroupDescription Do stuff with servers
+ */
+class ServersController extends Controller
+{
+	/**
+	 * This will be in the "Servers" subgroup of "Resource management"
+	 */
+	 public function createServer()
+	 {
+	 }
+	 
+	/**
+     * This will be in the "Stats" subgroup of "Resource management"
+     * 
+	 * @subgroup Stats
+	 */
+	 public function stats()
+	 {
+
+	 }
+}
+```
+
+</TabItem>
+
+<TabItem value="attributes">
+
+```php
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Subgroup;
+
+
+#[Group("Resource management", "APIs for managing resources")]
+#[Subgroup("Servers", "Do stuff with servers")]
+class ServersController extends Controller
+{
+	/**
+	 * This will be in the "Servers" subgroup of "Resource management"
+	 */
+	 public function createServer()
+	 {
+	 }
+	 
+	/**
+     * This will be in the "Stats" subgroup of "Resource management"
+     * 
+	 * @subgroup Stats
+	 */
+    #[Subgroup("Stats")]
+	 public function stats()
+	 {
+
+	 }
+}}
+```
+
+</TabItem>
+</AttributesTagsTabs>
 
 ## Indicating authentication status
 If you have `auth.default` set to `false` in your config, your endpoints will be treated as open by default. You can use the `@authenticated` annotation (or `#[Authenticated]` attribute) on a method to indicate that the endpoint needs authentication.

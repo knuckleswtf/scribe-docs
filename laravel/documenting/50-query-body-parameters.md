@@ -4,10 +4,10 @@ id: query-body-parameters
 
 # Query and body parameters
 
-Scribe supports multiple ways to describe query and body parameters. You can manually specify them with [`@queryParam`/`@bodyParam`](#queryparam-and-bodyparam), or Scribe can extract them from [your validation rules](#validation-rules).
+Scribe supports multiple ways to describe query and body parameters. You can manually specify them with [annotations](#using-annotations), or Scribe can extract them from [your validation rules](#validation-rules).
 
-## `@queryParam` and `@bodyParam`
-To describe query or body parameters for your endpoint, use the `@queryParam` and `@bodyParam` annotations on the method handling it.
+## Using annotations
+To describe query or body parameters for your endpoint, use the `@queryParam`/`@bodyParam` tags (or `#[QueryParam]`/`#[BodyParam]` attributes) on the method handling it.
 
 The `@bodyParam` tag takes the name of the parameter, a type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format, but the type is optional. If you don't specify a type, Scribe will try to figure out the type based on the parameter name (or fallback to `string`).
 
@@ -27,17 +27,12 @@ Additionally, you can append `[]` to a type any number of times to indicate an a
 
 Examples:
 
-
 import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTabs';
 
-<Tabs
-    defaultValue="bodyParameters"
-    values={[
-        {label: 'Body parameters', value: 'bodyParameters'},
-        {label: 'Query parameters', value: 'queryParameters'},
-]}>
-<TabItem value="bodyParameters">
+<AttributesTagsTabs>
+
+<TabItem value="tags">
 
 ```php
 /**
@@ -48,16 +43,8 @@ import TabItem from '@theme/TabItem';
 */
 public function updateDetails()
 {
-    // ...
 }
-```
-
-![](/img/screenshots/endpoint-bodyparams-1.png)
-
-</TabItem>
-<TabItem value="queryParameters">
-
-```php
+    
 /**
  * @queryParam sort string Field to sort by. Defaults to 'id'.
  * @queryParam fields required Comma-separated list of fields to include in the response. Example: title,published_at,is_public
@@ -70,22 +57,52 @@ public function listPosts()
 }
 ```
 
+</TabItem>
+
+<TabItem value="attributes">
+
+```php
+
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\QueryParam;
+
+#[BodyParam("user_id", "int", "The id of the user.", example: 9)]
+#[BodyParam("room_id", "string", "The id of the room.", required: false)]
+#[BodyParam("forever", "boolean", "Whether to ban the user forever.", required: false, example: false)]
+#[BodyParam("another_one", "number", "This won't be added to the examples.", required: false, example: "No-example")]
+public function updateDetails()
+{
+}
+
+#[QueryParam("sort", "string", "Field to sort by. Defaults to 'id'.", required: false)]
+#[QueryParam("fields", "Comma-separated list of fields to include in the response.", example: "title,published_at,is_public")]
+#[QueryParam("filters[published_at]", "Filter by date published.", required: false)]
+#[QueryParam("filters[is_public]", "integer", "Filter by whether a post is public or not.", example: 1, required: false)]
+public function listPosts()
+{
+    // ...
+}
+```
+
+</TabItem>
+
+</AttributesTagsTabs>
+
+![](/img/screenshots/endpoint-bodyparams-1.png)
+
 ![](/img/screenshots/endpoint-queryparams-1.png)
 
 ![](/img/screenshots/endpoint-queryparams-2.png)
 
-</TabItem>
-</Tabs>
-
 :::tip
-If you use form requests, you can place the `@queryParam` and `@bodyParam` there instead of in your controller.
+If you use form requests, you can place the annotations there instead of in your controller.
 
 ```php
 /**
  * @queryParam lang required The language.
  * @bodyParam title string The title of the post.
- * @bodyParam body string required The content of the post.
  */
+#[BodyParam("body", "string", "The content of the post.")]
 class CreatePostRequest extends \Illuminate\Foundation\Http\FormRequest
 {
 
@@ -97,12 +114,17 @@ public function createPost(CreatePostRequest $request)
     // ...
 }
 ```
+
 :::
 
 ### Specifying or omitting examples
 By default, Scribe will generate a random value for each parameter, to be used in the example requests and response calls. If you'd like to use a specific example value, you can do so by adding `Example: <your-example>` to the end of the parameter description.
 
-If you want Scribe to omit a certain optional parameter in examples and response calls, end the description with `No-example`. It will still be present in the docs.
+If you want Scribe to omit a certain optional parameter in examples and response calls:
+- end the description with `No-example` if using a tag (`@queryParam`/`@bodyParam`)
+- pass `"No-example"` as the `example:` argument if using an attribute (`#[QueryParam]`/`#[BodyParam]`)
+
+The parameter will still be present in the docs, but not included in examples.
 
 For instance:
 
@@ -111,8 +133,9 @@ For instance:
  * @queryParam sort Field to sort by. Defaults to 'id'. Example: published_at
  * @queryParam fields required Comma-separated fields to include in the response. Example: title,published_at,id
  * @queryParam filters[published_at] Filter by date published. No-example
- * @queryParam filters[title] Filter by title. No-example
 */
+#[QueryParam("filters[title]", "Filter by title.", required: false, example: "No-example")]
+public function endpoint()
 ```
 
 gives:
@@ -123,7 +146,7 @@ gives:
 Sometimes you have parameters that are arrays or objects. To handle them in `@bodyParam` and `@queryParam`, Scribe uses the following convention:
 
 :::caution
-If you can, you should avoid using query parameters that are arrays or objects. [There isn't a standardised format for handling them](https://stackoverflow.com/a/9547490/7370522), so the way your API clients set them may be different from what your server expects (and what Scribe generates).
+If you can, you should avoid using query parameters that are arrays or objects. [There isn't a standardised format for handling them](https://blog.shalvah.me/posts/fun-stuff-representing-arrays-and-objects-in-query-strings), so the way your API clients set them may be different from what your server expects (and what Scribe generates).
 :::
 
 #### Arrays
@@ -245,11 +268,13 @@ If you use [Laravel's validation functionality](https://laravel.com/docs/validat
 
 There are two supported options: using inline validators and form requests. Also, [not all rules are supported](#supported-validation-rules).
 
-WIth form requests, Scribe will extract information from the `FormRequest` class typehinted in your controller method. With inline validators, Scribe will extract information from the validation code in your controller (`$request->validate()` or `Validator::make()`).
+These two approaches are very different:
+- WIth form requests, Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
+- With inline validators, Scribe will parse the validation code in your controller (`$request->validate()` or `Validator::make()`).
 
 Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
+- For form requests, add a `bodyParameters()`/`queryParameters()` method where you can add a description and example for each parameter.
 - For inline validators, add a comment above the parameter, specifying a description and example.
-- For form requests, add a `bodyParameters` method where you can add a description and example for each parameter.
 
 If you specify a description, Scribe will prepend your description to what it generates from your validation rules.
 
@@ -284,6 +309,8 @@ public function createPost($request)
         'publication_date' => 'date_format:Y-m-d',
         // Category the post belongs to.
         'category' => ['in:news,opinion,quiz', 'required'],
+        // This will be included in docs but not in examples. No-example
+        'extra' => 'string',
     ]);
 
     return Post::create($validated);
@@ -309,6 +336,8 @@ public function createPost($request)
         'publication_date' => 'date_format:Y-m-d',
         // Category the post belongs to.
         'category' => ['in:news,opinion,quiz', 'required'],
+        // This will be included in docs but not in examples. No-example
+        'extra' => 'string',
     ]);
 
     if ($validator->passes()) {
@@ -334,6 +363,7 @@ class CreatePostRequest extends FormRequest
             'author_email' => 'email|required',
             'publication_date' => 'date_format:Y-m-d',
             'category' => ['in:news,opinion,quiz', 'required'],
+            'extra' => 'string',
         ];
     }
 
@@ -352,6 +382,10 @@ class CreatePostRequest extends FormRequest
             ],
             'category' => [
                 'description' => 'Category the post belongs to.',
+            ],
+            'extra' => [
+                'description' => 'This will be included in docs but not in examples.',
+                'example' => 'No-example',
             ],
         ];
     }
@@ -414,7 +448,7 @@ There are three levels of support for validation rules:
 
 ### Using validation rules for query parameters
 By default, validation rules are interpreted as body parameters. If you use yours for query parameters instead, you can tell Scribe this by either:
-- adding the text `"Query parameters"` in the form request docblock or in a comment above the inline validator call, or
+- adding the text `"Query parameters"` anywhere in the form request docblock or in a comment above the inline validator call, or
 - (form requests only) adding a `queryParameters()` method (instead of `bodyParameters()`).
 
 <Tabs
