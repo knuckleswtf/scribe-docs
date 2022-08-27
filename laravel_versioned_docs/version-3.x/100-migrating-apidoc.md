@@ -41,9 +41,9 @@ _After you've done the above, delete your `resources/docs/` and `public/docs` fo
 
 
 ## Advanced users
-If you've written any custom strategies, you should review [Writing Plugins](/laravel/advanced/plugins) to see how plugins are written now.
+If you've written any custom strategies, you should review [Writing Plugins](/laravel/3.x/advanced/plugins) to see how plugins are written now.
   
-If you've published the views, you'll note that they are now in a different format. See the documentation on [customising the views](/laravel/advanced/theming) to see how things are organised now.
+If you've published the views, you'll note that they are now in a different format. See the documentation on [customising the views](/laravel/3.x/advanced/theming) to see how things are organised now.
 
 
 That should be all. If you come across anything we've missed, please send in a PR! We recommend reading through our docs to see all the improvements Scribe comes with.

@@ -142,8 +142,8 @@ Examples:
 ```
 @responseFile /an/absolute/path
 @responseFile 400 relative/path/from/your/project/root
-@responseFile status=400 scenario="Failed" path/from/your/Laravel/storage/directory
-@responseFile 400 scenario="Failed" path/from/your/Laravel/storage/directory
+@responseFile status=400 scenario="Failed" path/from/your/laravel/3.x/storage/directory
+@responseFile 400 scenario="Failed" path/from/your/laravel/3.x/storage/directory
 ```
 
 ### `@responseField`
