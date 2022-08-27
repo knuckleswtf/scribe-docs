@@ -4,7 +4,7 @@ id: migrating-v4
 
 # Migrating to v4
 
-welcome to Scribe v4.👋 This guide aims to help you migrate from v3. Not much changed, so you should be done in less than 5 minutes. See [the release blog post](/blog/2022/08/27/laravel-v4) for the list of new features.
+welcome to Scribe v4.👋 This guide aims to help you migrate from v3. Not much changed, so you should be done in less than 5 minutes. See [the release blog post](/blog/laravel-v4) for the list of new features.
 
 ## Requirements
 Scribe v4 requires PHP 8 and Laravel 8+. If you're on an older version, you'll need to upgrade. 
