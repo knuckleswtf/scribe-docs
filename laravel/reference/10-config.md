@@ -92,10 +92,53 @@ For best results, the image width should be 230px. Set this to `false` if you're
 
 Default: `false`.
 
-### `default_group`
-When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `default_group`.
+### `groups`
+
+#### `default`
+When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `groups.default`.
 
 Default: `"Endpoints"`.
+
+#### `order`
+By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined. You can override this by listing the groups, subgroups and endpoints here in the order you want them.
+
+Any groups, subgroups or endpoints you don't list here will be added as usual after the ones here. If an endpoint/subgroup is listed under a group it doesn't belong in, it will be ignored.
+
+To describe an endpoint, follow the format '{method} /{path}'  (for example, "POST /users").
+
+Here's an example configuration:
+
+```php
+'order' => [
+   'This group will come first',
+   'This group will come next' => [
+       'POST /this-endpoint-will-come-first',
+       'GET /this-endpoint-will-come-next',
+   ],
+   'This group will come third' => [
+       'This subgroup comes first' => [
+           'GET /this-other-endpoint-will-come-first',
+           'GET /this-other-endpoint-will-come-next',
+       ]
+   ]
+],
+```
+
+### `examples`
+Settings to customize how Scribe generates example values for your docs.
+
+#### `faker_seed`
+When generating examples for parameters, Scribe uses the `fakerphp/faker` package to generate random values. To generate the same example values each time, set this to any number (eg. `1234`).
+
+:::tip
+Alternatively, you can [set example values](../documenting/query-body-parameters#specifying-or-omitting-examples) for parameters when documenting them.
+:::
+
+#### `models_source`
+
+With Eloquent API resources and transformers, Scribe tries to generate example models to use in your API responses. By default, Scribe will try the model's factory's `create()`method, then its `make()` method, and if that fails, then try fetching the first from the database. You can reorder or remove strategies here.
+
+Default: `['factoryCreate', 'factoryMake', 'databaseFirst']`
 
 ### `example_languages`
 For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (Fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](/laravel/advanced/example-requests)).
@@ -171,45 +214,9 @@ Even if you set `auth.default`, you must also set `auth.enabled` to `true` if yo
 - `extra_info`: Any extra authentication-related info for your users. For instance, you can describe how to find or generate their auth credentials. Markdown and HTML are supported. This will be included in the `Authentication` section.
 
 ### `strategies`
-A nested array of strategies Scribe will use to extract information about your routes at each stage. If you write or install a custom strategy, add it here under the appropriate stage. By default, all strategies are enabled:
+A nested array of strategies Scribe will use to extract information about your routes at each stage. If you write or install a custom strategy, add it here under the appropriate stage. By default, all strategies are enabled.
 
-```php title=config/scribe.php
-'strategies' => [
-    'metadata' => [
-        Strategies\Metadata\GetFromDocBlocks::class,
-    ],
-    'urlParameters' => [
-        Strategies\UrlParameters\GetFromLaravelAPI::class,
-        Strategies\UrlParameters\GetFromLumenAPI::class,
-        Strategies\UrlParameters\GetFromUrlParamTag::class,
-    ],
-    'queryParameters' => [
-        Strategies\QueryParameters\GetFromQueryParamTag::class,
-        Strategies\QueryParameters\GetFromFormRequest::class,
-    ],
-    'headers' => [
-        Strategies\Headers\GetFromRouteRules::class,
-        Strategies\Headers\GetFromHeaderTag::class,
-    ],
-    'bodyParameters' => [
-        Strategies\BodyParameters\GetFromFormRequest::class,
-        Strategies\BodyParameters\GetFromInlineValidator::class,
-        Strategies\BodyParameters\GetFromBodyParamTag::class,
-    ],
-    'responses' => [
-        Strategies\Responses\UseTransformerTags::class,
-        Strategies\Responses\UseResponseTag::class,
-        Strategies\Responses\UseResponseFileTag::class,
-        Strategies\Responses\UseApiResourceTags::class,
-        Strategies\Responses\ResponseCalls::class,
-    ],
-    'responseFields' => [
-        Strategies\ResponseFields\GetFromResponseFieldTag::class,
-    ],
-],
-```
-
-You can remove the strategies you don't need (for instance, you can remove the `UseTransformerTags` strategy if you aren't using transformers).
+You can remove the strategies you don't need (for instance, you can remove the `UseTransformerTags` strategy if you aren't using transformers), add custom ones, or reorder them as you wish.
 
 ### `routes`
 The `routes` section is an array of items describing what routes in your application that should be included in the docs.
@@ -346,13 +353,6 @@ The `apply` section of the route group is where you specify any additional setti
 
 :::tip
 By splitting your routes into groups, you can apply different settings to different routes.
-:::
-
-### `faker_seed`
-When generating examples for parameters, this package uses the `fakerphp/faker` package to generate random values. If you would like the package to generate the same example values each time, set this to any number (eg. `1234`).
-
-:::tip
-Alternatively, you can [set example values](../documenting/query-body-parameters#specifying-or-omitting-examples) for parameters when documenting them.
 :::
 
 ### `fractal`
