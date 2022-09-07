@@ -4,7 +4,7 @@ id: migrating-v4
 
 # Migrating to v4
 
-welcome to Scribe v4.👋 This guide aims to help you migrate from v3. Not much changed, so you should be done in less than 5 minutes. See [the release blog post](/blog/laravel-v4) for the list of new features.
+welcome to Scribe v4.👋 This guide will help you migrate from v3. Not much changed, so you should be done in less than 5 minutes. See [the release blog post](/blog/laravel-v4) for the list of new features.
 
 ## Requirements
 Scribe v4 requires PHP 8 and Laravel 8+. If you're on an older version, you'll need to upgrade. 
@@ -29,12 +29,12 @@ php artisan scribe:upgrade
 The tool will back up your old config to `config/scribe.php.bak` so you can restore it if something wasn't set correctly.
 
 :::tip
-If you use multi-docs, you can run the upgrade command for each of your config files, for instance `php artisan scribe:upgrade --config scribe_admin` 
+If you use [multi-docs](/laravel/tasks/generating#generating-multiple-docs), you can run the upgrade command for each of your config files, for instance `php artisan scribe:upgrade --config scribe_admin` 
 :::
 
 ## Config file changes
 :::tip
-`php artisan scribe:upgrade` can handle all the changes in this section. But we're listing them here for completeness.
+`php artisan scribe:upgrade` can handle all the changes in this section. We're listing them here for reference.
 :::
 
 - A new `examples` key has been added, to configure how Scribe generates examples. It comes with two keys:
@@ -46,7 +46,7 @@ If you use multi-docs, you can run the upgrade command for each of your config f
 
 
 ## Plugin API
-If you've written custom strategies, the core API remains the same, but the class interface has changed a bit.
+If you've written custom strategies, the class interface has changed a tiny bit.
 
 - The `$routeRules` parameter of `__invoke()` is now optional. This means you should replace `array $routeRules` with `array $routeRules = []`
 
@@ -58,7 +58,7 @@ If you've written custom strategies, the core API remains the same, but the clas
   ): ?array
   ```
 
-- There's a new instance property, `public ?ExtractedEndpointData $endpointData;`. You can add this anywhere in your class. It's not used for anything, and it's not set in the constructor, so you can ignore it, but it's a handy container to retrieve the endpoint being processed without having to pass it around.
+- There's a new instance property, `public ?ExtractedEndpointData $endpointData;`. You can add this anywhere in your class. It's not used for anything, and it's not set in the constructor, so you can ignore it, but it's a handy container to set/retrieve the endpoint being processed without having to pass it around.
 
 
 ## Blade templates
@@ -72,7 +72,53 @@ No major changes, but three things to note:
    - renamed `body-parameters.blade.php` to `nested-fields.blad.php`, and renamed the `parameters` input parameter to `fields`.
   [Here's the commit](https://github.com/knuckleswtf/scribe/commit/00b09bbea8ec64006db864bf807004d48926c6d3).
 
-If you're affected by these changes, ee recommend you copy the new files from the project's repo, and make any changes you had (they're relatively small files).
+If you're affected by these changes, we recommend you copy the new files from the project's repo, and make any changes you had (they're fairly small files).
 
-## Attributes (optional)
-If you'd like to migrate from docblock tags to PHP 8 attributes (see [the docs on annotations](/annotations) for advantages and disadvantages), you can also do that. We've provided [a Rector rule](https://github.com/knuckleswtf/scribe-tags2attributes) to automatically convert (most of) your tags to attributes.
+## Attributes
+To enable PHP 8 attributes, you'll need to manually add the needed strategies to your config file:
+
+```diff title=config/scribe.php
+'strategies' => [
+    'metadata' => [
+        Strategies\Metadata\GetFromDocBlocks::class,
++       Strategies\Metadata\GetFromMetadataAttributes::class,
+    ],
+    'urlParameters' => [
+        Strategies\UrlParameters\GetFromLaravelAPI::class,
+        Strategies\UrlParameters\GetFromLumenAPI::class,
++       Strategies\UrlParameters\GetFromUrlParamAttribute::class,
+        Strategies\UrlParameters\GetFromUrlParamTag::class,
+    ],
+    'queryParameters' => [
+        Strategies\QueryParameters\GetFromFormRequest::class,
+        Strategies\QueryParameters\GetFromInlineValidator::class,
++       Strategies\QueryParameters\GetFromQueryParamAttribute::class,
+        Strategies\QueryParameters\GetFromQueryParamTag::class,
+    ],
+    'headers' => [
+        Strategies\Headers\GetFromRouteRules::class,
++       Strategies\Headers\GetFromHeaderAttribute::class,
+        Strategies\Headers\GetFromHeaderTag::class,
+    ],
+    'bodyParameters' => [
+        Strategies\BodyParameters\GetFromFormRequest::class,
+        Strategies\BodyParameters\GetFromInlineValidator::class,
++       Strategies\BodyParameters\GetFromBodyParamAttribute::class,
+        Strategies\BodyParameters\GetFromBodyParamTag::class,
+    ],
+    'responses' => [
++       Strategies\Responses\UseResponseAttributes::class,
+        Strategies\Responses\UseTransformerTags::class,
+        Strategies\Responses\UseApiResourceTags::class,
+        Strategies\Responses\UseResponseTag::class,
+        Strategies\Responses\UseResponseFileTag::class,
+        Strategies\Responses\ResponseCalls::class,
+    ],
+    'responseFields' => [
++       Strategies\ResponseFields\GetFromResponseFieldAttribute::class,
+        Strategies\ResponseFields\GetFromResponseFieldTag::class,
+    ],
+],
+```
+
+Finally, if you'd like to automatically replace (most of) your docblock tags with attributes (see [the docs on annotations](/annotations) for advantages and disadvantages), you can also do that. We've provided [a Rector rule](https://github.com/knuckleswtf/scribe-tags2attributes) to automatically convert certain tags to attributes.

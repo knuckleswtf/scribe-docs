@@ -15,23 +15,11 @@ function HomepageHeader() {
                 <br />
                 <p className="hero__subtitle">{siteConfig.tagline}</p>
                 <br/>
-                <div style={{fontSize: "1.2rem", paddingBottom: "15px"}}>
-                    Get started:&nbsp;&nbsp;&nbsp;
-                </div>
                 <div className={styles.buttons}>
                     <Link
                         className="button button--secondary button--lg"
                         to="/laravel">
-                        Laravel
-
-                    </Link>
-                    &nbsp;
-                    &nbsp;
-                    &nbsp;
-                    <Link
-                        className="button button--secondary button--lg"
-                        to="/nodejs">
-                        Node.js
+                        Get started
                     </Link>
                 </div>
             </div>
@@ -44,7 +32,7 @@ export default function Home() {
     return (
         <Layout
             title={siteConfig.title}
-            description="Generate human-friendly documentation for your API from your codebase.">
+            description="Generate human-friendly documentation for your API from your Laravel codebase.">
             <HomepageHeader/>
             <main>
                 <HomepageFeatures/>

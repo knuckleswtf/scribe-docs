@@ -23,7 +23,7 @@ const versionDropdown = {
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
     title: 'Scribe',
-    tagline: 'Generate API documentation for humans from your codebase.',
+    tagline: 'Generate API documentation for humans from your Laravel codebase.',
     url: 'https://scribe.knuckles.wtf',
     baseUrl: '/',
     onBrokenLinks: 'throw',
@@ -60,7 +60,7 @@ module.exports = {
                     position: 'right',
                 },
                 {
-                    href: 'https://github.com/knuckleswtf/',
+                    href: 'https://github.com/knuckleswtf/scribe/',
                     label: 'GitHub',
                     position: 'right',
                 },
@@ -86,12 +86,8 @@ module.exports = {
                     title: 'GitHub',
                     items: [
                         {
-                            label: 'Scribe for Laravel',
+                            label: 'Scribe',
                             href: 'https://github.com/knuckleswtf/scribe',
-                        },
-                        {
-                            label: 'Scribe for JS',
-                            href: 'https://github.com/knuckleswtf/scribe-js',
                         },
                         {
                             label: 'Scribe Docs',
