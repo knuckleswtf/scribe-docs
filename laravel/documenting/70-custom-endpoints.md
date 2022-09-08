@@ -58,47 +58,11 @@ To discard your changes at any time, run `scribe:generate --force`.
 ## Scenario 2: Sorting your endpoints or groups
 :::important
 In v4, we introduced a new config item that makes this easier. You don't need to mess around with the Camel files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
+
+Sorting groups by renaming files is still supported, but may be deprecated and removed in a future release.
 :::
 
-To sort the endpoints in a group, **rearrange the endpoints** in its `endpoints` array. For instance, if your "User management" group is located in `0.yaml` and looks like this:
-
-```yaml title=<your-app>/.scribe/endpoints/0.yaml
-name: User management
-description: Manage users
-endpoints:
-- httpMethods: ["POST"]
-  uri: users/edit
-  metadata:
-    title: Edit a user's details
-  # Other details...  
-- httpMethods: ["POST"]
-  uri: users/create
-  metadata:
-    title: Create a user
-  # Other details...  
-```
-
-Supposing you want to move the "create a user" endpoint to be first, then simply reorder it in the array to get this:
-
-```yaml title=<your-app>/.scribe/endpoints/0.yaml
-name: User management
-description: Manage users
-endpoints:
-- httpMethods: ["POST"]
-  uri: users/create
-  metadata:
-    title: Create a user
-  # Other details...  
-- httpMethods: ["POST"]
-  uri: users/edit
-  metadata:
-    title: Edit a user's details
-  # Other details...  
-```
-
-Now run `scribe:generate`, and Scribe will put the create a user endpoint first in the output.
-
-If you'd like to sort the groups instead, simply **rename the files**. For instance, if "User management" is in `0.yaml` and "Posts" is in `1.yaml`, you can make "Posts" come first by renaming it to `0.yaml` and renaming "User management" to `1.yaml`.
+If you'd like to sort the groups, you can **rename the files**. For instance, if "User management" is in `0.yaml` and "Posts" is in `1.yaml`, you can make "Posts" come first by renaming it to `0.yaml` and renaming "User management" to `1.yaml`.
 
 To discard your changes at any time (to both endpoints and groups), run `scribe:generate --force`.
 

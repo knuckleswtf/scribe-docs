@@ -6,7 +6,7 @@ description: "Check out what's new in Scribe v4"
 
 # Scribe v4 is here
 
-Scribe v4 is here! Few breaking changes and several key improvements,
+Scribe v4 is here! Very few breaking changes and several key improvements,
 
 <!--truncate-->
 
@@ -18,6 +18,7 @@ Major features:
 - You can now customise how Scribe fetches example models
 
 Breaking changes:
+- Sorting endpoints in groups by manually editing the endpoint files in `.scribe/` isn't supported anymore. To sort endpoints in groups, use the new `groups.order` key in your config file (described below). It's an easier and more reliable method. Sorting groups by renaming files is still supported, but may be deprecated and removed in a future release.
 - If you write custom strategies, the signature of the `Strategy` class has changed: `array $routeRules` in the `__invoke()` method is now optional (`array $routeRules = []`), and there's now an instance property `public ?ExtractedEndpointData $endpointData` (although it's not set by default)
 - `laravel.add_routes` now uses inline (Closure) routes (there's no more `Scribe\Controller` class). This way it's easier for you to copy and customise to make your own routes.
 
