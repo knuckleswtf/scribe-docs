@@ -130,4 +130,4 @@ To enable PHP 8 attributes, you'll need to manually add the needed strategies to
 ],
 ```
 
-Finally, if you'd like to automatically replace (most of) your docblock tags with attributes (see [the docs on annotations](/annotations) for advantages and disadvantages), you can also do that. We've provided [a Rector rule](https://github.com/knuckleswtf/scribe-tags2attributes) to automatically convert certain tags to attributes.
+Finally, if you'd like to automatically replace (most of) your docblock tags with attributes (see [the docs on annotations](/laravel/reference/annotations) for advantages and disadvantages), you can also do that. We've provided [a Rector rule](https://github.com/knuckleswtf/scribe-tags2attributes) to automatically convert certain tags to attributes.
