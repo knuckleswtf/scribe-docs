@@ -9,7 +9,7 @@ Three scenarios:
 - **Scenario 2**: You want to sort your endpoints or groups in a specific order, but Scribe keeps going alphabetical. 
 
   :::important
-  In v4, we introduced a new config item that makes this easier. You don't need to mess around with the Camel files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
+  In v4, we replaced this process with a new config item that makes this _much_ easier. You don't need to mess around with the YAML files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
   :::
 
 - **Scenario 3**: Some packages (like Laravel Passport or Fortify) add extra routes to your application, but you can't document these the usual way, since you can't edit the controller's docblocks.
@@ -54,18 +54,6 @@ endpoints:
 As you've probably figured, you can edit the contents of this file, and Scribe will respect your changes when next you run `scribe:generate`.
 
 To discard your changes at any time, run `scribe:generate --force`.
-
-## Scenario 2: Sorting your endpoints or groups
-:::important
-In v4, we introduced a new config item that makes this easier. You don't need to mess around with the Camel files anymore! [Check it out.](/laravel/tasks/sorting-and-inheritance)
-
-Sorting groups by renaming files is still supported, but may be deprecated and removed in a future release.
-:::
-
-If you'd like to sort the groups, you can **rename the files**. For instance, if "User management" is in `0.yaml` and "Posts" is in `1.yaml`, you can make "Posts" come first by renaming it to `0.yaml` and renaming "User management" to `1.yaml`.
-
-To discard your changes at any time (to both endpoints and groups), run `scribe:generate --force`.
-
 
 ## Scenario 3: Adding a new endpoint
 To add a new endpoint, you need to create a file in the `.scribe/endpoints` folder that's named `custom.x.yaml`, where `x` is any number. In fact, whenever you run `scribe:generate`, you'll see a `custom.0.yaml` file show up in your `.scribe/endpoints`. This file is commented out, so no changes are added, but it contains an example of how you'd add a new endpoint.
@@ -125,39 +113,3 @@ Here's an example of a `custom.*.yaml` file. The file contains an array of endpo
       description: Who knows?
       type: string # This is optional
 ```
-
-## Extra: sorting groups in custom endpoint files
-When you add custom endpoints as described above, if the `metadata.groupName` doesn't already exist, the group will be created. Unfortunately, this means the group might be placed at the bottom of your docs, or in a position you don't want. To fix this, you can use the `beforeGroup` or `afterGroup` parameters.
-
-For example, if you're adding endpoints that will belong to a new group, "Access Tokens", a file like this...
-
-```yaml {6} title=<your-app>/.scribe/endpoints/custom.0.yaml
-- httpMethods:
-    - POST
-  uri: api/doSomething
-  metadata:
-    groupName: Access Tokens
-    beforeGroup: Users
-    # ...
-```
-...will ensure that the `Access Tokens` group is placed just before the `Users` group.
-
-Similarly, this...
-
-```yaml {6} title=<your-app>/.scribe/endpoints/custom.0.yaml
-- httpMethods:
-    - POST
-  uri: api/doSomething
-  metadata:
-    groupName: Subscriptions
-    afterGroup: Users
-    # ...
-```
-
-...will place the `Subscriptions` group just after the `Users` group.
-
-A few things to note:
-- You don't need to specify `beforeGroup`/`afterGroup` on all the custom endpoints in that group. Only the first occurrence is used.
-- `beforeGroup`/`afterGroup` can only reference groups that exist already (either in your main codebase or created by an earlier custom endpoint)
-- You can't use both `beforeGroup` _and_ `afterGroup` on one group.
-- Remember, `beforeGroup`/`afterGroup` only applies when creating new groups in your custom endpoints. For existing groups, sort them as normal by renaming the generated files.

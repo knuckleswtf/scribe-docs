@@ -34,7 +34,7 @@ If you use [multi-docs](/laravel/tasks/generating#generating-multiple-docs), you
 
 ## Config file changes
 :::tip
-`php artisan scribe:upgrade` can handle all the changes in this section. We're listing them here for reference.
+`php artisan scribe:upgrade` automatically handles all the changes in this section.
 :::
 
 - A new `examples` key has been added, to configure how Scribe generates examples. It comes with two keys:
@@ -43,6 +43,15 @@ If you use [multi-docs](/laravel/tasks/generating#generating-multiple-docs), you
 - A new `groups` key has been added. It comes with two items:
   - `default` (the old `default_group` was moved here)
   - `order`, where you can order your groups, subgroups and endpoints. See [the docs](/laravel/tasks/sorting-and-inheritance) for usage.
+
+## Endpoints sorting
+:::tip
+`php artisan scribe:upgrade` automatically handles all the changes in this section.
+:::
+
+In the past, the only way to sort your endpoints was by naming them in alphabetical order (eg "1. Users", "2. Tasks"), or reordering them in the generated YAML files. The first approach makes your documentation ugly, the second isn't very scalable. Scribe v4 brings [a simpler approach](/laravel/tasks/sorting-and-inheritance): list the groups and endpoints in the `groups.order` config item, in the order you want them in.
+
+Because of this, we've dropped support for the previous editing/renaming files approach, as well as `beforeGroup` and `afterGroup` on custom endpoints. Migrating is simple: when you run `scribe:upgrade`, it will automatically import the existing order of your groups into the `groups.order` key.
 
 
 ## Plugin API

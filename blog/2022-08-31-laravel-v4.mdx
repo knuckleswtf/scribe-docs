@@ -18,7 +18,8 @@ Major features:
 - You can now customise how Scribe fetches example models
 
 Breaking changes:
-- Sorting endpoints in groups by manually editing the endpoint files in `.scribe/` isn't supported anymore. To sort endpoints in groups, use the new `groups.order` key in your config file (described below). It's an easier and more reliable method. Sorting groups by renaming files is still supported, but may be deprecated and removed in a future release.
+- Sorting endpoints and groups by manually editing or renaming the group files in `.scribe/` isn't supported anymore. Instead, use the easier and more reliable `groups.order` key in your config file (described [below](#easier-sorting)). __Scribe can automatically make this migration for you.__
+- Additionally, if you have custom endpoints, `beforeGroup` and `afterGroup` are also no longer supported. Use `groups.order` instead.  __Scribe can automatically make this migration for you.__
 - If you write custom strategies, the signature of the `Strategy` class has changed: `array $routeRules` in the `__invoke()` method is now optional (`array $routeRules = []`), and there's now an instance property `public ?ExtractedEndpointData $endpointData` (although it's not set by default)
 - `laravel.add_routes` now uses inline (Closure) routes (there's no more `Scribe\Controller` class). This way it's easier for you to copy and customise to make your own routes.
 
