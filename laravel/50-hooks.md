@@ -94,7 +94,7 @@ Notes:
 ## `instantiateFormRequestUsing()`
 `instantiateFormRequestUsing()` allows you to customise how FormRequests are created by the FormRequest strategies. By default, these strategies simply call `new $yourFormRequestClass`. This means if you're using Laravel's constructor or method injection, your dependencies won't be resolved properly, and certain request-specific functionality may not work. If that's the case, you can use this hook to override how the FormRequest is created.
 
-The callback you provide will be passed the name of the FormRequest class, the current Laravel route being processed, and the controller method.
+The callback you provide will be passed the name of the FormRequest class, the current Laravel route being processed, and the controller method. Your callback should return a `FormRequest` instance.
 
 ```php title=app\Providers\AppServiceProvider.php
 
