@@ -92,6 +92,24 @@ For best results, the image width should be 230px. Set this to `false` if you're
 
 Default: `false`.
 
+### `last_updated`
+Scribe shows a "Last updated" label in your docs. You can customize this label by specifying tokens and formats.
+
+- Available tokens are `{date:<format>}` and `{git:<format>}`.
+- The format you pass to `date` will be passed to PhP's `date()` function. See [the docs](php.net/manual/en/datetime.format.php) for valid options.
+- The format you pass to `git` can be either "short" or "long", to get the short or long commit hash.
+
+Examples:
+
+```
+Last updated: {date:F j, Y} 
+// => Last updated: March 28, 2022
+Last updated on {date:l, jS F} (Git commit {git:short}) 
+// => Last updated on 28th March 2022 (Git commit ed8f2dd)
+```
+
+Default: `"Last updated: {date:F j, Y}"`
+
 ### `groups`
 
 #### `default`
