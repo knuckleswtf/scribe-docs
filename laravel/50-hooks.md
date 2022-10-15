@@ -36,7 +36,10 @@ public function boot()
         Scribe::beforeResponseCall(function (Request $request, ExtractedEndpointData $endpointData) {
            // Customise the request however you want (e.g. custom authentication)
             $token = User::first()->api_token;
-            $request->headers->add(["Authorization" => "Bearer $token"]);
+            
+            $request->headers->set("Authorization", "Bearer $token");
+            // You also need to set the headers in $_SERVER
+            $request->server->set("HTTP_AUTHORIZATION", "Bearer $token");
         });
     }
 }
@@ -89,7 +92,7 @@ Notes:
 
 
 ## `instantiateFormRequestUsing()`
-`instantiateFormRequestUsing()` allows you to customise how FormRequests are created by the FormRequest strategies. By default, these strategies simply call `new $yourFormRequestClass`, which means if you're using Laravel's constructor or method injection, your dependencies won't be resolved properly. If that's the case, you can use this hook to override how the FormRequest is created.
+`instantiateFormRequestUsing()` allows you to customise how FormRequests are created by the FormRequest strategies. By default, these strategies simply call `new $yourFormRequestClass`. This means if you're using Laravel's constructor or method injection, your dependencies won't be resolved properly, and certain request-specific functionality may not work. If that's the case, you can use this hook to override how the FormRequest is created.
 
 The callback you provide will be passed the name of the FormRequest class, the current Laravel route being processed, and the controller method.
 
@@ -102,8 +105,8 @@ use ReflectionFunctionAbstract;
 public function boot()
 {
     if (class_exists(Scribe::class)) {
-        Scribe::instantiateFormRequestUsing(function (string $className, Route $route, ReflectionFunctionAbstract $method) {
-            return app()->makeWith($className, $someDependencies);
+        Scribe::instantiateFormRequestUsing(function (string $formRequestClassName, Route $route, ReflectionFunctionAbstract $method) {
+            return app()->makeWith($formRequestClassName, $someDependencies);
         });
     }
 }

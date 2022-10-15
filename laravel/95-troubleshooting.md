@@ -54,9 +54,13 @@ php -d memory_limit=1G artisan scribe:generate
 ```
 
 ## Delete old published templates
-The default view templates may be modified between versions, so if you published the templates before upgrading your Scribe version, you might be using an outdated templates (and you might see a JavaScript error in your broswer console or experience other weird behaviour). You'll need to re-publish the templates and redo any custom changes.
+The default view templates may be modified between versions, so if you published the templates before upgrading your Scribe version, you might be using an outdated templates (and you might see a JavaScript error in your browser console or experience other weird behaviour). You'll need to re-publish the templates and redo any custom changes.
 
 :::tip
 After publishing templates, you can delete the ones you don't wish to customise. That way, you easily know which templates you're overriding.
 :::
+
+## Common problems
+### Some weird behaviour when using FormRequests
+FormRequests are not initialized by Scribe in the same way as Laravel would, so you can easily run into issues. See if using the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing) solves your problem.
 

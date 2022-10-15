@@ -270,6 +270,9 @@ There are two supported options: using inline validators and form requests. Also
 
 These two approaches are very different:
 - WIth form requests, Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
+  :::note 
+  Form requests are not initialized by Scribe in the same way as Laravel would If you encounter weird behaviour, try the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
+  :::
 - With inline validators, Scribe will parse the validation code in your controller (`$request->validate()` or `Validator::make()`).
 
 Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
@@ -401,7 +404,7 @@ All of these lead to:
 
 
 :::note
-Inline validators support is still experimental. Currently, Scribe only supports simple string rules and arrays of string rules. Concatentation, interpolation, and dynamic expressions will be ignored, so it's best to specify rules as an array, so Scribe can ignore the rules it doesn't understand. For example:
+Scribe currently only supports simple string rules and arrays of string rules. Concatentation, interpolation, and dynamic expressions will be ignored, so it's best to specify rules as an array, so Scribe can ignore the rules it doesn't understand. For example:
 ```php
 $rules = [
   // 👍 Supported
