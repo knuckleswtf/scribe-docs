@@ -43,7 +43,7 @@ public function doThing()
 
 The old docblock tags are still supported, so you don't have to switch (you can even use both in the same endpoint). Check out [the docs on annotations](/laravel/reference/annotations) for some advantages (and disadvantages) you can get from the new attributes.
 
-## Subgrouos
+## Subgroups
 
 Previously, Scribe only supported endpoints with a top-level group. But after repeated requests, we finally understood that this isn't enough for most folks, so we figured out a way to support a second level of nesting.
 
@@ -77,7 +77,7 @@ public function anEndpoint()
 </TabItem>
 </AttributesTagsTabs>
 
-Of course, subgroups are optional, so you can still have endpoints in a group, but without subgroups. Also, like `group` annotations, `sbgroup` annotations can also be placed at the controller level to apply to all methods in the controller.
+Of course, subgroups are optional, so you can still have endpoints in a group, but without subgroups. Also, like `group` annotations, `subgroup` annotations can also be placed at the controller level to apply to all methods in the controller.
 
 ## Easier sorting
 Sorting has always been a problem. First, Scribe sorted groups alphabetically, and endpoints in the order the routes were defined. But that doesn't always make sense for your API docs. So, in v3, we made it possible to sort endpoints and groups, by editing the generated YAML files. But that's still messy. We think we've found a better way in v4! 💪
