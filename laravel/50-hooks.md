@@ -8,9 +8,10 @@ Scribe allows you to modify its behaviour in many ways. Some ways are very obvio
 
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
-Scribe currently provides three hooks:
+Scribe currently provides four hooks:
 - `beforeResponseCall()`
 - `afterGenerating()`
+- `normalizeEndpointUrlUsing()`
 - `instantiateFormRequestUsing()`
 
 To define a hook, call these methods and pass in a callback where you do whatever. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
@@ -32,16 +33,16 @@ use Knuckles\Scribe\Scribe;
 
 public function boot()
 {
-    if (class_exists(\Knuckles\Scribe\Scribe::class)) {
-        Scribe::beforeResponseCall(function (Request $request, ExtractedEndpointData $endpointData) {
-           // Customise the request however you want (e.g. custom authentication)
-            $token = User::first()->api_token;
-            
-            $request->headers->set("Authorization", "Bearer $token");
-            // You also need to set the headers in $_SERVER
-            $request->server->set("HTTP_AUTHORIZATION", "Bearer $token");
-        });
-    }
+  if (class_exists(\Knuckles\Scribe\Scribe::class)) {
+    Scribe::beforeResponseCall(function (Request $request, ExtractedEndpointData $endpointData) {
+      // Customise the request however you want (e.g. custom authentication)
+      $token = User::first()->api_token;
+      
+      $request->headers->set("Authorization", "Bearer $token");
+      // You also need to set the headers in $_SERVER
+      $request->server->set("HTTP_AUTHORIZATION", "Bearer $token");
+    });
+  }
 }
 ```
 
@@ -56,14 +57,14 @@ use Knuckles\Scribe\Scribe;
 
 public function boot()
 {
-    if (class_exists(\Knuckles\Scribe\Scribe::class)) {
-        Scribe::afterGenerating(function (array $paths) {
-            dump($paths);
-            // Move the files, upload to S3, etc...
-            rename($paths['postman'], "some/where/else");
-            Storage::disk('s3')->put('collection.json', file_get_contents($paths['postman']));
-        });
-    }
+  if (class_exists(\Knuckles\Scribe\Scribe::class)) {
+    Scribe::afterGenerating(function (array $paths) {
+      dump($paths);
+      // Move the files, upload to S3, etc...
+      rename($paths['postman'], "some/where/else");
+      Storage::disk('s3')->put('collection.json', file_get_contents($paths['postman']));
+    });
+  }
 }
 ```
 
@@ -91,6 +92,38 @@ Notes:
 - Paths are generated using PHP's `realpath()`, so they'll use the appropriate directory separator for your platform (backslash on Windows, forwards slash on *nix).
 
 
+## `normalizeEndpointUrlUsing()`
+Laravel provides some shortcuts for writing endpoint paths, especially when using resource routes or model binding. For instance,`Route::apiResource('users.projects')` generates routes to create, update, view, list and delete a `project` resources. However, the generated parameter names aren't always obvious to non-Laravel end users. In this example, we get URLS like `users/{user}/projects/{project}`, and it isn't obvious what the parameters mean. Is the`{project}` the project ID? HashId? Slug?
+
+Scribe tries to make things clear by normalizing endpoint URLs. By default, Scribe will rewrite this example to  `users/{user_id}/projects/{id}`. If your model uses something other than `id` for routing, Scribe will try to figure that out instead.
+
+If all else fails, you can use the `normalizeEndpointUrlUsing()` hook to override Scribe's normalization. You specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available).
+
+```php title=app\Providers\AppServiceProvider.php
+
+use Knuckles\Scribe\Scribe;
+use Illuminate\Routing\Route;
+use ReflectionFunctionAbstract;
+use ReflectionClass;
+
+public function boot()
+{
+  if (class_exists(Scribe::class)) {
+    Scribe::normalizeEndpointUrlUsing(function (string $url, Route $route, ReflectionFunctionAbstract $method, ReflectionClass $controller) {
+      if ($url == 'things/{thing}') 
+        return 'things/{the_id_of_the_thing}';
+
+      if ($route->named('things.otherthings.destroy')) 
+        return 'things/{thing-id}/otherthings/{other_thing-id}';
+    
+      return match ($route->name) {
+        'people/{person}' => ...
+      };
+    });
+  }
+}
+```
+
 ## `instantiateFormRequestUsing()`
 `instantiateFormRequestUsing()` allows you to customise how FormRequests are created by the FormRequest strategies. By default, these strategies simply call `new $yourFormRequestClass`. This means if you're using Laravel's constructor or method injection, your dependencies won't be resolved properly, and certain request-specific functionality may not work. If that's the case, you can use this hook to override how the FormRequest is created.
 
@@ -104,10 +137,10 @@ use ReflectionFunctionAbstract;
 
 public function boot()
 {
-    if (class_exists(Scribe::class)) {
-        Scribe::instantiateFormRequestUsing(function (string $formRequestClassName, Route $route, ReflectionFunctionAbstract $method) {
-            return app()->makeWith($formRequestClassName, $someDependencies);
-        });
-    }
+  if (class_exists(Scribe::class)) {
+    Scribe::instantiateFormRequestUsing(function (string $formRequestClassName, Route $route, ReflectionFunctionAbstract $method) {
+      return app()->makeWith($formRequestClassName, $someDependencies);
+    });
+  }
 }
 ```
