@@ -109,7 +109,7 @@ use ReflectionClass;
 public function boot()
 {
   if (class_exists(Scribe::class)) {
-    Scribe::normalizeEndpointUrlUsing(function (string $url, Route $route, ReflectionFunctionAbstract $method, ReflectionClass $controller) {
+    Scribe::normalizeEndpointUrlUsing(function (string $url, Route $route, ReflectionFunctionAbstract $method, ?ReflectionClass $controller) {
       if ($url == 'things/{thing}') 
         return 'things/{the_id_of_the_thing}';
 
