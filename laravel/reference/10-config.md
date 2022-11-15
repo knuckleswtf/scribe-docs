@@ -12,7 +12,7 @@ If you aren't sure what an option does, it's best to leave it set to the default
 
 ## Output settings
 ### `theme`
-The theme of the docs. Currently, the only included theme is the default. See the [theming guide](/laravel/advanced/theming).
+The theme of the docs. Options: `default`, `elements` (modelled after [Stoplight Elements](https://elements-demo.stoplight.io/)). See the [theming guide](/laravel/advanced/theming).
 
 Default: `"default"`
 
