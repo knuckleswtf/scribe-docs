@@ -61,6 +61,15 @@ After publishing templates, you can delete the ones you don't wish to customise.
 :::
 
 ## Common problems
+### `TypeError: hljs.highlightElement / hljs.highlightAll is not a function`
+This is a frontend error. It usually happens when you're using another tool like Laravel Debug Bar, which loads a conflicting version of highlight.js. To fix, exclude your docs route in your `config/debugbar.php`:
+
+```php
+'except' => [
+  'docs',
+],
+```
+
 ### Some weird behaviour when using FormRequests
 FormRequests are not initialized by Scribe in the same way as Laravel would, so you can easily run into issues. See if using the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing) solves your problem.
 
