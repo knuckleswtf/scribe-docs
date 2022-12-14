@@ -8,7 +8,8 @@ Scribe allows you to modify its behaviour in many ways. Some ways are very obvio
 
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
-Scribe currently provides four hooks:
+Scribe currently provides five hooks:
+- `bootstrap()`
 - `beforeResponseCall()`
 - `afterGenerating()`
 - `normalizeEndpointUrlUsing()`
@@ -19,6 +20,27 @@ To define a hook, call these methods and pass in a callback where you do whateve
 :::caution
 Always wrap these method calls in an `if (class_exists(\Knuckles\Scribe\Scribe::class))` statement. That way, you can push this code to production safely, even if Scribe is installed in dev only.
 :::
+
+## `bootstrap()`
+`bootstrap()` allows you to run some code before the generate command being executed. You can use this to update service container bindings, inspect the command instance properties or whatever you wish,
+
+The callback you provide will be passed an instance of the `GenerateDocumentation` command.
+
+```php title=app\Providers\AppServiceProvider.php
+
+use Knuckles\Scribe\Commands\GenerateDocumentation;
+use Knuckles\Scribe\Scribe;
+use Event;
+
+public function boot()
+{
+  if (class_exists(\Knuckles\Scribe\Scribe::class)) {
+    Scribe::bootstrap(function (GenerateDocumentation $command) {
+        Event::fake();
+    });
+  }
+}
+```
 
 ## `beforeResponseCall()`
 `beforeResponseCall()` allows you to run some code before a response call is dispatched. You can use this to fix authentication, add parameters, or whatever you wish,
