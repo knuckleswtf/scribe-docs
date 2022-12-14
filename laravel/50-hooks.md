@@ -22,7 +22,7 @@ Always wrap these method calls in an `if (class_exists(\Knuckles\Scribe\Scribe::
 :::
 
 ## `bootstrap()`
-`bootstrap()` allows you to run some code before the generate command being executed. You can use this to update service container bindings, inspect the command instance properties or whatever you wish,
+`bootstrap()` allows you to run some code when the generate command is starting up. You can use this to update service container bindings, inspect the command instance properties or whatever you wish.
 
 The callback you provide will be passed an instance of the `GenerateDocumentation` command.
 
