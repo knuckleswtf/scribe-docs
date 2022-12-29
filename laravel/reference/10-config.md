@@ -56,6 +56,9 @@ The HTML `<title>` for the generated documentation, and the name of the generate
 ### `description`
 A description for your API. This will be placed in the "Introduction" section, before the `intro_text`. It will also be used as the `info.description` field in the generated Postman collection and OpenAPI spec.
 
+### `version`
+A version number for the OpenAPI document. This will be used as the `info.version` field in the generated OpenAPI spec.
+
 ### `intro_text`
 The text to place in the "Introduction" section (after the `description`). Markdown and HTML are supported.
 
