@@ -95,9 +95,9 @@ Notes:
 ## `normalizeEndpointUrlUsing()`
 Laravel provides some shortcuts for writing endpoint paths, especially when using resource routes or model binding. For instance,`Route::apiResource('users.projects')` generates routes to create, update, view, list and delete a `project` resources. However, the generated parameter names aren't always obvious to non-Laravel end users. In this example, we get URLS like `users/{user}/projects/{project}`, and it isn't obvious what the parameters mean. Is the`{project}` the project ID? HashId? Slug?
 
-Scribe tries to make things clear by normalizing endpoint URLs. By default, Scribe will rewrite this example to  `users/{user_id}/projects/{id}`. If your model uses something other than `id` for routing, Scribe will try to figure that out instead.
+Scribe tries to make things clear by normalizing endpoint URLs. By default, Scribe will rewrite this example to  `users/{user_id}/projects/{id}`. If your model uses something other than `id` for routing, Scribe will try to figure that out instead, based on things such as the model's `routeKeyName` or the key specified in the URL.
 
-If all else fails, you can use the `normalizeEndpointUrlUsing()` hook to override Scribe's normalization. You specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available).
+If you aren't happy with the results of this normalization, you can use the `normalizeEndpointUrlUsing()` hook to override it. Specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available).
 
 ```php title=app\Providers\AppServiceProvider.php
 
@@ -117,11 +117,18 @@ public function boot()
         return 'things/{thing-id}/otherthings/{other_thing-id}';
     
       return match ($route->name) {
-        'people/{person}' => ...
+        'people/{person}' => ...,
+        default => $url
       };
     });
   }
 }
+```
+
+This means you can disable URL normalization completely with:
+
+```php
+Scribe::normalizeEndpointUrlUsing(fn($url) => $url);
 ```
 
 ## `instantiateFormRequestUsing()`
