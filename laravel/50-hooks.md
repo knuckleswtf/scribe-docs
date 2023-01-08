@@ -119,35 +119,32 @@ Laravel provides some shortcuts for writing endpoint paths, especially when usin
 
 Scribe tries to make things clear by normalizing endpoint URLs. By default, Scribe will rewrite this example to  `users/{user_id}/projects/{id}`. If your model uses something other than `id` for routing, Scribe will try to figure that out instead, based on things such as the model's `routeKeyName` or the key specified in the URL.
 
-If you aren't happy with the results of this normalization, you can use the `normalizeEndpointUrlUsing()` hook to override it. Specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available).
+If you aren't happy with the results of this normalization, you can use the `normalizeEndpointUrlUsing()` hook to override it. Specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available). You also get a `$default` callable that lets you fall back to Scribe's default.
 
 ```php title=app\Providers\AppServiceProvider.php
-
 use Knuckles\Scribe\Scribe;
 use Illuminate\Routing\Route;
-use ReflectionFunctionAbstract;
-use ReflectionClass;
 
 public function boot()
 {
   if (class_exists(Scribe::class)) {
-    Scribe::normalizeEndpointUrlUsing(function (string $url, Route $route, ReflectionFunctionAbstract $method, ?ReflectionClass $controller) {
-      if ($url == 'things/{thing}') 
-        return 'things/{the_id_of_the_thing}';
-
-      if ($route->named('things.otherthings.destroy')) 
-        return 'things/{thing-id}/otherthings/{other_thing-id}';
+    Scribe::normalizeEndpointUrlUsing(
+      function (string $url, Route $route, \ReflectionFunctionAbstract $method,
+        ?\ReflectionClass $controller, callable $default
+      ) {
+        if ($url == 'things/{thing}') 
+          return 'things/{the_id_of_the_thing}';
     
-      return match ($route->name) {
-        'people/{person}' => ...,
-        default => $url
-      };
+        return match ($route->name) {
+          'things.otherthings.destroy' => 'things/{thing-id}/otherthings/{other_thing-id}',
+          default => $default(),
+        };
     });
   }
 }
 ```
 
-This means you can disable URL normalization completely with:
+If you don't want URL normalization, you can disable it completely:
 
 ```php
 Scribe::normalizeEndpointUrlUsing(fn($url) => $url);
