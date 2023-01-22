@@ -36,7 +36,7 @@ INTRO
 ![](/img/screenshots/docs-intro.png)
 
 ## Base URL
-By default, Scribe will use the current app URL (`config('app.url)`) as the base URL in your docs (also known as the _display URL_). However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
+By default, Scribe will use the current app URL (`config('app.url')`) as the base URL in your docs (also known as the _display URL_). However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
 
 ```php title=config/scribe.php
   'base_url' => 'http://sideprojects.knuckles.wtf',
