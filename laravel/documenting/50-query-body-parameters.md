@@ -271,9 +271,9 @@ There are two supported options: using inline validators and form requests. Also
 These two approaches are very different:
 - WIth form requests, Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
   :::note 
-  Form requests are not initialized by Scribe in the same way as Laravel would If you encounter weird behaviour, try the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
+  Form requests are not initialized by Scribe in the same way as Laravel would, since there is no real HTTP request when generating. If you encounter strange behaviour, you can try customising the initialization process with the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
   :::
-- With inline validators, Scribe will parse the validation code in your controller (`$request->validate()` or `Validator::make()`).
+- With inline validators, Scribe will read and parse the validation code in your controller (`$request->validate()` or `Validator::make()`).
 
 Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
 - For form requests, add a `bodyParameters()`/`queryParameters()` method where you can add a description and example for each parameter.
@@ -404,13 +404,13 @@ All of these lead to:
 
 
 :::note
-Scribe currently supports simple string rules, arrays of string rules, closure rules and custom class rules. Concatentation, interpolation, and dynamic expressions will be ignored, so it's best to specify rules as an array, so Scribe can ignore the rules it doesn't understand. For example:
+In inline validators, Scribe currently supports simple string rules and arrays of string rules, as well as custom closure and class rules with certain features (described below). Concatentation, interpolation, and dynamic expressions will be ignored, so it's best to specify rules as an array, so Scribe can ignore the rules it doesn't understand. For example:
 ```php
 $rules = [
   // 👍 Supported
   'param1' => 'rule1|rule2',
   'param2' => ['rule1', 'rule2'],
-  // 👍 Supported (the third rule will be ignored if no "docs" static funciton provided)
+  // 👍 Supported (the third rule will be ignored if doesn't have a static "docs()" method)
   'param3' => ['rule1', 'rule2', new SomeRule()],
   // ❌ All rules are ignored because of concatenation
   'param4' => 'rule1|rule2:'.$someValues,
@@ -449,12 +449,13 @@ There are three levels of support for validation rules:
 - `not_in`
 - `same`, `different`
 
-### Custom Class Rules
-If you use [laravel's custom class rules](https://laravel.com/docs/validation#custom-validation-rules) you can add a description and a default example for that rule with a `docs` static function:
+### Custom validation rules
+If you use [laravel's custom class rules](https://laravel.com/docs/validation#custom-validation-rules) you can add a description and a default example for that rule with a `docs` static method:
+
 ```php
 use Illuminate\Contracts\Validation\Rule;
 
-class KiloByte implements Rule
+class Kilobyte implements Rule
 {
     // ...
     
@@ -462,14 +463,14 @@ class KiloByte implements Rule
     {
         return [
             'description' => 'The data must be a valid Kilobyte representation',
-            'example' => '52KB',
+            'example' => '52KB', // Only used if no other supported rules are present
         ];
     }
 }
 ```
 
-### Closure Rules
-Or if you have [closure rules](https://laravel.com/docs/validation#using-closures) you can provide a description of what it validates with a comment:
+For [closure rules](https://laravel.com/docs/validation#using-closures) you can provide a description of what it validates with a comment above it:
+
 ```php
 $validator->validate([
     'kilobyte' => [
