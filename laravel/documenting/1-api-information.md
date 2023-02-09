@@ -36,7 +36,11 @@ INTRO
 ![](/img/screenshots/docs-intro.png)
 
 ## Base URL
-By default, Scribe will use the current app URL (`config('app.url')`) as the base URL in your docs (also known as the _display URL_). However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
+:::note
+The base URL is the URL _displayed_ in your docs (so you can also call it the _display url_). It is separate from the URL used in the API tester (Try It Out), which you can set with the `try_it_out.base_url` config key.
+:::
+
+By default, Scribe will use the current app URL (`config('app.url')`) as the display URL. However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
 
 ```php title=config/scribe.php
   'base_url' => 'http://sideprojects.knuckles.wtf',
@@ -44,9 +48,6 @@ By default, Scribe will use the current app URL (`config('app.url')`) as the bas
 
 ...means that `http://sideprojects.knuckles.wtf` will be shown in the generated docs, even if you ran the `generate` command on localhost or in CI.
 
-:::note
-You can also set the URL used in the API tester (Try It Out) with the `try_it_out.base_url` key.
-:::
 
 ## Logo
 Maybe you've got a pretty logo for your API or company, and you'd like to display that on your documentation page. No worries! To add a logo, set the `logo` key in `scribe.php` to the path of the logo. Here are your options:
