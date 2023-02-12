@@ -55,7 +55,7 @@ As you've probably figured, you can edit the contents of this file, and Scribe w
 
 To discard your changes at any time, run `scribe:generate --force`.
 
-## Scenario 3: Adding a new endpoint
+## Scenario 2: Adding a new endpoint
 To add a new endpoint, you need to create a file in the `.scribe/endpoints` folder that's named `custom.x.yaml`, where `x` is any number. In fact, whenever you run `scribe:generate`, you'll see a `custom.0.yaml` file show up in your `.scribe/endpoints`. This file is commented out, so no changes are added, but it contains an example of how you'd add a new endpoint.
 
 :::caution
