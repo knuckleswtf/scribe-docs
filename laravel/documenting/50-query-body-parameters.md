@@ -443,6 +443,8 @@ There are three levels of support for validation rules:
 - `digits`, `digits_between`
 - `timezone`, `date`, `date_format`
 - `before`, `before_or_equal`, `after`, `after_or_equal`  (Full support when the other date is a value, partial support when it's referencing another field)
+- `accepted` and `accepted_if`
+- `enum`
 
 #### Partial support
 - `required_if`, `required_unless`, `required_with`, `required_without`, `required_with_all`, `required_without_all`
