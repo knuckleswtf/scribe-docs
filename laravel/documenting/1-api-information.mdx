@@ -58,7 +58,7 @@ Maybe you've got a pretty logo for your API or company, and you'd like to displa
    ```
 - To point to an image in your codebase:
   - if you're using `laravel` type docs, set `logo` to the `public_path()` of the image
-  - if you're using `static` type, pass in the path to the image relative to the `public/docs` directory. 
+  - if you're using `static` type, pass in the path to the image relative to the `public/docs` directory.
 
   For example, if your logo is in `public/images`:
    ```php
@@ -80,26 +80,107 @@ Scribe uses the auth information you specify for four things:
   - Adding the necessary auth parameters with the specified value to response calls for endpoints that use authentication
 :::
 
-Here's how you'd configure auth with a query parameter named `apiKey`:
+To configure auth, first you need to specify the `auth.in` and `auth.name` values for your API. They state the type of the auth parameter and its name, respectively. You also need to set `auth.enabled` to `true`. Some examples:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+    defaultValue="bearer"
+    values={[
+        {label: 'Bearer auth', value: 'bearer'},
+        {label: 'Basic auth', value: 'basic'},
+        {label: 'Custom header', value: 'header'},
+        {label: 'Body parameter', value: 'body'},
+        {label: 'Query parameter', value: 'query'},
+    ]}>
+<TabItem value="bearer">
+
+For an API which uses a bearer token in an Authorization header (for instance, `Authorizqtion: Bearer i0d7jow867tR09Zx`).
 
 ```php title=config/scribe.php
 return [
-  // ...
   'auth' => [
+    // ...
     'enabled' => true,
-    'default' => false,
-    'in' => 'query',
-    'name' => 'apiKey',
-    'use_value' => env('SCRIBE_API_KEY'),
-    'placeholder' => 'YOUR-API-KEY',
-    'extra_info' => 'You can retrieve your key by going to settings and clicking <b>Generate API key</b>.',
+    'in' => 'bearer',
+    'name' => 'Authorization', // <-- This value is ignored, as the header name is always "Authorization"
   ],
 ];
 ```
 
-If `apiKey` were to be a body parameter, the config would be same. Just set `in` to `'body'`.
+</TabItem>
+<TabItem value="basic">
 
-Here's an example with a bearer token (also applies to basic auth, if you change `in` to `'basic'`):
+For an API which uses basic auth (for instance, `Authorizqtion: Basic i0d7jow867tR09Zx==`).
+
+```php title=config/scribe.php
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'basic',
+    'name' => 'Authorization', // <-- This value is ignored, as the header name is always "Authorization"
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="header">
+
+For an API which uses a token in a custom header (for instance, `Api-Key: i0d7jow867tR09Zx`).
+
+```php title=config/scribe.php
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'header',
+    'name' => 'Api-Key', // <-- The name of the header
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="body">
+
+For an API which uses a token in an body parameter.
+
+```php title=config/scribe.php
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'body',
+    'name' => 'apiKey', // <-- The name of the body parameter
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="query">
+
+For an API which uses a token in an query parameter.
+
+```php title=config/scribe.php
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'query',
+    'name' => 'apiKey', // <-- The name of the query parameter
+  ],
+];
+```
+
+</TabItem>
+</Tabs>
+
+:::tip
+Scribe will automatically turn your auth information into text in the docs. To customise the generated text (or change to a different language), use Laravel's translation system. You can publish Scribe's default translations using `php artisan vendor:publish --tag=scribe-translations`.
+:::
+
+There are some other settings that you have to set in the `auth` array. Here'sa full example and explanation:
 
 
 ```php title=config/scribe.php
@@ -109,7 +190,7 @@ return [
     'enabled' => true,
     'default' => false,
     'in' => 'bearer',
-    'name' => 'hahaha', // <--- This value is ignored for bearer and basic auth
+    'name' => 'Authorization',
     'use_value' => env('SCRIBE_AUTH_KEY'),
     'placeholder' => '{ACCESS_TOKEN}',
     'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
@@ -117,29 +198,13 @@ return [
 ];
 ```
 
-And here's an example with a custom header:
-
-
-```php title=config/scribe.php
-return [
-  // ...
-  'auth' => [
-    'enabled' => true,
-    'default' => false,
-    'in' => 'header',
-    'name' => 'Api-Key', // <--- The name of the header
-    'use_value' => env('SCRIBE_AUTH_KEY'),
-    'placeholder' => 'YOUR-API-KEY',
-    'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
-  ],
-];
-```
-The `default` field is the default behaviour of our API. If your endpoints are authenticated by default, set this to `true`, then use `@unauthenticated` on the method doc block if you need to turn off auth for specific endpoints. If your endpoints are open by default, leave this as `false`, then use `@authenticated` on the method doc block if you need to turn on auth for specific endpoints.
-
-You can set whatever you want as the `extra_info`. A good idea would be to tell your users where to get their auth key. 
-
-The `use_value` field is only used by Scribe for response calls. It won't be included in the generated output or examples. If you need to customize this value dynamically, you can use the [`beforeResponseCall()` method](responses#authentication-and-customization).
-The `placeholder` is the opposite of `use_value`. It will be used only as a placeholder in the generated example requests.
+- The `default` field describes the most common behaviour of your API. If most of your endpoints are authenticated, set this to `true`, then use `@unauthenticated` on the method docblock if you need to turn off auth for specific endpoints. If your endpoints are open by default, leave this as `false`, then use `@authenticated` on the method doc block to turn on auth for specific endpoints.
+- The `use_value` field is only used by Scribe for response calls. During generation, if an endpoint requires auth, Scribe will pass this value. It _won't_ be included in the generated output or examples.
+  :::tip
+  If you need to dynamically generate the auth value for response calls, use the [`beforeResponseCall()` method](responses#authentication-and-customization) instead.
+  :::
+- The `placeholder` is the opposite of `use_value`. It will be used only as a placeholder in the generated example requests.
+- The `extra_info` text is appended to the auth description Scribe generates. A good idea would be to tell your users where to get their auth key.
 
 For more information, see the [reference documentation on the auth section](../reference/config#auth).
 

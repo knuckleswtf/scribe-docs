@@ -90,5 +90,5 @@ After making changes as needed, you can run `php artisan scribe:generate` as man
 
 When you're happy with how your documentation looks, you're good to go. You can add the generated documentation to your version control and deploy as normal, and your users will be able to access it as you've configured.
 
-## Need advanced customization?
-Don't like how the template looks? Want to change how things are organized, or add a custom language for the examples? Thinking of custom ways to extract more information about your routes?  Check out the guides on [plugins](/laravel/advanced/plugins), [example requests](/laravel/advanced/example-requests) and [UI customisation](/laravel/advanced/theming).
+## Need more customization?
+Don't like how the template looks? Want to change how things are organized, or add a custom language for the examples? Need to translate the docs into a different language? Thinking of custom ways to extract more information about your routes?  Check out the guides on [localization](/laravel/advanced/localization), [plugins](/laravel/advanced/plugins), [example requests](/laravel/advanced/example-requests) and [UI customisation](/laravel/advanced/theming).

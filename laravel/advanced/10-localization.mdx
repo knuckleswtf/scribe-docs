@@ -1,0 +1,15 @@
+---
+id: localization
+---
+
+# Localization/Internationalization
+
+By default, Scribe will generate an English docs UI for you. You can instead generate text in a different language (or just use customise the wording) by overriding this using [Laravel's translation system](https://laravel.com/docs/10.x/localization) (as of version 4.19.0).
+
+You can publish Scribe's default translations using `php artisan vendor:publish --tag=scribe-translations`. This will create a `lang/en.json` (or `resources/lang/en.json`) file in your project.
+
+:::note
+If you already have a file with that name in your project, Artisan will return a success message, but the Scribe file will not be published. In that case, you should rename your existing file, publish Scribe's file, and then rename/merge the two afterwards.
+:::
+
+You can then edit Scribe's strings here. However, these will only work for the "en" locale, so if your app [has a different locale](https://laravel.com/docs/10.x/localization#configuring-the-locale), you can copy and rename this file (eg to `fr.json`).
