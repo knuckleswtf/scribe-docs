@@ -67,7 +67,7 @@ Configure the API tester included in the docs.
   Default: `true`.
 
 :::important
-For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpoints. An easy package for this is [fruitcake/laravel-cors](https://github.com/fruitcake/laravel-cors).
+For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpoints.
 :::
 
 - `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server. Leave as `null` to use the current app URL (`config(app.url)`).

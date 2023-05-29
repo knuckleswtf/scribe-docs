@@ -476,7 +476,11 @@ Examples:
 ```
 
 ### `@apiResourceModel`
-Tells Scribe the model to use when generating the [Eloquent API resource](https://laravel.com/docs/eloquent-resources) response. Must be used together with [`@apiResource`](#apiresource) or [`@apiResourceCollection`](#apiresourcecollection).
+Tells Scribe the model to use when generating the [Eloquent API resource](https://laravel.com/docs/eloquent-resources) response. Can only be used together with [`@apiResource`](#apiresource) or [`@apiResourceCollection`](#apiresourcecollection).
+
+:::note
+You can omit this tag, if your API resource uses an `@mixin` tag referencing the model.
+:::
 
 Format: `@apiResourceModel <modelClass>`
 
@@ -485,6 +489,7 @@ Notes:
   - `states`: Comma-separated list of [states](https://laravel.com/docs/database-testing#applying-states) to be applied when creating an example model via factory.
   - `with`: Comma-separated list of relations to be loaded with the model. Works for factory (Laravel 8+) or database fetching.
   - `paginate`: The number of items per page (when generating a collection). To use [simple pagination](https://laravel.com/docs/8.x/pagination#simple-pagination) instead, add `,simple` after the number.
+- You can also specify these fields directly on the `@apiResource` tag instead
 
 ```
 @apiResource App\Http\Resources\UserApiResource
@@ -536,6 +541,7 @@ use App\Http\Resources\UserApiResource;
 use App\Http\Resources\UserApiResourceCollection;
 
 #[ResponseFromApiResource(UserApiResource::class, User::class)]
+#[ResponseFromApiResource(UserApiResource::class)] // You can omit the model name if your resource has an @mixin tag
 #[ResponseFromApiResource(UserApiResource::class, User::class, status: 201)]
 #[ResponseFromApiResource(UserApiResource::class, User::class, 201, description: "User details")]
 public function endpoint() {...}

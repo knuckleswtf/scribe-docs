@@ -15,7 +15,7 @@ By default, your generated docs will include an API tester that lets users test 
 ```
 
 :::important
-For _Try It Out_ to work, you'll need to make sure CORS is enabled on your endpoints. A common package for this is [`fruitcake/laravel-cors`](https://github.com/fruitcake/laravel-cors).
+For _Try It Out_ to work, you'll need to make sure CORS is enabled on your endpoints.
 :::
 
 :::note
