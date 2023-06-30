@@ -35,6 +35,10 @@ Settings for the `laravel` type output.
 
 - `add_routes`: Set this to `true` if you want the documentation endpoint (`<your-app>/docs`) to be automatically added to your app. To use your own routing, set this to `false`.
 
+  :::important
+  If you install this package with `--dev`, and you run `composer install --no-dev` in production, `add_routes` won't work in production.
+  :::
+
    Default: `true`
 
 - `docs_url`: The path for the documentation endpoint (if `add_routes` is true).
