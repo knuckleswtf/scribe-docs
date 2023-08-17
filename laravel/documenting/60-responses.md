@@ -531,7 +531,7 @@ class UserController extends Controller
 class UserController extends Controller
 {
 
-    #[ResponseFromApiResource(UserResource::class, User:;class, 
+    #[ResponseFromApiResource(UserResource::class, User::class, 
         additional: ["result" => "success", "message" => "User created successfully"]
     )]
     public function store($request): JsonResponse
