@@ -165,7 +165,7 @@ public function boot()
 {
   if (class_exists(Scribe::class)) {
     Scribe::instantiateFormRequestUsing(function (string $formRequestClassName, Route $route, ReflectionFunctionAbstract $method) {
-      return app()->makeWith($formRequestClassName, $someDependencies);
+      return new $formRequestClassName(app('someDependency'));
     });
   }
 }
