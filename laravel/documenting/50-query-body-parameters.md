@@ -11,6 +11,10 @@ To describe query or body parameters for your endpoint, use the `@queryParam`/`@
 
 The `@bodyParam` tag takes the name of the parameter, a type, an optional "required" label, and an optional description. The `@queryParam` tag follows the same format, but the type is optional. If you don't specify a type, Scribe will try to figure out the type based on the parameter name (or fallback to `string`).
 
+:::tip
+See the reference section for more examples and details of all you can do with the [query](/laravel/reference/annotations#queryparamqueryparam) and [body](/laravel/reference/annotations#bodyparambodyparam) param tags.
+:::
+
 Valid types:
 - `string`
 - `integer`/`int`

@@ -26,7 +26,7 @@ import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTa
 ```php
 /**
  * @urlParam id integer required The ID of the post.
- * @urlParam lang The language. Example: en
+ * @urlParam lang The language. Enum: en, fr Example: en
  */
 public function getPost()
 {
@@ -42,7 +42,7 @@ public function getPost()
 use Knuckles\Scribe\Attributes\UrlParam;
 
 #[UrlParam("id", "integer", "The ID of the post.")]
-#[UrlParam("lang", "The language.", required: false, example: "en")]
+#[UrlParam("lang", "The language.", required: false, enum: ["en", "fr"], example: "en")]
 public function getPost()
 {
     // ...
@@ -52,6 +52,10 @@ public function getPost()
 </TabItem>
 </AttributesTagsTabs>
 
+
+:::tip
+See [the reference section](/laravel/reference/annotations#urlparamurlparam) for more examples and details of all you can do with `@urlParam` and `#[UrlParam]`
+:::
 
 Scribe will generate a random example by default, but you can specify your own value in examples and response calls by ending the description with `Example: <your-example>`, as we did for the `lang` parameter above.
 

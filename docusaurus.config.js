@@ -49,10 +49,6 @@ module.exports = {
                     to: '/laravel',
                     label: 'Laravel',
                 },
-                {
-                    to: '/nodejs',
-                    label: 'Node.js',
-                },
                 versionDropdown,
                 {
                     to: '/blog',
@@ -75,10 +71,6 @@ module.exports = {
                         {
                             label: 'Laravel',
                             to: '/laravel',
-                        },
-                        {
-                            label: 'Node.js',
-                            to: '/nodejs',
                         },
                     ],
                 },

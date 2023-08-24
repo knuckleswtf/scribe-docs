@@ -181,10 +181,13 @@ public function endpoint() {...}
 ### `@urlParam`/`#[UrlParam]`
 Describes a URL parameter.
 
-Format: `@urlParam <name> <type?> required? <description?> Example: <example?>`
+Tag format: `@urlParam <name> <type?> required? <description?> Enum: <list of values?> Example: <example?>`
 
 Notes:
 - If you don't supply a `type`, `string` is assumed.
+- To specify allowed values for this parameter:
+  - for tags: write "Enum: ", followed by the list of values.
+  - for attributes: use the `enum` parameter with either a PHP 8.1 enum or an array of values.
 - To prevent Scribe from including this parameter in example requests:
   - end the description with `No-example` when using tags
   - pass`"No-example"`as the `example` parameter when using attributes
@@ -201,6 +204,8 @@ Examples:
 @urlParam id int
 @urlParam id int required
 @urlParam id int required The user's ID.
+@urlParam language The language. Enum: en, de, fr
+@urlParam language The language. Enum: en, de, fr. Example: en
 @urlParam id int required The user's ID. Example: 88683
 @urlParam id int The user's ID. Example: 88683
 @urlParam id int The user's ID. No-example
@@ -215,6 +220,9 @@ Examples:
 #[UrlParam("id", "int")]
 #[UrlParam("id", "int", "The user's ID.")]
 #[UrlParam("id", "int", "The user's ID.", example: 88683)]
+#[UrlParam("language", "The language.", enum: ["en", "de", "fr"])]
+#[UrlParam("language", "The language.", enum: SupportedLanguage::class)]
+#[UrlParam("language", "The language.", enum: SupportedLanguage::class, example: "en")]
 #[UrlParam("id", "int", "The user's ID.", required: false, example: 88683)]
 #[UrlParam("id", "int", "The user's ID.", required: false, example: "No-example")]
 public function endpoint() {...}
@@ -230,6 +238,9 @@ Format: `@queryParam <name> <type?> required? <description?> Example: <example?>
 
 Notes:
 - If you don't supply a `type`, `string` is assumed.
+- To specify allowed values for this parameter:
+  - for tags: write "Enum: ", followed by the list of values.
+  - for attributes: use the `enum` parameter with either a PHP 8.1 enum or an array of values.
 - To prevent Scribe from including this parameter in example requests:
   - end the description with `No-example` when using tags
   - pass`"No-example"`as the `example` parameter when using attributes
@@ -242,6 +253,8 @@ Examples:
 
 ```
 @queryParam date The date. Example: 2022-01-01
+@queryParam language The language. Enum: en, de, fr
+@queryParam language The language. Enum: en, de, fr. Example: en
 @queryParam page int
 @queryParam page int The page number.
 @queryParam page int required The page number. Example: 4
@@ -253,6 +266,9 @@ Examples:
 
 ```php
 #[QueryParam("date", description: "The date.", example: "2022-01-01")]
+#[QueryParam("language", "The language.", enum: ["en", "de", "fr"])]
+#[QueryParam("language", "The language.", enum: SupportedLanguage::class)]
+#[QueryParam("language", "The language.", enum: SupportedLanguage::class, example: "en")]
 #[QueryParam("page", "int", required: false)]
 #[QueryParam("page", "int", "The page number.", required: false)]
 #[QueryParam("page", "int", "The page number.", example: 4)]
@@ -269,6 +285,9 @@ Describes a request body parameter.
 Format: `@bodyParam <name> <type> required? <description?> Example: <example?>`
 
 Notes:
+- To specify allowed values for this parameter:
+  - for tags: write "Enum: ", followed by the list of values.
+  - for attributes: use the `enum` parameter with either a PHP 8.1 enum or an array of values.
 - To prevent Scribe from including this parameter in example requests:
   - end the description with `No-example` when using tags
   - pass`"No-example"`as the `example` parameter when using attributes
@@ -280,6 +299,8 @@ Examples:
 <TabItem value="tags">
 
 ```
+@bodyParam language string The language. Enum: en, de, fr
+@bodyParam language string The language. Enum: en, de, fr. Example: en
 @bodyParam room_id string
 @bodyParam room_id string required The room ID.
 @bodyParam room_id string The room ID. Example: r98639bgh3
@@ -302,6 +323,9 @@ Examples:
 <TabItem value="attributes">
 
 ```php
+#[BodyParam("language", "The language.", enum: ["en", "de", "fr"])]
+#[BodyParam("language", "The language.", enum: SupportedLanguage::class)]
+#[BodyParam("language", "The language.", enum: SupportedLanguage::class, example: "en")]
 #[BodyParam("room_id", "string")]
 #[BodyParam("room_id", "string", "The room ID.")]
 #[BodyParam("room_id", "string", "The room ID.", required: false, example: "r98639bgh3")]
@@ -410,6 +434,9 @@ Format: `@responseField <name> <type?> <description?>`
 
 Notes:
 - You can omit the `type`; Scribe will try to figure it out from your example responses.
+- To specify allowed values for this parameter:
+  - for tags: write "Enum: ", followed by the list of values.
+  - for attributes: use the `enum` parameter with either a PHP 8.1 enum or an array of values.
 - You can also use this on Eloquent API resource `toArray()` methods.
 
 Examples:
@@ -420,6 +447,8 @@ Examples:
 ```
 @responseField total The total number of results.
 @responseField total int The total number of results.
+@responseField language The language. Enum: en, de, fr
+@responseField language The language. Enum: en, de, fr. Example: en
 ```
 
 </TabItem>
@@ -429,6 +458,9 @@ Examples:
 ```php
 #[ResponseField("total", "The total number of results.")]
 #[ResponseField("total", "int", "The total number of results.")]
+#[ResponseField("language", "The language.", enum: ["en", "de", "fr"])]
+#[ResponseField("language", "The language.", enum: SupportedLanguage::class)]
+#[ResponseField("language", "The language.", enum: SupportedLanguage::class, example: "en")]
 public function endpoint() {...}
 ```
 

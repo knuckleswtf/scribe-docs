@@ -24,6 +24,7 @@ We'll describe all of these here, but for more details and valid values, you can
 ## `@response`/`#[Response]`
 You can provide an example response for an endpoint by using the `@response` tag with valid JSON (on one line or multiple). Alternatively, you can use the `#[Response]` attribute with either a JSON string or a PHP array.
 
+👉[Full reference and more examples](/laravel/reference/annotations#responseresponse)
 
 import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTabs';
 
@@ -159,6 +160,7 @@ If an endpoint returns a file or some other binary response, you can use `<<bina
 ![](/img/screenshots/endpoint-responses-3.png)
 
 ## `@responseFile`/`#[ResponseFromFile]`
+
 `@responseFile` works similarly to `@response`, but instead of inlining the response, you pass a file containing your JSON response. This can be helpful for large responses. 
 
 To use this annotation, place the response as a JSON string in a file somewhere in your project directory and specify the relative path to it. For instance, we can put this response in a file named `users.get.json` in `storage/responses/`:
@@ -198,6 +200,8 @@ public function getUser(int $id)
 
 </TabItem>
 </AttributesTagsTabs>
+
+👉[Full reference and more examples](/laravel/reference/annotations#responsefileresponsefile)
 
 :::tip
 You can specify an absolute path, a path relative to your project root, or a path relative to your Laravel storage directory.
@@ -352,6 +356,8 @@ If your endpoint uses [Eloquent API resources](https://laravel.com/docs/eloquent
 - `@apiResource`/`#[ResponseFromApiResource]`: the name of the resource class.
   - If you're returning a resource collection via `YourResource::collection($things)`, use `@apiResourceCollection` or pass `collection: true` to `#[ResponseFromApiResource]`. If you're using `new YourResourceCollection($things)`, this is optional.
 - `@apiResourceModel`: the Eloquent model to be passed to the resource. You should use `@apiResourceModel` alongside either `@apiResource` or `@apiResourceCollection`.
+
+👉[Full reference and more examples](/laravel/reference/annotations#apiresource)
 
 Examples:
 
@@ -564,7 +570,10 @@ If your endpoint uses "transformers" (via the `league/fractal` package) for its 
 - `@transformer`: the name of the transformer class. Use `@transformerCollection` instead if you're returning a collection.
 - `@transformerModel`: the model to be passed to the resource. You should use `@transformerModel` alongside either of the other two.
 - `#[ResponseFromTransformer]`: attribute alternative to all three
-  
+
+
+👉[Full reference and more examples](/laravel/reference/annotations#transformer)
+
 :::tip
 `@transformerModel` is optional. If you don't specify it, Scribe will attempt to use the class of the first parameter to the transformer's `transform(MyModel $model)` method (ie `MyModel`).
 :::
@@ -847,6 +856,8 @@ class CategoryFactory extends Factory
 
 ## Response fields
 You can add descriptions for fields in your response by adding `@responseField`/`#[ResponseField]` to your controller method. If you're using an Eloquent `@apiResource` to generate your response, you can place the annotation on your resource's `toArray()` method instead.
+
+👉[Full reference and more examples](/laravel/reference/annotations#responsefieldresponsefield)
 
 <AttributesTagsTabs>
 <TabItem value="tags">
