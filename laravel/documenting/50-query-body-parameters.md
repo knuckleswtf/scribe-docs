@@ -189,8 +189,8 @@ For an array of objects, you need:
 For instance, to denote an array of objects `cars` with each item having field `name` and `year`:
 ```
 @bodyParam cars object[] List of car details. Example: [{"name": "Carpenter", "year": 2019}]
-@bodyParam cars.name string Name of the car.
-@bodyParam cars.year int Example: 1997
+@bodyParam cars[].name string Name of the car.
+@bodyParam cars[].year int Example: 1997
 ```
 
 
