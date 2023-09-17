@@ -41,6 +41,26 @@ You can also order subgroups and endpoints within the groups. The format for end
 
 Remember: any groups, subgroups or endpoints you don't specify will be arranged in the normal order after these ones.
 
+### Burying Groups
+
+You can bury groups by using the `*` character to specify where all unspecified groups should be placed.
+
+**Note:** This only works for the top level groups and is not supported in subgroups. 
+
+```php title=config/scribe.php
+'groups' => [
+  'order' => [
+    'Tokens',
+    'Users',
+    // Here we're telling scribe to put all groups that are not specified, 
+    // in this location (including the default group).
+    '*',
+    'Deprecated Endpoints',
+  ]
+]
+```
+
+
 ## Overriding docs for inherited controller methods
 Sometimes you have a scenario where some endpoints are very similar—the usual CRUD, just with a different resource (let's say `/users` and `/notes`), so you create a parent controller and extend from them.
 
