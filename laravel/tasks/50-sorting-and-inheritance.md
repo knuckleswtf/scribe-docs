@@ -52,8 +52,7 @@ You can bury groups by using the `*` character to specify where all unspecified 
   'order' => [
     'Tokens',
     'Users',
-    // Here we're telling scribe to put all groups that are not specified, 
-    // in this location (including the default group).
+    // The wildcard character * will match all other groups, including the default group
     '*',
     'Deprecated Endpoints',
   ]
