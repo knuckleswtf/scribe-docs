@@ -146,6 +146,31 @@ Here's an example configuration:
 ],
 ```
 
+You can also **bury** a group. This can be achieved by specifying the group you want to be buried below the `*` character.
+Currently this is only supported for top level groups.
+
+Here's an example configuration:
+
+```php
+
+'order' => [
+   'This group will come first',
+   'This group will come next' => [
+       'POST /this-endpoint-will-come-first',
+       'GET /this-endpoint-will-come-next',
+   ],
+   '*', // this specifies the position of all unspecified groups
+   'This group will always come last' => [
+       'This subgroup comes first' => [
+           'GET /this-other-endpoint-will-come-first',
+           'GET /this-other-endpoint-will-come-next',
+       ]
+   ]
+],
+
+```
+
+
 ### `examples`
 Settings to customize how Scribe generates example values for your docs.
 
