@@ -470,6 +470,8 @@ public function endpoint() {...}
 ### `@apiResource`
 Tells Scribe how to generate a response using an [Eloquent API resource](https://laravel.com/docs/eloquent-resources). Must be used together with [`@apiResourceModel`](#apiresourcemodel).
 
+From 4.20.0, `@apiResource` may be used without an `@apiResourceModel` tag (in this case, an empty array will be passed to the resource if no model could be inferred).
+
 Format: `@apiResource <status?> <resourceClass>`
 
 Notes:
