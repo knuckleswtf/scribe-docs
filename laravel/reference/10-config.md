@@ -12,7 +12,9 @@ If you aren't sure what an option does, it's best to leave it set to the default
 
 ## Output settings
 ### `theme`
-The theme of the docs. Options: `default`, `elements` (modelled after [Stoplight Elements](https://elements-demo.stoplight.io/)). See the [theming guide](/laravel/advanced/theming).
+The theme of the docs. Options:
+- When using `static` or `laravel`: `default`, `elements` (modelled after [Stoplight Elements](https://elements-demo.stoplight.io/)). See the [theming guide](/laravel/advanced/theming).
+- When using `external_static` or `external_laravel`: [`scalar`](https://github.com/scalar/scalar?tab=readme-ov-file) and [`rapidoc`](https://github.com/rapi-doc/RapiDoc)
 
 Default: `"default"`
 
@@ -20,6 +22,7 @@ Default: `"default"`
 This is the type of documentation output to generate.
 - `static` will generate a static HTMl page in the `public/docs` folder,
 - `laravel` will generate the documentation as a Blade view within the `resources/views/scribe` folder, so you can add routing and authentication.
+- "external_static" and "external_laravel" do the same as above, but generate a basic template, passing the OpenAPI spec as a URL, allowing you to easily use the docs with an external generator.
 
 Default: `"static"`
 
