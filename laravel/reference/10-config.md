@@ -22,7 +22,7 @@ Default: `"default"`
 This is the type of documentation output to generate.
 - `static` will generate a static HTMl page in the `public/docs` folder,
 - `laravel` will generate the documentation as a Blade view within the `resources/views/scribe` folder, so you can add routing and authentication.
-- "external_static" and "external_laravel" do the same as above, but generate a basic template, passing the OpenAPI spec as a URL, allowing you to easily use the docs with an external generator.
+- `external_static` and `external_laravel` do the same as above, but generate a basic template, passing the OpenAPI spec as a URL, allowing you to easily use the docs with an external generator.
 
 Default: `"static"`
 
