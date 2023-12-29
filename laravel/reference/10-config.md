@@ -14,7 +14,7 @@ If you aren't sure what an option does, it's best to leave it set to the default
 ### `theme`
 The theme of the docs. Options:
 - When using `static` or `laravel`: `default`, `elements` (modelled after [Stoplight Elements](https://elements-demo.stoplight.io/)). See the [theming guide](/laravel/advanced/theming).
-- When using `external_static` or `external_laravel`: [`scalar`](https://github.com/scalar/scalar?tab=readme-ov-file) and [`rapidoc`](https://github.com/rapi-doc/RapiDoc)
+- When using `external_static` or `external_laravel`: [`scalar`](https://github.com/scalar/scalar?tab=readme-ov-file), [`elements`](https://github.com/stoplightio/elements)and [`rapidoc`](https://github.com/rapi-doc/RapiDoc)
 
 Default: `"default"`
 
@@ -32,6 +32,20 @@ Settings for the `static` type output.
 - `output_path`: Output folder. The docs, Postman collection and OpenAPI spec will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
 
    Default: `"public/docs"`.
+
+### `external`
+Settings for the `external_static` and `external_laravel` type output.
+
+- `html_attributes`: Any custom HTML attributes you wish to set. For instance, when using Stoplight Elements, you can pass any of [the supported configuration options](https://github.com/stoplightio/elements/blob/main/docs/getting-started/elements/elements-options.md);
+  ```php
+  'external' => [
+    'html_attributes' => [
+      'hideSchemas' => 'true', # Note: values should be strings, not booleans
+      'tryItCredentialsPolicy' => 'same-origin',
+      'router' => 'history'
+    ]
+  ]
+  ```
 
 ### `laravel`
 Settings for the `laravel` type output.
