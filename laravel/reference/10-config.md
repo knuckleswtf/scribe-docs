@@ -233,6 +233,10 @@ For `static` output, the spec will be created in `{static.output_path}/openapi.y
 
    Default: `false`
 
+- `json`: Whether or not to generate and save the OpenAPI spec in a JSON file `openapi.json`. If false, the spec is generated in the Yaml format.
+
+   Default: `false`
+
 - `overrides`: Fields to merge with the spec after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
 
 ## Extraction settings
