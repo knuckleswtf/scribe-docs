@@ -8,9 +8,10 @@ Scribe allows you to modify its behaviour in many ways. Some ways are very obvio
 
 However, a useful in-between is **hooks**. Hooks are a way for you to run a task before or after Scribe does something. You can achieve some of that in other ways, but hooks provide a convenient point in the context of your app and allow you to harness the full power of Laravel.
 
-Scribe currently provides five hooks:
+Scribe currently provides six hooks:
 - `bootstrap()`
 - `beforeResponseCall()`
+- `afterResponseCall()`
 - `afterGenerating()`
 - `normalizeEndpointUrlUsing()`
 - `instantiateFormRequestUsing()`
@@ -43,15 +44,15 @@ public function boot()
 ```
 
 ## `beforeResponseCall()`
-`beforeResponseCall()` allows you to run some code before a response call is dispatched. You can use this to fix authentication, add parameters, or whatever you wish,
+`beforeResponseCall()` allows you to run some code before a response call is dispatched. You can use this to fix authentication, add parameters, or whatever you wish.
 
 The callback you provide will be passed the current `Symfony\Component\HttpFoundation\Request` instance and the details of the current endpoint being extracted. If you have database transactions configured, they will already be activated at that point, allowing you to modify your database freely, and have your changes rolled back after the request.
 
 ```php title=app\Providers\AppServiceProvider.php
 
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
-use Symfony\Component\HttpFoundation\Request;
 use Knuckles\Scribe\Scribe;
+use Symfony\Component\HttpFoundation\Request;
 
 public function boot()
 {
@@ -63,6 +64,33 @@ public function boot()
       $request->headers->set("Authorization", "Bearer $token");
       // You also need to set the headers in $_SERVER
       $request->server->set("HTTP_AUTHORIZATION", "Bearer $token");
+    });
+  }
+}
+```
+
+## `afterResponseCall()`
+`afterResponseCall()` allows you to run some code after getting the the response. You can modify the result to reduce size of examples, remove sensibles data, or whatever you wish.
+
+```php title=app\Providers\AppServiceProvider.php
+
+use Illuminate\Http\JsonResponse;
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
+use Knuckles\Scribe\Scribe;
+use Symfony\Component\HttpFoundation\Request;
+
+public function boot()
+{
+  if (class_exists(\Knuckles\Scribe\Scribe::class)) {
+    Scribe::afterResponseCall(function (Request $request, ExtractedEndpointData $endpointData, JsonResponse $jsonResponse) {
+      // Customise the response however you want
+      $json = $jsonResponse->getData();
+
+      // For example, reduce number elements in data array (if existing) of the response to 5 maximum 
+      if (!empty($json->data) && is_array($json->data) && count($json->data) > 5) {
+        $json->data = array_slice($json->data, 0, 5);
+        $jsonResponse->setData($json);
+      }
     });
   }
 }
