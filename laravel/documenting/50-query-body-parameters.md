@@ -277,7 +277,7 @@ These two approaches are very different:
   :::note 
   Form requests are not initialized by Scribe in the same way as Laravel would, since there is no real HTTP request when generating. If you encounter strange behaviour, you can try customising the initialization process with the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
   :::
-- With inline validators, Scribe will read and parse the validation code in your controller (`$request->validate()` or `Validator::make()`).
+- With inline validators, Scribe will read and parse the validation code in your controller (`$request->validate()`, `Request::validate` or `Validator::make()`).
 
 Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
 - For form requests, add a `bodyParameters()`/`queryParameters()` method where you can add a description and example for each parameter.
@@ -295,6 +295,7 @@ If you have rules that Scribe doesn't support, Scribe's generated value might no
 defaultValue="inline-validate"
 values={[
     {label: 'Inline ($request->validate())', value: 'inline-validate'},
+    {label: 'Inline (Request::validate())', value: 'inline-validate-facade'},
     {label: 'Inline (Validator::make())', value: 'inline-manual'},
     {label: 'Form request', value: 'formrequest'},
 ]}>
@@ -304,6 +305,33 @@ values={[
 public function createPost($request)
 {
     $validated = $request->validate([
+        // Contents of the post
+        'content' => 'string|required|min:100',
+        // The title of the post. Example: My First Post
+        'title' => 'string|required|max:400',
+        'author_display_name' => 'string',
+        'author_homepage' => 'url',
+        'author_timezone' => 'timezone',
+        'author_email' => 'email|required',
+        // Date to be used as the publication date.
+        'publication_date' => 'date_format:Y-m-d',
+        // Category the post belongs to.
+        'category' => ['in:news,opinion,quiz', 'required'],
+        // This will be included in docs but not in examples. No-example
+        'extra' => 'string',
+    ]);
+
+    return Post::create($validated);
+}
+```
+
+</TabItem>
+<TabItem value="inline-validate-facade">
+
+```php
+public function createPost($request)
+{
+    $validated = Request::validate([
         // Contents of the post
         'content' => 'string|required|min:100',
         // The title of the post. Example: My First Post
