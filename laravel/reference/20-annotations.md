@@ -438,6 +438,8 @@ Notes:
   - for tags: write "Enum: ", followed by the list of values.
   - for attributes: use the `enum` parameter with either a PHP 8.1 enum or an array of values.
 - You can also use this on Eloquent API resource `toArray()` methods.
+- From v4.38, you can also specify `required` (`@responseField total required The total number of results`/`#[ResponseField("total", "int", required: true, "The total number of results.")]`). 
+- From v4.38, you can also specify `nullable` (currently only supported in the attribute). This will only show up in the OpenAPI spec. 
 
 Examples:
 

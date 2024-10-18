@@ -454,6 +454,7 @@ There are three levels of support for validation rules:
 - `required_if`, `required_unless`, `required_with`, `required_without`, `required_with_all`, `required_without_all`
 - `not_in`
 - `same`, `different`
+- `exists`
 
 ### Custom validation rules
 If you use [laravel's custom class rules](https://laravel.com/docs/validation#custom-validation-rules) you can add a description and a default example for that rule with a `docs` static method:
