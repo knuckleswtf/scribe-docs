@@ -458,7 +458,7 @@ As with `@response`, you can also specify a status code:
 ### Pagination
 If your endpoint returns a paginated resource response, you can tell Scribe how to paginate by:
 - using the `paginate` field on `@apiResourceModel` or .
-- using either the `paginate` or `simplePaginate` argument on `#[ResponseFromApiResource]`.
+- using either the `paginate`, `simplePaginate`, or `cursorPaginate` argument on `#[ResponseFromApiResource]`.
 
 <AttributesTagsTabs>
 <TabItem value="tags">
@@ -481,6 +481,15 @@ public function listMoreUsers()
 {
     return new UserCollection(User::simplePaginate(15));
 }
+
+/**
+ * @apiResourceCollection App\Http\Resources\UserCollection
+ * @apiResourceModel App\Models\User paginate=15,cursor
+ */
+public function listMoreUsers()
+{
+    return new UserCollection(User::cursorPaginate(15));
+}
 ```
 
 </TabItem>
@@ -494,10 +503,16 @@ public function listMoreUsers()
     return new UserCollection(User::paginate(10));
 }
 
-#[ResponseFromApiResource(UserCollection::class, User::class, simplePaginate: 10)]
+#[ResponseFromApiResource(UserCollection::class, User::class, simplePaginate: 15)]
 public function listMoreUsers()
 {
     return new UserCollection(User::simplePaginate(15));
+}
+
+#[ResponseFromApiResource(UserCollection::class, User::class, cursorPaginate: 15)]
+public function listMoreUsers()
+{
+    return new UserCollection(User::cursorPaginate(15));
 }
 ```
 
