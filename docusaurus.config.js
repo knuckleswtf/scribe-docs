@@ -99,7 +99,7 @@ module.exports = {
             copyright: `Copyright © ${new Date().getFullYear()} Shalvah. Built with Docusaurus.`,
         },
         prism: {
-            additionalLanguages: ['php'],
+            additionalLanguages: ['php', 'bash', 'diff'],
         },
         algolia: {
             appId: 'WMFPPEFVT6',

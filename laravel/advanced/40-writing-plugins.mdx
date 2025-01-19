@@ -31,7 +31,7 @@ Check out our [community wiki](https://github.com/knuckleswtf/scribe/wiki) for a
 :::
 
 ## Creating a strategy
-To create a strategy, create a class that extends `\Knuckles\Scribe\Extracting\Strategies\Strategy`. You can do this manually, or by running the `scribe:strategy` command. 
+To create a strategy, create a class that extends `\Knuckles\Scribe\Extracting\Strategies\Strategy`. You can do this manually, or by running the `scribe:strategy` command.
 
 ```bash
 php artisan scribe:strategy AddPaginationParameters
@@ -119,7 +119,7 @@ The final step is to register the strategy in our config:.
 ```
 
 :::tip
-You can also publish your strategy as a Composer package. Then others can install them via `composer require` and register them in their own config. 
+You can also publish your strategy as a Composer package. Then others can install them via `composer require` and register them in their own config.
 :::
 
 And we're done! Now, when we run `php artisan scribe:generate`, all our GET routes that end with `.index` will have the pagination parameters added. Here we go!
@@ -161,12 +161,12 @@ public function __invoke(ExtractedEndpointData $endpointData, array $routeRules 
 {
     $methodDocBlock = RouteDocBlocker::getDocBlocksFromRoute($endpointData->route)['method'];
     $tags = $methodDocBlock->getTagsByName('usesPagination');
-    
+
     if (empty($tags)) {
         // Doesn't use pagination
         return [];
     }
-    
+
     return [
         'page' => [
             'description' => 'Page number to return.',

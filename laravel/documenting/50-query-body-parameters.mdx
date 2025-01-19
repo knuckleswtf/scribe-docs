@@ -48,7 +48,7 @@ import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTa
 public function updateDetails()
 {
 }
-    
+
 /**
  * @queryParam sort string Field to sort by. Defaults to 'id'.
  * @queryParam fields required Comma-separated list of fields to include in the response. Example: title,published_at,is_public
@@ -274,7 +274,7 @@ There are two supported options: using inline validators and form requests. Also
 
 These two approaches are very different:
 - WIth form requests, Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
-  :::note 
+  :::note
   Form requests are not initialized by Scribe in the same way as Laravel would, since there is no real HTTP request when generating. If you encounter strange behaviour, you can try customising the initialization process with the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
   :::
 - With inline validators, Scribe will read and parse the validation code in your controller (`$request->validate()`, `Request::validate` or `Validator::make()`).
@@ -493,7 +493,7 @@ use Illuminate\Contracts\Validation\Rule;
 class Kilobyte implements Rule
 {
     // ...
-    
+
     public static function docs(): array
     {
         return [
@@ -530,7 +530,7 @@ values={[
 ]}>
 <TabItem value="inline">
 
-```php {3}
+```php
 public function createPost($request)
 {
     // Query parameters
@@ -544,7 +544,7 @@ public function createPost($request)
 </TabItem>
 <TabItem value="formrequest">
 
-```php {2,14}
+```php
 /**
  * Query parameters
  * You can still have other stuff in your docblock.

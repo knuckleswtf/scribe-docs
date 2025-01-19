@@ -161,7 +161,7 @@ If an endpoint returns a file or some other binary response, you can use `<<bina
 
 ## `@responseFile`/`#[ResponseFromFile]`
 
-`@responseFile` works similarly to `@response`, but instead of inlining the response, you pass a file containing your JSON response. This can be helpful for large responses. 
+`@responseFile` works similarly to `@response`, but instead of inlining the response, you pass a file containing your JSON response. This can be helpful for large responses.
 
 To use this annotation, place the response as a JSON string in a file somewhere in your project directory and specify the relative path to it. For instance, we can put this response in a file named `users.get.json` in `storage/responses/`:
 
@@ -304,7 +304,7 @@ use Knuckles\Scribe\Scribe;
 
 public function boot()
 {
-    // Be sure to wrap in a `class_exists()`, 
+    // Be sure to wrap in a `class_exists()`,
     // so production doesn't break if you installed Scribe as dev-only
     if (class_exists(\Knuckles\Scribe\Scribe::class)) {
         Scribe::beforeResponseCall(function (Request $request, ExtractedEndpointData $endpointData) {
@@ -318,7 +318,7 @@ public function boot()
 
 The callback you provide will receive the current `Symfony\Component\HttpFoundation\Request` instance and the details of the current endpoint being extracted. If you have database transactions configured, they will already be activated at that point, allowing you to modify your database freely, and have your changes rolled back after the request.
 
-:::tip 
+:::tip
 You can use `beforeResponseCall()` to modify anything about the outgoing request, not just authentication.
 :::
 
@@ -339,7 +339,7 @@ There are two ways to do this:
    'response_calls' => [
        'config' => [
            'app.debug' => false,
-           'database.default' => 'sqlite',  
+           'database.default' => 'sqlite',
        ],
    ],
    ```
@@ -552,7 +552,7 @@ class UserController extends Controller
 class UserController extends Controller
 {
 
-    #[ResponseFromApiResource(UserResource::class, User::class, 
+    #[ResponseFromApiResource(UserResource::class, User::class,
         additional: ["result" => "success", "message" => "User created successfully"]
     )]
     public function store($request): JsonResponse
@@ -734,16 +734,16 @@ public function listMoreUsers()
 
 ## How model instances are generated
 When generating responses from `@apiResourceModel` and `@transformerModel` tags, Scribe needs to generate a sample model to pass to the resource or transformer. Here's the process Scribe follows:
- 
+
 1. First, it tries the Eloquent model factory: `YourModel::factory()->create()`.
 
    :::note
    `create()` saves the model to your database. But no worries! Scribe will use a database transaction, using the same [database transaction rules](#database-transactions) as for response calls.
    :::
- 
+
 2. If that fails,  it tries  `YourModel::factory()->make()`.
 
-3. If that fails, Scribe calls `YourModel::first()` to retrieve the first model from the database. 
+3. If that fails, Scribe calls `YourModel::first()` to retrieve the first model from the database.
 
 4. If that fails, Scribe creates an instance using `new YourModel()`.
 
@@ -771,7 +771,7 @@ If you want specific [states](https://laravel.com/docs/database-testing#factory-
 <TabItem value="attributes">
 
 ```php
-#[ResponseFromApiResource(UserCollection::class, User::class, 
+#[ResponseFromApiResource(UserCollection::class, User::class,
     factoryStates: ['student', 'verified']
 )]
 ```
@@ -780,7 +780,7 @@ If you want specific [states](https://laravel.com/docs/database-testing#factory-
 </AttributesTagsTabs>
 
 ### Loading relations
-If you want specific relations to be loaded with your model, you can use the `with` attribute on `@apiResourceModel` or `@transformerModel`. Separate multiple relations with a comma. 
+If you want specific relations to be loaded with your model, you can use the `with` attribute on `@apiResourceModel` or `@transformerModel`. Separate multiple relations with a comma.
 
 <AttributesTagsTabs>
 <TabItem value="tags">
@@ -894,7 +894,7 @@ You can add descriptions for fields in your response by adding `@responseField`/
 </TabItem>
 </AttributesTagsTabs>
 
-You can leave out the type, and Scribe will figure it out from your responses. 
+You can leave out the type, and Scribe will figure it out from your responses.
 
 :::tip
 You don't need to specify the full field path if the field is inside an array of objects or wrapped in pagination data. For instance, the above annotation will work fine for all of these responses:
@@ -904,7 +904,7 @@ You don't need to specify the full field path if the field is inside an array of
 // Array of objects
 [
   { "id": 3 }
-] 
+]
 // Inside "data" key
 {
    "data": [
