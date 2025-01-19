@@ -19,7 +19,7 @@ composer update knuckleswtf/scribe
 ## Automated upgrade
 Scribe v4 comes with an upgrade tool that will make the needed changes to your config file and inform you of any manual changes you need to make yourself:
 
-```bash
+```shell
 # See what changes will be made:
 php artisan scribe:upgrade --dry-run
 # Run the upgrade for real
@@ -86,7 +86,7 @@ If you're affected by these changes, we recommend you copy the new files from th
 ## Attributes
 To enable PHP 8 attributes, you'll need to manually add the needed strategies to your config file:
 
-```diff title=config/scribe.php
+```diff title="config/scribe.php"
 'strategies' => [
     'metadata' => [
         Strategies\Metadata\GetFromDocBlocks::class,

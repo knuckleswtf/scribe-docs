@@ -22,7 +22,7 @@ If you need to authenticate access to your docs, use `laravel` type. Otherwise, 
 ## 2. Choose your routes
 The second thing you'll need to do is tell Scribe what routes you want to document (the `routes` key). By default, it looks similar to this:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 
     'routes' => [
         [

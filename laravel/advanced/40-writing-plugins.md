@@ -39,7 +39,7 @@ php artisan scribe:strategy AddPaginationParameters
 
 This will create a class like this in your `app\Docs\Strategies` folder:
 
-```php title=app\Docs\Strategies\AddPaginationParameters.php
+```php title="app\Docs\Strategies\AddPaginationParameters.php"
 namespace App\Docs\Strategies;
 
 use Knuckles\Scribe\Extracting\ParamHelpers;
@@ -76,7 +76,7 @@ Let's take a look at the contents of our Strategy class. There's a detailed [plu
 
 Let's add some code to make our strategy work:
 
-```php title=app\Docs\Strategies\AddPaginationParameters.php
+```php title="app\Docs\Strategies\AddPaginationParameters.php"
 
 public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
 {
@@ -108,7 +108,7 @@ Note that we set our `pageSize` to `reuired => false` and `example => null`. Thi
 ## Using your strategy
 The final step is to register the strategy in our config:.
 
-```php {5} title=config/scribe.php
+```php {5} title="config/scribe.php"
     'strategies' => [
         // ...
         'queryParameters' => [

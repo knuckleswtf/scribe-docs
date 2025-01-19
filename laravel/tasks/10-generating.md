@@ -76,7 +76,7 @@ The inbuilt Scribe routing (`laravel.add_routes`, `laravel.docs_url` and related
 
 For example:
 
-```php title=routes/web.php
+```php title="routes/web.php"
 Route::view('/docs', 'scribe.index')->name('scribe');
 Route::view('/admin/docs', 'scribe_admin.index')->name('scribe-admin');
 ```

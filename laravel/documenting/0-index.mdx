@@ -12,7 +12,7 @@ By default (and in the examples here), Scribe extracts info from your controller
 
 For example, let's take a simple "healthcheck" endpoint:
 
-```php title=routes/api.php
+```php title="routes/api.php"
 Route::get('/healthcheck', function () {
     return [
         'status' => 'up',
@@ -33,7 +33,7 @@ It's not much, but it's a good start. We've got a URL, example requests, and an 
 We can make this better by adding some annotations:
 
 
-```php title=routes/api.php
+```php title="routes/api.php"
 
 /**
  * Healthcheck

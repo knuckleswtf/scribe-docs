@@ -296,7 +296,7 @@ Some key things about response calls:
 ### Authentication and customization
 If your endpoints are authenticated, Scribe will use the configured `use_value` in your `auth` config. However, if you need more customization, you can use the `beforeResponseCall()` method to manually set it up. Typically, you'd do this in the `boot()` method of your `AppServiceProvider`.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Symfony\Component\HttpFoundation\Request;
@@ -335,7 +335,7 @@ To get the best value from response calls, you should make sure to configure you
 There are two ways to do this:
 1. Use the `apply.response_calls.config` key in your Scribe config to override the Laravel config:
 
-   ```php title=config/scribe.php
+   ```php title="config/scribe.php"
    'response_calls' => [
        'config' => [
            'app.debug' => false,
@@ -361,7 +361,7 @@ If your endpoint uses [Eloquent API resources](https://laravel.com/docs/eloquent
 
 Examples:
 
-```php title=App\Http\Resources\UserResource.php 
+```php title="App\Http\Resources\UserResource.php "
 class UserResource extends JsonResource
 {
     public function toArray($request)
@@ -374,7 +374,7 @@ class UserResource extends JsonResource
 <AttributesTagsTabs>
 <TabItem value="tags">
 
-```php title=UserController.php         
+```php title="UserController.php         "
 /**
  * @apiResource App\Http\Resources\UserResource
  * @apiResourceModel App\Models\User
@@ -407,7 +407,7 @@ public function listMoreUsers()
 
 <TabItem value="attributes">
 
-```php title=UserController.php         
+```php title="UserController.php         "
 #[ResponseFromApiResource(UserResource::class, User::class)]
 public function showUser(User $user)
 {

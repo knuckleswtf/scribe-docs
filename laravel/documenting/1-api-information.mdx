@@ -8,7 +8,7 @@ You can add basics such as the title, introductory text, base URL and authentica
 ## Title
 To set the HTML `<title>` for the generated docs, use the `title` key. This title will also be used in the Postman collection and OpenAPI spec.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
   'title' => 'The SideProject API',
 ```
 
@@ -21,7 +21,7 @@ The `intro_text` key is where you'll set the text shown in the "Introduction" se
 
 Markdown and HTML are also supported (see [HTML helpers](../reference/html))
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
   'description' => 'Start (and never finish) side projects with this API.',
   'intro_text' => <<<INTRO
 This documentation will provide all the information you need to work with our API.
@@ -42,7 +42,7 @@ The base URL is the URL _displayed_ in your docs (so you can also call it the _d
 
 By default, Scribe will use the current app URL (`config('app.url')`) as the display URL. However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
   'base_url' => 'http://sideprojects.knuckles.wtf',
 ```
 
@@ -98,7 +98,7 @@ import TabItem from '@theme/TabItem';
 
 For an API which uses a bearer token in an Authorization header (for instance, `Authorization: Bearer i0d7jow867tR09Zx`).
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   'auth' => [
     // ...
@@ -114,7 +114,7 @@ return [
 
 For an API which uses basic auth (for instance, `Authorization: Basic i0d7jow867tR09Zx==`).
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   'auth' => [
     // ...
@@ -130,7 +130,7 @@ return [
 
 For an API which uses a token in a custom header (for instance, `Api-Key: i0d7jow867tR09Zx`).
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   'auth' => [
     // ...
@@ -146,7 +146,7 @@ return [
 
 For an API which uses a token in an body parameter.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   'auth' => [
     // ...
@@ -162,7 +162,7 @@ return [
 
 For an API which uses a token in an query parameter.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   'auth' => [
     // ...
@@ -183,7 +183,7 @@ Scribe will automatically turn your auth information into text in the docs. To c
 There are some other settings that you have to set in the `auth` array. Here'sa full example and explanation:
 
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 return [
   // ...
   'auth' => [

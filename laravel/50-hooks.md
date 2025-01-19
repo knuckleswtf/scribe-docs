@@ -27,7 +27,7 @@ Always wrap these method calls in an `if (class_exists(\Knuckles\Scribe\Scribe::
 
 The callback you provide will be passed an instance of the `GenerateDocumentation` command.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Knuckles\Scribe\Commands\GenerateDocumentation;
 use Knuckles\Scribe\Scribe;
@@ -48,7 +48,7 @@ public function boot()
 
 The callback you provide will be passed the current `Symfony\Component\HttpFoundation\Request` instance and the details of the current endpoint being extracted. If you have database transactions configured, they will already be activated at that point, allowing you to modify your database freely, and have your changes rolled back after the request.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
 use Knuckles\Scribe\Scribe;
@@ -72,7 +72,7 @@ public function boot()
 ## `afterResponseCall()`
 `afterResponseCall()` allows you to run some code after getting the the response. You can modify the result to reduce size of examples, remove sensibles data, or whatever you wish.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Illuminate\Http\JsonResponse;
 use Knuckles\Camel\Extraction\ExtractedEndpointData;
@@ -101,7 +101,7 @@ public function boot()
 
 The callback you provide will be passed a map of the output paths generated.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Knuckles\Scribe\Scribe;
 
@@ -149,7 +149,7 @@ Scribe tries to make things clear by normalizing endpoint URLs. By default, Scri
 
 If you aren't happy with the results of this normalization, you can use the `normalizeEndpointUrlUsing()` hook to override it. Specify a callback that will be called when the `ExtractedEndpointData` object is being instantiated. The callback will be passed the default Laravel URL, the route object, the controller method and class (where available). You also get a `$default` callable that lets you fall back to Scribe's default.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 use Knuckles\Scribe\Scribe;
 use Illuminate\Routing\Route;
 
@@ -183,7 +183,7 @@ Scribe::normalizeEndpointUrlUsing(fn($url) => $url);
 
 The callback you provide will be passed the name of the FormRequest class, the current Laravel route being processed, and the controller method. Your callback should return a `FormRequest` instance.
 
-```php title=app\Providers\AppServiceProvider.php
+```php title="app\Providers\AppServiceProvider.php"
 
 use Knuckles\Scribe\Scribe;
 use Illuminate\Routing\Route;

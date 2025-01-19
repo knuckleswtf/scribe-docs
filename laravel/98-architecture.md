@@ -43,7 +43,7 @@ Now, about those YAML files...
 ## What are those YAML files for?
 Earlier, we said that the grouped endpoints are written to some YAML files, in a `.scribe/endpoints` directory in your app. Each group of endpoints goes into one file, and looks like this:
 
-   ```yaml title=<your-app>/.scribe/endpoints/0.yaml
+   ```yaml title="<your-app>/.scribe/endpoints/0.yaml"
    name: 'Name of the group'
    description: A description for the group.
    endpoints:

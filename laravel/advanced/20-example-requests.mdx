@@ -36,7 +36,7 @@ Parameters which have been excluded from the example requests (see [Specifying e
 
 We can work with this information to write a basic Ruby template:
 
-````php title=resources/views/vendor/scribe/ruby.md.blade.php
+```html title="resources/views/vendor/scribe/ruby.md.blade.php"
 @php
     // Adding this so we get IDE code completion for $endpoint
     /** @var \Knuckles\Camel\Output\OutputEndpointData $endpoint */
@@ -67,7 +67,6 @@ response = RestClient.{{strtolower($endpoint->httpMethods[0])}}(
 p response.body
 
 ```
-````
 
 As you can see, it's a regular Blade view, so we can use the usual Blade directives and constructs.
 
@@ -81,7 +80,7 @@ The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities t
 
 Finally, if you added a new language template, add the language to the `example_languages` array in your config and generate your documentation as usual. If you want to use a specific name for the language you can provide it as the array key.
 
-```php {3} title=config/scribe.php
+```php {3} title="config/scribe.php"
 'example_languages' => [
   'javascript',
   'ruby', // or 'Ruby 3' => 'ruby',

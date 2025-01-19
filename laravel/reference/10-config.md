@@ -292,7 +292,7 @@ Each item in the `routes` array is a _route group_. A route group is an array co
 #### `match`
 Let's start with the `match ` section. This is where you tell Scribe the endpoints you want to document. The default looks like this:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'match' => [
   'prefixes' => ['api/*'],
   'domains' => ['*'],
@@ -390,7 +390,7 @@ The `apply` section of the route group is where you specify any additional setti
 
 - `response_calls`: These are the settings that will be applied when making ["response calls"](../documenting/responses#response-calls).
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'response_calls' => [
     'methods' => ['GET'],
     'config' => [
@@ -431,7 +431,7 @@ To avoid modifying your database, Scribe can run response calls and example mode
 
 By default, this is set to your default database connection (`config('database.default')`), so if you only use one database connection, you should be fine. If you use multiple connections, you should add them to the array. For example:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'database_connections_to_transact' => [
     config('database.default'),
     'pgsql',

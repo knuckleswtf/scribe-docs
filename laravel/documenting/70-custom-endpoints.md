@@ -22,7 +22,7 @@ They're those YAML files that show up in your `.scribe/endpoints` folder after r
 ## Scenario 1: Editing an existing endpoint or group
 To edit an endpoint or group's details, **edit the corresponding Camel file**. The Camel files are named `x.yaml` (where `x` is a number), and are located in `.scribe/endpoints` after generation. Each file contains one group of endpoints, and looks like this:
 
-```yaml title=<your-app>/.scribe/endpoints/0.yaml
+```yaml title="<your-app>/.scribe/endpoints/0.yaml"
 name: Name of the group
 description: A description for the group.
 endpoints:
@@ -64,7 +64,7 @@ The `custom.*` files have a different format from the other YAML files, so don't
 
 Here's an example of a `custom.*.yaml` file. The file contains an array of endpoints, and you can simply edit the example to add yours:
 
-```yaml title=<your-app>/.scribe/endpoints/custom.0.yaml
+```yaml title="<your-app>/.scribe/endpoints/custom.0.yaml"
 - httpMethods:
     - POST
   uri: api/doSomething/{param}/{optionalParam?}

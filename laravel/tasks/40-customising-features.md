@@ -7,7 +7,7 @@ id: features
 ## _Try It Out_
 By default, your generated docs will include an API tester that lets users test your endpoints in their browser. You can set the URL that requests will be sent to with the `try_it_out.base_url` config item, or turn it off with `try_it_out.enabled`.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'try_it_out' => [
     'enabled' => true,
     'base_url' => 'http://my.staging.url',
@@ -27,7 +27,7 @@ By default, Scribe will also generate a Postman collection and OpenAPI spec whic
 
 You can configure these in the `postman` and `openapi` sections of your `scribe.php` file.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'postman' => [
     'enabled' => true,
     'overrides' => [

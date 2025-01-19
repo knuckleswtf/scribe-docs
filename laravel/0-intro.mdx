@@ -67,7 +67,7 @@ This will create a `scribe.php` file in your `config` folder.
 1. Copy the config file from `vendor/knuckleswtf/scribe/config/scribe.php` to your project as `config/scribe.php`.
 2. Add these lines to your `bootstrap/app.php`. They'll ensure that Scribe is loaded, but only in your dev environment:
 
-   ```php title=bootstrap/app.php
+   ```php title="bootstrap/app.php"
    if (class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
        $app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
        $app->configure('scribe');
@@ -75,7 +75,7 @@ This will create a `scribe.php` file in your `config` folder.
    ```
 3. Add these lines to your `Console/Kernel.php` to enable Artisan commands:
 
-   ```php title=Console/Kernel.php
+   ```php title="Console/Kernel.php"
    use Laravel\Lumen\Application;
 
    public function __construct(Application $app)

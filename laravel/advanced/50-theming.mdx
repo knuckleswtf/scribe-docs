@@ -20,13 +20,13 @@ When you run `php artisan scribe:generate`, Scribe will use the theme template t
 ## Creating a new theme
 To create a new theme (let's call this theme `nasty`), place the `index.blade.php` in `resources/views/vendor/scribe/themes/nasty/`. Next, we change the value of `theme` in our config:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
     'theme' => 'nasty',
 ```
 
 Now we write the theme. Writing a theme file can be a lot of work, so we recommend using [the default theme](https://github.com/knuckleswtf/scribe/tree/master/resources/views/themes/default) as a starting point. Here's a very simple theme file:
 
-```html title=resources/views/vendor/scribe/themes/nasty/index.blade.php
+```html title="resources/views/vendor/scribe/themes/nasty/index.blade.php"
 <!doctype html>
 <html lang="en">
 <head>
@@ -160,7 +160,7 @@ themes/
 
 The `components` folder contains some Blade components used in the themes. For instance, you can display a badge using the `base.blade.php` component:
 
-```php title="any .blade.php file"
+```php title=""any .blade.php file""
 @component('scribe::components.badges.base', [
   'colour' => "darkred",
   'text' => 'requires authentication'

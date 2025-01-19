@@ -5,11 +5,11 @@ id: sorting-and-inheritance
 # Sorting and inheritance
 
 ## Sorting endpoints and groups
-By default, endpoint groups are ordered alphabetically in the docs, while endpoints are ordered according to your routes file. You can override this by specifying a sort order in your config file (in `groups.order`). 
+By default, endpoint groups are ordered alphabetically in the docs, while endpoints are ordered according to your routes file. You can override this by specifying a sort order in your config file (in `groups.order`).
 
 List the items you wish to sort in the order you want them. All other items will be sorted as usual after  For instance, if you want the "Tokens" group first, followed by "Users" and then all other groups, that would be:
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'groups' => [
   'order' => [
     'Tokens',
@@ -20,7 +20,7 @@ List the items you wish to sort in the order you want them. All other items will
 
 You can also order subgroups and endpoints within the groups. The format for endpoints is `HTTP_METHOD /url` (eg `"POST /tokens"`.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'groups' => [
   'order' => [
     'Tokens' => [
@@ -45,9 +45,9 @@ Remember: any groups, subgroups or endpoints you don't specify will be arranged 
 
 You can bury groups by using the `*` character to specify where all unspecified groups should be placed.
 
-**Note:** This only works for the top level groups and is not supported in subgroups. 
+**Note:** This only works for the top level groups and is not supported in subgroups.
 
-```php title=config/scribe.php
+```php title="config/scribe.php"
 'groups' => [
   'order' => [
     'Tokens',
@@ -65,6 +65,7 @@ Sometimes you have a scenario where some endpoints are very similar—the usual 
 
 
 import Tabs from '@theme/Tabs';
+import {TabItem} from '@site/src/components/AttributesTagsTabs';
 
 <Tabs
   defaultValue="base"
@@ -74,7 +75,7 @@ import Tabs from '@theme/Tabs';
 ]}>
 <TabItem value="base">
 
-```php title=CRUDController.php
+```php title="CRUDController.php"
 class CRUDController
 {
   public string $resource;
@@ -98,14 +99,14 @@ class CRUDController
 
 <TabItem value="children">
 
-```php title=UserController.php
+```php title="UserController.php"
 class UserController extends CRUDController
 {
   public string $resource = User::class;
 }
 ```
 
-```php title=NoteController.php
+```php title="NoteController.php"
 class NoteController extends CRUDController
 {
   public string $resource = Note::class;
@@ -126,7 +127,7 @@ But how do you document these with Scribe? There are no methods in the child cla
 ]}>
 <TabItem value="base">
 
-```php title=CRUDController.php
+```php title="CRUDController.php"
 class CRUDController
 {
   public string $resource;
@@ -153,7 +154,7 @@ class CRUDController
 
 <TabItem value="child1">
 
-```php title=UserController.php
+```php title="UserController.php"
 class UserController extends CRUDController
 {
   public string $resource = User::class;
@@ -202,7 +203,7 @@ class UserController extends CRUDController
 </TabItem>
 <TabItem value="child2">
 
-```php title=NoteController.php
+```php title="NoteController.php"
 class NoteController extends CRUDController
 {
   public string $resource = Note::class;

@@ -40,7 +40,7 @@ We've also tried to get Scribe to extract more details out-of-the-box, as well a
 ### Inline validators + more validation rules
 This is probably the biggest news of this release: _inline validators are now supported_🎉🎉. This means Scribe can now extract parameters from your `$request->validate()` and `Validator::make()` calls in your controller:
 
-```php title=YourController.php
+```php title="YourController.php"
 public function createPost($request)
 {
     $validated = $request->validate([
@@ -92,7 +92,7 @@ Previously, you could only have the status code, content and description for a r
 Currently, this only happens for response calls, but we'll enable this in other strategies down the road. In the meantime, if you have any custom response strategies, you can update them to return headers too.
 
 
-```php title=YourCustomStrategy.php {5-7}
+```php title="YourCustomStrategy.php {5-7}"
 return [
   [
     "status" => 200,
@@ -117,7 +117,7 @@ With v3, we've gone with a better approach (codenamed _Camel_). Scribe now uses 
 
 For example, a Camel file containing a group of endpoints might look like this:
 
-```yaml title=<your-app>/.scribe/endpoints/0.yaml
+```yaml title="<your-app>/.scribe/endpoints/0.yaml"
 name: 'Name of the group'
 description: A description for the group.
 endpoints:
