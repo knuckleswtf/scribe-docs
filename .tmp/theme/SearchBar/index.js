@@ -12,10 +12,10 @@ import { useHistory } from '@docusaurus/router';
 import { useBaseUrlUtils } from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
-import useSearchQuery from '@theme/hooks/useSearchQuery';
+import { useSearchQuery } from '@docusaurus/theme-common';
 import { isRegexpStringMatch } from '@docusaurus/theme-common';
 import { DocSearchButton, useDocSearchKeyboardEvents } from '@docsearch/react';
-// import useAlgoliaContextualFacetFilters from '@theme/hooks/useAlgoliaContextualFacetFilters';
+// import { useAlgoliaContextualFacetFilters } from '@docusaurus/theme-search-algolia/client';
 import { translate } from '@docusaurus/Translate';
 import styles from './styles.module.css';
 let DocSearchModal = null;
@@ -33,8 +33,8 @@ function ResultsFooter({ state, onClose }) {
  * Fix contextualSearch so it works with multi-instance
  * START ---
  */
-import {useAllDocsData, useActivePluginAndVersion} from '@theme/hooks/useDocs';
-import { useDocsPreferredVersionByPluginId } from '@docusaurus/theme-common';
+import { useAllDocsData, useActivePluginAndVersion} from '@docusaurus/plugin-content-docs/client';
+import { useDocsPreferredVersionByPluginId } from '@docusaurus/plugin-content-docs/client/docsPreferredVersion';
 
 // Reimplement this so it only filters by the current docs instance
 function useContextualSearchFilters() {
