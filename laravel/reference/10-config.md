@@ -143,7 +143,7 @@ By default, Scribe will sort groups alphabetically, and endpoints in the order t
 
 Any groups, subgroups or endpoints you don't list here will be added as usual after the ones here. If an endpoint/subgroup is listed under a group it doesn't belong in, it will be ignored.
 
-To describe an endpoint, follow the format '{method} /{path}'  (for example, "POST /users").
+To describe an endpoint, follow the format `'{method} /{path}'`  (for example, "POST /users").
 
 Here's an example configuration:
 
