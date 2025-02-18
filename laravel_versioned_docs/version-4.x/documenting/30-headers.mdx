@@ -1,0 +1,54 @@
+---
+id: headers
+---
+
+
+# Request headers
+
+You can use the `@header` docblock tag (or the `#[Header]` attribute) to specify headers for a single endpoint, in the format `@header <name> <optional example>`:
+
+import {AttributesTagsTabs, TabItem} from '@site/src/components/AttributesTagsTabs';
+
+<AttributesTagsTabs>
+<TabItem value="tags">
+
+```php
+/**
+ * @header X-Api-Version
+ * @header Content-Type application/xml
+ */
+```
+
+</TabItem>
+
+<TabItem value="attributes">
+
+```php
+use Knuckles\Scribe\Attributes\Header;
+
+#[Header("X-Api-Version")]
+#[Header("Content-Type", "application/xml")]
+```
+
+</TabItem>
+</AttributesTagsTabs>
+
+The header will be included in example requests and [response calls](./responses#response-calls).
+
+Alternatively, you can specify headers for multiple endpoints in one go by using the `apply.headers` section of the route group in `scribe.php`. For instance, with this config:
+
+```php title="config/scribe.php"
+  'routes' => [
+    [
+      'match' => [
+        'domains' => ['*'],
+        'prefixes' => ['v2/'],
+      ],
+      'apply' => [
+        'headers' => [ 'Api-Version' => 'v2']
+      ]
+    ]
+  ]
+```
+
+In this example, all endpoints that start with `v2/` will have the header `Api-Version: v2` included in their example requests and response calls.

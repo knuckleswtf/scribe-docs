@@ -1,5 +1,5 @@
 // Manually build version dropdowns, because we need to change the label
-const laravelVersions = ['4.x', '3.x'];
+const laravelVersions = ['5.x','4.x', '3.x'];
 const nodejsVersions = ['2.x'];
 const laravelVersionDropdown = laravelVersions.map((version, idx) => ({
     to: `laravel/${idx === 0 ? '' : version}`,
@@ -122,8 +122,14 @@ module.exports = {
                     lastVersion: "current",
                     versions: {
                         current: {
-                            label: "Laravel: 4.x (current)",
+                            label: "Laravel: 5.x (current)",
                             badge: true,
+                        },
+                        "4.x": {
+                            label: "Laravel: 4.x",
+                            badge: true,
+                            banner: 'unmaintained',
+                            path: '/4.x',
                         },
                         "3.x": {
                             label: "Laravel: 3.x",

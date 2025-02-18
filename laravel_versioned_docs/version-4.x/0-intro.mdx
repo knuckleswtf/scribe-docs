@@ -1,0 +1,103 @@
+---
+slug: /
+id: intro
+---
+
+# Introduction
+
+Scribe helps you generate API documentation for humans from your Laravel/Lumen/[Dingo](https://github.com/dingo/api) codebase. See a live example at [demo.scribe.knuckles.wtf](https://demo.scribe.knuckles.wtf).
+
+## Features
+- Useful output:
+  - Pretty single-page HTML doc, with human-friendly text, code samples, and in-browser API tester ("Try It Out")
+  - Generates Postman collection and OpenAPI spec
+- Smarts. Scribe can:
+  - extract request parameter details from FormRequests or validation rules
+  - safely call API endpoints to get sample responses
+  - generate sample responses from Eloquent API Resources or Transformers
+- Customisable to different levels:
+  - Customise the UI by adjusting text, ordering, examples, or change the UI itself
+  - Add custom strategies to adjust how data is extracted
+  - Statically define extra endpoints or information that isn't in your codebase
+
+:::info Quick links
+
+Wondering where to start? Try one of these:
+
+- the [getting started guide](/laravel/getting-started)
+- [What's new in v4](/blog/laravel-v4)
+
+If you're coming from `mpociot/laravel-apidoc-generator`, first [migrate to v3](/laravel/3.x/migrating-apidoc)`, then [to v4](/laravel/migrating-v4).
+:::
+
+
+:::tip
+Scribe helps you generate docs automatically, but if you really want to make friendly, maintainable and testable API docs, there's some more stuff you need to know. So I made [a course](https://shalvah.teachable.com/p/api-documentation-for-developers?utm_source=scribe-laravel-docs&utm_medium=referral&utm_campaign=none) for you.🤗
+:::
+
+## Installation
+
+:::info Requirements
+PHP 8.0 and Laravel/Lumen 8 or higher are required.
+:::
+
+First, add the package via Composer:
+
+```sh
+composer require --dev knuckleswtf/scribe
+```
+
+Then complete the installation:
+
+import {LaravelLumenTabs, TabItem} from '@site/src/components/LaravelLumenTabs';
+
+<LaravelLumenTabs>
+<TabItem value="laravel">
+
+Publish the config file by running:
+
+```bash
+php artisan vendor:publish --tag=scribe-config
+```
+This will create a `scribe.php` file in your `config` folder.
+
+</TabItem>
+<TabItem value="lumen">
+
+1. Copy the config file from `vendor/knuckleswtf/scribe/config/scribe.php` to your project as `config/scribe.php`.
+2. Add these lines to your `bootstrap/app.php`. They'll ensure that Scribe is loaded, but only in your dev environment:
+
+   ```php title="bootstrap/app.php"
+   if (class_exists(\Knuckles\Scribe\ScribeServiceProvider::class)) {
+       $app->register(\Knuckles\Scribe\ScribeServiceProvider::class);
+       $app->configure('scribe');
+   }
+   ```
+3. Add these lines to your `Console/Kernel.php` to enable Artisan commands:
+
+   ```php title="Console/Kernel.php"
+   use Laravel\Lumen\Application;
+
+   public function __construct(Application $app)
+    {
+        parent::__construct($app);
+        if (class_exists(\Knuckles\Scribe\Commands\GenerateDocumentation::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\GenerateDocumentation::class;
+        }
+        if (class_exists(\Knuckles\Scribe\Commands\MakeStrategy::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\MakeStrategy::class;
+        }
+        if (class_exists(\Knuckles\Scribe\Commands\Upgrade::class)) {
+            $this->commands[] = \Knuckles\Scribe\Commands\Upgrade::class;
+        }
+    }
+   ```
+
+</TabItem>
+</LaravelLumenTabs>
+
+<br />
+
+---
+
+Alright, you're ready to start documenting! Follow the [Getting Started guide](/laravel/getting-started) to see what you can do with Scribe.

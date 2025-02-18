@@ -31,7 +31,7 @@ Settings for the `static` type output.
 
 - `output_path`: Output folder. The docs, Postman collection and OpenAPI spec will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
 
-   Default: `"public/docs"`.
+  Default: `"public/docs"`.
 
 ### `external`
 Settings for the `external_static` and `external_laravel` type output.
@@ -56,15 +56,15 @@ Settings for the `laravel` type output.
   If you install this package with `--dev`, and you run `composer install --no-dev` in production, `add_routes` won't work in production.
   :::
 
-   Default: `true`
+  Default: `true`
 
 - `docs_url`: The path for the documentation endpoint (if `add_routes` is true).
 
-   Default: `"/docs"`.
+  Default: `"/docs"`.
 
 - `assets_directory`: Directory within `public` in which to store CSS and JS assets. By default, assets are stored in `public/vendor/scribe`. If set, assets will be stored in `public/{{assets_directory}}`
 
-   Default: `null`.
+  Default: `null`.
 
 - `middleware`: List of middleware to be attached to the documentation endpoint (if `add_routes` is true).
 
@@ -216,7 +216,7 @@ For `static` output, the collection will be created in `{static.output_path}/col
 
 - `enabled`: Whether or not to generate a Postman API collection.
 
-   Default: `true`
+  Default: `true`
 
 - `overrides`: Fields to merge with the collection after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
 
@@ -231,7 +231,7 @@ For `static` output, the spec will be created in `{static.output_path}/openapi.y
 
 - `enabled`: Whether or not to generate an OpenAPI spec.
 
-   Default: `false`
+  Default: `false`
 
 - `overrides`: Fields to merge with the spec after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
 
@@ -246,7 +246,7 @@ Specify authentication details about your API. This information will be used:
 Here are the available settings:
 - `enabled`: Set this to `true` if _any endpoints_ in your API use authentication.
 
-   Default: `false`.
+  Default: `false`.
 
 - `default`: Specify the default auth behaviour of your API.
 
@@ -261,11 +261,11 @@ Even if you set `auth.default`, you must also set `auth.enabled` to `true` if yo
 :::
 
 - `in`: Where is the auth value meant to be sent in a request? Options:
-    - `query` (for a query parameter)
-    - `body` (for a body parameter)
-    - `basic` (for HTTP Basic auth via an Authorization header)
-    - `bearer`(for HTTP Bearer auth via an Authorization header)
-    - `header` (for auth via a custom header)
+  - `query` (for a query parameter)
+  - `body` (for a body parameter)
+  - `basic` (for HTTP Basic auth via an Authorization header)
+  - `bearer`(for HTTP Bearer auth via an Authorization header)
+  - `header` (for auth via a custom header)
 
 - `name`: The name of the parameter (eg `token`, `key`, `apiKey`) or header (eg `Authorization`, `Api-Key`). When `in` is set to `bearer` or `basic`, this value will be ignored, and the header used will be `Authorization`.
 
@@ -408,11 +408,11 @@ The `apply` section of the route group is where you specify any additional setti
 ],
 ```
 
-  - The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish. Set it to `['*']` to mean all methods. Leave it as an empty array to turn off response calls for that route group.
+- The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish. Set it to `['*']` to mean all methods. Leave it as an empty array to turn off response calls for that route group.
 
-  - The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
+- The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
 
-  - The `config` key allows you to customise your Laravel app's config for the response call.
+- The `config` key allows you to customise your Laravel app's config for the response call.
 
 
 ### `database_connections_to_transact`

@@ -1,0 +1,211 @@
+---
+id: api-information
+---
+
+# General API info
+You can add basics such as the title, introductory text, base URL and authentication information in your `scribe.php` config file.
+
+## Title
+To set the HTML `<title>` for the generated docs, use the `title` key. This title will also be used in the Postman collection and OpenAPI spec.
+
+```php title="config/scribe.php"
+  'title' => 'The SideProject API',
+```
+
+If you leave `title` empty, Scribe will infer it from the value of `config('app.name')`.
+
+## Description and introductory text
+You can add a description of your API using the `description` key. This description will be displayed in the docs' "Introduction" section, and in the Postman collection and OpenAPI spec.
+
+The `intro_text` key is where you'll set the text shown in the "Introduction" section of your docs (after the `description`).
+
+Markdown and HTML are also supported (see [HTML helpers](../reference/html))
+
+```php title="config/scribe.php"
+  'description' => 'Start (and never finish) side projects with this API.',
+  'intro_text' => <<<INTRO
+This documentation will provide all the information you need to work with our API.
+
+<aside>
+As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).
+</aside>
+INTRO
+```
+
+![](/img/screenshots/docs-intro.png)
+
+## Base URL
+:::note
+The base URL is the URL _displayed_ in your docs (so you can also call it the _display url_). It is separate from the URL used in the API tester (Try It Out), which you can set with the `try_it_out.base_url` config key.
+:::
+
+By default, Scribe will use the current app URL (`config('app.url')`) as the display URL. However, you can customise this with the `base_url` key. For example, setting the `base_url` to this:
+
+```php title="config/scribe.php"
+  'base_url' => 'http://sideprojects.knuckles.wtf',
+```
+
+...means that `http://sideprojects.knuckles.wtf` will be shown in the generated docs, even if you ran the `generate` command on localhost or in CI.
+
+
+## Logo
+Maybe you've got a pretty logo for your API or company, and you'd like to display that on your documentation page. No worries! To add a logo, set the `logo` key in `scribe.php` to the path of the logo. Here are your options:
+
+- To point to an image on an external public URL, set `logo` to that URL.
+   ```php
+   'logo' => 'http://your-company/logo.png',
+   ```
+- To point to an image in your codebase:
+  - if you're using `laravel` type docs, set `logo` to the `public_path()` of the image
+  - if you're using `static` type, pass in the path to the image relative to the `public/docs` directory.
+
+  For example, if your logo is in `public/images`:
+   ```php
+   // static type
+   'logo' => '../img/logo.png',
+   // laravel type
+   'logo' => 'img/logo.png',
+   ```
+- If you don't want a logo, set `logo` to `false`.
+
+## Authentication
+You can add authentication information for your API using the `auth` section in `scribe.php`.
+
+:::important
+Scribe uses the auth information you specify for four things:
+  - Generating an "Authentication" section in your docs
+  - Adding auth information to the Postman collection and OpenAPI spec
+  - Adding authentication parameters to your example requests for endpoints that use authentication
+  - Adding the necessary auth parameters with the specified value to response calls for endpoints that use authentication
+:::
+
+To configure auth, first you need to specify the `auth.in` and `auth.name` values for your API. They state the type of the auth parameter and its name, respectively. You also need to set `auth.enabled` to `true`. Some examples:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+    defaultValue="bearer"
+    values={[
+        {label: 'Bearer auth', value: 'bearer'},
+        {label: 'Basic auth', value: 'basic'},
+        {label: 'Custom header', value: 'header'},
+        {label: 'Body parameter', value: 'body'},
+        {label: 'Query parameter', value: 'query'},
+    ]}>
+<TabItem value="bearer">
+
+For an API which uses a bearer token in an Authorization header (for instance, `Authorization: Bearer i0d7jow867tR09Zx`).
+
+```php title="config/scribe.php"
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'bearer',
+    'name' => 'Authorization', // <-- This value is ignored, as the header name is always "Authorization"
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="basic">
+
+For an API which uses basic auth (for instance, `Authorization: Basic i0d7jow867tR09Zx==`).
+
+```php title="config/scribe.php"
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'basic',
+    'name' => 'Authorization', // <-- This value is ignored, as the header name is always "Authorization"
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="header">
+
+For an API which uses a token in a custom header (for instance, `Api-Key: i0d7jow867tR09Zx`).
+
+```php title="config/scribe.php"
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'header',
+    'name' => 'Api-Key', // <-- The name of the header
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="body">
+
+For an API which uses a token in an body parameter.
+
+```php title="config/scribe.php"
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'body',
+    'name' => 'apiKey', // <-- The name of the body parameter
+  ],
+];
+```
+
+</TabItem>
+<TabItem value="query">
+
+For an API which uses a token in an query parameter.
+
+```php title="config/scribe.php"
+return [
+  'auth' => [
+    // ...
+    'enabled' => true,
+    'in' => 'query',
+    'name' => 'apiKey', // <-- The name of the query parameter
+  ],
+];
+```
+
+</TabItem>
+</Tabs>
+
+:::tip
+Scribe will automatically turn your auth information into text in the docs. To customise the generated text (or change to a different language), use Laravel's translation system. You can publish Scribe's default translations using `php artisan vendor:publish --tag=scribe-translations`.
+:::
+
+There are some other settings that you have to set in the `auth` array. Here'sa full example and explanation:
+
+
+```php title="config/scribe.php"
+return [
+  // ...
+  'auth' => [
+    'enabled' => true,
+    'default' => false,
+    'in' => 'bearer',
+    'name' => 'Authorization',
+    'use_value' => env('SCRIBE_AUTH_KEY'),
+    'placeholder' => '{ACCESS_TOKEN}',
+    'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.',
+  ],
+];
+```
+
+- The `default` field describes the most common behaviour of your API. If most of your endpoints are authenticated, set this to `true`, then use `@unauthenticated` on the method docblock if you need to turn off auth for specific endpoints. If your endpoints are open by default, leave this as `false`, then use `@authenticated` on the method doc block to turn on auth for specific endpoints.
+- The `use_value` field is only used by Scribe for response calls. During generation, if an endpoint requires auth, Scribe will pass this value. It _won't_ be included in the generated output or examples.
+  :::tip
+  If you need to dynamically generate the auth value for response calls, use the [`beforeResponseCall()` method](responses#authentication-and-customization) instead.
+  :::
+- The `placeholder` is the opposite of `use_value`. It will be used only as a placeholder in the generated example requests.
+- The `extra_info` text is appended to the auth description Scribe generates. A good idea would be to tell your users where to get their auth key.
+
+For more information, see the [reference documentation on the auth section](../reference/config#auth).
+
+

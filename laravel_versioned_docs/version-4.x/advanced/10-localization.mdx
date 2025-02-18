@@ -1,0 +1,13 @@
+---
+id: localization
+---
+
+# Localization/Internationalization
+
+By default, Scribe will generate a docs UI with text in English. You can instead generate text in a different language (or just use your own wording) by using the translation system, built on top of [Laravel's](https://laravel.com/docs/10.x/localization) (as of version 4.20.0).
+
+To start, publish Scribe's translation file using `php artisan vendor:publish --tag=scribe-translations`. This will create a `lang/scribe.php` (or `resources/lang/scribe.php`) file in your project. This file contains the strings Scribe uses for different pieces of the UI. You can now edit the ones you wish to change and delete those you want to remain the same.
+
+:::note
+These translations are only used when generating the docs. The language in your docs won't dynamically change for your users. You can implement that yourself by using the translation files to map to your own custom translations, then serving them via `laravel` type.
+:::

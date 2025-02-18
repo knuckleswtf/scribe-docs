@@ -4,3 +4,4 @@
 - Run `yarn start`
 
 ## Creating a new docs version
+See the README
