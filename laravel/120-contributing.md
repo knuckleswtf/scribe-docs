@@ -35,22 +35,14 @@ The rest of this document is only important if you're making code changes.
 ## Installing dependencies
 To install the regular Laravel dependencies, run `composer install`.
 
-However, if you're testing something related to Dingo, you'll need to install the Dingo dependencies instead. To do that, set the shell variable `COMPOSER=composer.dingo.json` before running `composer install` (ie `COMPOSER=composer.dingo.json composer install`). On Windows, you can use the Node.js package [cross-env](https://npmjs.com/package/cross-env) to easily run set this.
-
 ## Local development
 If you need a project to test the generated doc output on, you can use [this](https://github.com/knuckleswtf/TheSideProjectAPI) (Laravel). Change the path in the `repositories` section of the `composer.json` to point to your local clone of Scribe.
 
 ## Running tests
-- To run tests for Laravel, run `composer test`. This will run all tests excluding the ones for Dingo and stop on the first failure.
-
-- To run tests for Dingo, run `COMPOSER=composer.dingo.json composer test`. This will run only the tests for Dingo and stop on the first failure.
+- To run tests for Laravel, run `composer test`. This will run all tests and stop on the first failure.
 
 :::tip
 You can pass options to PHPUnit by putting them after a `--`. For instance, filter by using `composer test -- --filter can_fetch_from_responsefile_tag`.
-:::
-
-:::tip
-For faster test runs, you can run the tests in parallel with `composer test-parallel`. The `--filter` option is not supported here, though.
 :::
 
 ## Writing tests

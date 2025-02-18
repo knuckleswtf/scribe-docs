@@ -9,7 +9,7 @@ Read this page if you want a deeper understanding of how Scribe works (for insta
 ## When you run `scribe:generate` for the first time
 Here's a high-level overview of what Scribe does on first run:
 
-1. The `GenerateDocumentationCommand` calls the `RouteMatcher` class to get the routes you want to document. The `RouteMatcher` does this by fetching all your application's routes from the router (Laravel/Dingo) and filtering them based on your config.
+1. The `GenerateDocumentationCommand` calls the `RouteMatcher` class to get the routes you want to document. The `RouteMatcher` does this by fetching all your application's routes from the Laravel router and filtering them based on your config.
   ```php
   $routes = $routeMatcher->getRoutes($yourConfig);
   ```

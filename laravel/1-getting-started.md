@@ -29,7 +29,6 @@ The second thing you'll need to do is tell Scribe what routes you want to docume
             'match' => [
                 'domains' => ['*'],
                 'prefixes' => ['api/*'],
-                'versions' => ['v1'],
             ],
             'include' => [
                 // 'users.index', 'healthcheck*'
@@ -41,7 +40,7 @@ The second thing you'll need to do is tell Scribe what routes you want to docume
     ],
 ```
 
-Each entry in the `routes` array defines a route _group_. The main purpose of these groups is to let you apply different settings to different sets of endpoints (for instance, adding an `Api-Version` header to some routes). By default, all your routes are in a single group. For now, let's leave them like that. See more about route groups [here](/laravel/reference/config#routes).
+For historical reasons, each entry in the `routes` array defines a route _group_. However, we recommend keeping all your routes in a single group.
 
 The important key here is the `prefixes`. Set it to a path matching your API routes. For instance, the default config (`["api/*"]`) will match any endpoints that start with `<your-app-url>/api/`. You can set it to `["*"]` to match all endpoints.
 

@@ -109,27 +109,11 @@ The `Knuckles\Scribe\Tools\WritingUtils` class contains some helpful utilities t
 ## Customising all templates
 If you really want to customise *all* the templates Scribe uses for generating, you can publish the vendor views:
 
-
-import {LaravelLumenTabs, TabItem} from '@site/src/components/LaravelLumenTabs';
-
-<LaravelLumenTabs>
-<TabItem value="laravel">
-
 Run:
 
 ```bash
 php artisan vendor:publish --tag=scribe-views
 ```
-
-</TabItem>
-<TabItem value="lumen">
-
-- Create the `resources/views/vendor/scribe/` directory in your app
-- Copy the contents of `vendor/knuckleswtf/scribe/resources/views/` into it.
-
-</TabItem>
-
-</LaravelLumenTabs>
 
 
 When you do this, your `resources/views/vendor/scribe/` folder should have this structure:
