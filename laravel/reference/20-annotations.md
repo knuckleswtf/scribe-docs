@@ -5,7 +5,7 @@ id: annotations
 # Supported annotations
 
 ## PHP 8 attributes vs docblock tags
-Scribe v4 introduces PHP 8 attributes that provide the same functionality as the old docblock tags. Here's a quick comparison of what they look like:
+Scribe v4 introduced PHP 8 attributes that provide the same functionality as the old docblock tags. Here's a quick comparison of what they look like:
 
 
 
