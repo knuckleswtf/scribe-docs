@@ -11,29 +11,29 @@ If you aren't sure what an option does, it's best to leave it set to the default
 :::
 
 ## Output settings
-### `theme`
+## `theme`
 The theme of the docs. Options:
 - When using `static` or `laravel`: `default`, `elements` (modelled after [Stoplight Elements](https://elements-demo.stoplight.io/)). See the [theming guide](/laravel/advanced/theming).
 - When using `external_static` or `external_laravel`: [`scalar`](https://github.com/scalar/scalar?tab=readme-ov-file), [`elements`](https://github.com/stoplightio/elements)and [`rapidoc`](https://github.com/rapi-doc/RapiDoc)
 
 Default: `"default"`
 
-### `type`
+## `type`
 This is the type of documentation output to generate.
-- `static` will generate a static HTMl page in the `public/docs` folder,
-- `laravel` will generate the documentation as a Blade view within the `resources/views/scribe` folder, so you can add routing and authentication.
+- `laravel` will generate the documentation as a Blade view within the `resources/views/scribe` folder. The docs will be served through your Laravel app, and you can add routing, authentication, and middleware.
+- `static` will generate a static HTMl page in the `public/docs` folder, which can be visited independent of your Laravel application.
 - `external_static` and `external_laravel` do the same as above, but generate a basic template, passing the OpenAPI spec as a URL, allowing you to easily use the docs with an external generator.
 
-Default: `"static"`
+Default: `"laravel"`
 
-### `static`
+## `static`
 Settings for the `static` type output.
 
 - `output_path`: Output folder. The docs, Postman collection and OpenAPI spec will be placed in this folder. We recommend leaving this as `public/docs`, so people can access your docs through `<your-app>/docs`.
 
    Default: `"public/docs"`.
 
-### `external`
+## `external`
 Settings for the `external_static` and `external_laravel` type output.
 
 - `html_attributes`: Any custom HTML attributes you wish to set. For instance, when using Stoplight Elements, you can pass any of [the supported configuration options](https://github.com/stoplightio/elements/blob/main/docs/getting-started/elements/elements-options.md);
@@ -47,7 +47,7 @@ Settings for the `external_static` and `external_laravel` type output.
   ]
   ```
 
-### `laravel`
+## `laravel`
 Settings for the `laravel` type output.
 
 - `add_routes`: Set this to `true` if you want the documentation endpoint (`<your-app>/docs`) to be automatically added to your app. To use your own routing, set this to `false`.
@@ -68,19 +68,19 @@ Settings for the `laravel` type output.
 
 - `middleware`: List of middleware to be attached to the documentation endpoint (if `add_routes` is true).
 
-### `base_url`
+## `base_url`
 The base URL to be displayed in the docs. If you leave this empty, Scribe will use the current app URL (`config('app.url')`).
 
-### `title`
+## `title`
 The HTML `<title>` for the generated documentation, and the name of the generated Postman collection and OpenAPI spec. If this is `null`, Scribe will infer it from `config('app.name')`.
 
-### `description`
+## `description`
 A description for your API. This will be placed in the "Introduction" section, before the `intro_text`. It will also be used as the `info.description` field in the generated Postman collection and OpenAPI spec.
 
-### `intro_text`
+## `intro_text`
 The text to place in the "Introduction" section (after the `description`). Markdown and HTML are supported.
 
-### `try_it_out`
+## `try_it_out`
 Configure the API tester included in the docs.
 
 - `enabled`: Set this to `true` if you'd like Scribe to add a "Try It Out" button to your endpoints so users can test them from their browser.
@@ -91,7 +91,7 @@ Configure the API tester included in the docs.
 For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpoints.
 :::
 
-- `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server. Leave as `null` to use the current app URL (`config(app.url)`).
+- `base_url`: The base URL where Try It Out requests should go to. For instance, you can set this to your staging server. Leave as `null` to use the display URL (`config(scribe.base_url)`).
 
 - `use_csrf`: Fetch a CSRF token before each Try It Out request, and add it as an `X-XSRF-TOKEN` header to the request. This is needed if you're using [Laravel Sanctum](https://laravel.com/docs/sanctum),.
 
@@ -101,7 +101,7 @@ For "Try It Out" to work, you'll need to make sure CORS is enabled on your endpo
 
   Default: `'/sanctum/csrf-cookie'`.
 
-### `logo`
+## `logo`
 Path to an image to use as your logo in the docs. This will be used as the value of the `src` attribute for the `<img>` tag, so make sure it points to a public URL or path accessible from your server.
 
 If you're using a relative path, remember to make it relative to your docs output location (`static` type) or app URL (`laravel` type). For example, if your logo is in `public/img`:
@@ -113,8 +113,12 @@ For best results, the image width should be 230px. Set this to `false` if you're
 
 Default: `false`.
 
-### `last_updated`
+## `last_updated`
 Scribe shows a "Last updated" label in your docs. You can customize this label by specifying tokens and formats.
+
+:::note
+This setting does nothing if using one of the `external_` docs types.
+:::
 
 - Available tokens are `{date:<format>}` and `{git:<format>}`.
 - The format you pass to `date` will be passed to PhP's `date()` function. See [the docs](http://php.net/manual/en/datetime.format.php) for valid options.
@@ -131,17 +135,19 @@ Last updated on {date:l, jS F} (Git commit {git:short})
 
 Default: `"Last updated: {date:F j, Y}"`
 
-### `groups`
-
-#### `default`
+# `groups.default`
 When [documenting your api](/laravel/documenting/), you use `@group` annotations to group API endpoints. Endpoints which do not have a group annotation will be grouped under the `groups.default`.
 
 Default: `"Endpoints"`.
 
-#### `order`
+## `groups.order`
 By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined. You can override this by listing the groups, subgroups and endpoints here in the order you want them.
 
 Any groups, subgroups or endpoints you don't list here will be added as usual after the ones here. If an endpoint/subgroup is listed under a group it doesn't belong in, it will be ignored.
+
+:::note
+This setting does nothing if using one of the `external_` docs types.
+:::
 
 To describe an endpoint, follow the format `'{method} /{path}'`  (for example, "POST /users").
 
@@ -188,28 +194,29 @@ Here's an example configuration:
 ```
 
 
-### `examples`
-Settings to customize how Scribe generates example values for your docs.
-
-#### `faker_seed`
+## `examples.faker_seed`
 When generating examples for parameters, Scribe uses the `fakerphp/faker` package to generate random values. To generate the same example values each time, set this to any number (eg. `1234`).
 
 :::tip
 Alternatively, you can [set example values](../documenting/query-body-parameters#specifying-or-omitting-examples) for parameters when documenting them.
 :::
 
-#### `models_source`
+## `examples.models_source`
 
 With Eloquent API resources and transformers, Scribe tries to generate example models to use in your API responses. By default, Scribe will try the model's factory's `create()`method, then its `make()` method, and if that fails, then try fetching the first from the database. You can reorder or remove strategies here.
 
 Default: `['factoryCreate', 'factoryMake', 'databaseFirst']`
 
-### `example_languages`
+## `example_languages`
 For each endpoint, an example request is shown in each of the languages specified in this array. Currently, only `bash` (curl), `javascript` (Fetch), `php` (Guzzle) and `python` (requests) are included. You can add extra languages, but you must also create the corresponding Blade view (see [Adding more example languages](/laravel/advanced/example-requests)).
 
 Default: `["bash", "javascript"]`
 
-### `postman`
+:::note
+This setting does nothing if using one of the `external_` docs types.
+:::
+
+## `postman`
 Along with the HTML docs, Scribe can automatically generate a Postman collection for your API. This section is where you can configure or disable that.
 
 For `static` output, the collection will be created in `{static.output_path}/collection.json`. For `laravel` output, the collection will be generated to `storage/app/scribe/collection.json`. Setting `laravel.add_routes` to `true` will add a `/collection.json` endpoint to fetch it.
@@ -220,11 +227,11 @@ For `static` output, the collection will be created in `{static.output_path}/col
 
 - `overrides`: Fields to merge with the collection after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
 
-### `openapi`
+## `openapi`
 Scribe can also generate an OpenAPI (Swagger) spec for your API. This section is where you can configure or enable that.
 
 :::caution
-The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs in the wild (such as optional URL parameters). Scribe does its best, but there's no guarantee that the spec generated will exactly match your API structure.
+The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs in the wild (such as optional URL parameters). Scribe does its best, but there's no guarantee that the spec generated will exactly match your API structure. You can try to improve this with a [custom generator](https://github.com/knuckleswtf/scribe/pull/912/. 
 :::
 
 For `static` output, the spec will be created in `{static.output_path}/openapi.yaml`. For `laravel` output, the spec will be generated to `storage/app/scribe/openapi.yaml`. Setting `laravel.add_routes` to `true` will add a `/openapi.yaml` endpoint to fetch it.
@@ -236,7 +243,7 @@ For `static` output, the spec will be created in `{static.output_path}/openapi.y
 - `overrides`: Fields to merge with the spec after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
 
 ## Extraction settings
-### `auth`
+## `auth`
 Specify authentication details about your API. This information will be used:
 - to derive the text in the "Authentication" section in the generated docs
 - to generate auth info in the Postman collection and OpenAPI spec
@@ -277,19 +284,85 @@ Even if you set `auth.default`, you must also set `auth.enabled` to `true` if yo
 
 - `extra_info`: Any extra authentication-related info for your users. For instance, you can describe how to find or generate their auth credentials. Markdown and HTML are supported. This will be included in the `Authentication` section.
 
-### `strategies`
+## `strategies`
 A nested array of strategies Scribe will use to extract information about your routes at each stage. If you write or install a custom strategy, add it here under the appropriate stage. By default, all strategies are enabled.
 
 You can remove the strategies you don't need (for instance, you can remove the `UseTransformerTags` strategy if you aren't using transformers), add custom ones, or reorder them as you wish.
 
-### `routes`
+```php
+use Knuckles\Scribe\Config\Defaults;
+use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
+
+  'strategies' => [
+    'metadata' => [
+       // I want to use the defaults
+      ...Defaults::METADATA_STRATEGIES,
+    ],
+    'headers' => [
+      // I want the defaults, except for some.
+      ...removeStrategies(
+        Defaults::HEADERS_STRATEGIES,
+        [Strategies\Headers\GetFromHeaderTag::class]
+      )
+    ],
+    'urlParameters' => [
+      // I want the defaults, plus my own strategy.
+      ...Defaults::URL_PARAMETERS_STRATEGIES,
+      App\Docs\Strategies\SomeCoolStuff::class,
+    ],
+    'queryParameters' => [
+      // I want the defaults, plus my own strategy, but only on some endpoints
+      ...Defaults::QUERY_PARAMETERS_STRATEGIES,
+      // `wrapWithSettings` works on any strategy, inbuilt or custom
+      App\Docs\Strategies\SomeCoolStuff::wrapWithSettings(
+        only: ['POST /cool/*'],
+      ),
+    ],
+    'bodyParameters' => [
+      ...Defaults::BODY_PARAMETERS_STRATEGIES,
+      // I want the defaults, plus my own strategy, but excluding some endpoints
+      App\Docs\Strategies\SomeCoolStuff::wrapWithSettings(
+        except: ['POST /uncool'],
+      ),
+    ],
+    // I want the defaults, but I need to adjust the settings on one of them
+    'responses' => configureStrategy(
+      Defaults::RESPONSES_STRATEGIES,
+      Strategies\Responses\ResponseCalls::withSettings(
+        only: ['GET *'],
+        config: [
+          'app.debug' => false,
+        ],
+        queryParams: [
+          // 'key' => 'value',
+        ],
+        bodyParams: [
+          // 'key' => 'value',
+        ],
+        fileParams: [
+          // 'key' => 'storage/app/image.png',
+        ],
+        cookies: [
+          // 'key' => 'storage/app/image.png',
+        ],
+      )
+      ),
+    'responseFields' => [
+      ...Defaults::RESPONSE_FIELDS_STRATEGIES,
+    ],
+],
+```
+
+- The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
+
+- The `config` key allows you to customise your Laravel app's config for the response call.
+
+## `routes`
 The `routes` section is an array of items describing what routes in your application that should be included in the docs.
 
-Each item in the `routes` array is a _route group_. A route group is an array containing:
-- rules defining what routes belong in that group (`match`, `include`, and `exclude`), and
-- any custom settings to apply to those routes (`apply`).
+For historical reasons, each item in the `routes` array is a _route group_. A route group is an array containing rules defining what routes belong in that group (`match`, `include`, and `exclude`). However, we recommend using a single route group.
 
-#### `match`
+### `match`
 Let's start with the `match ` section. This is where you tell Scribe the endpoints you want to document. The default looks like this:
 
 ```php title="config/scribe.php"
@@ -334,25 +407,7 @@ Route::group(['domain' => 'v2.acme.co'], function () {
 Route::get('/api/getUsers', [UserControllerV::class, 'listUsers']);
 ```
 
-Finally, if you're using Dingo, you can also limit the `versions` you want to match (no wildcards are not supported).
-
-```php
-'match' => [
-  'prefixes' => ['api/*'],
-  'domains' => ['v2.acme.co'],
-  'versions' => ['v2'],
-],
-
-// 👍 Will match
-$api->version('v2', function (Router $api) {
-    $api->post('/api/users');
-});
-$api->version('v1', function (Router $api) {
-    // 👍 Won't match
-});
-```
-
-#### `include` and `exclude`
+### `include` and `exclude`
 `include` and `exclude` allow you to override `match`. With `include`, you can add routes to the group, even if they didn't match. With `exclude`, you can remove routes that matched. Both of these take a list of route names or paths.
 
 For example:
@@ -383,39 +438,7 @@ Route::get('/metrics', [PublicController::class, 'showMetrics'])
 Route::get('/api/getUsers', [UserControllerV!::class, 'listUsers']);
 ```
 
-#### `apply`
-The `apply` section of the route group is where you specify any additional settings to be applied to those routes when generating documentation. There are a number of settings you can tweak here:
-
-- `headers`: Any headers you specify here will be added in example requests and response calls. Headers are specified as `key => value` strings.
-
-- `response_calls`: These are the settings that will be applied when making ["response calls"](../documenting/responses#response-calls).
-
-```php title="config/scribe.php"
-'response_calls' => [
-    'methods' => ['GET'],
-    'config' => [
-        'app.env' => 'documentation',
-    ],
-    'queryParams' => [
-        // 'key' => 'value',
-    ],
-    'bodyParams' => [
-        // 'key' => 'value',
-    ],
-    'fileParams' => [
-        // 'key' => 'storage/app/image.png',
-    ],
-],
-```
-
-  - The `methods` key determines what endpoints allow response calls. By default, Scribe will only try response calls for GET endpoints, but you can change this as you wish. Set it to `['*']` to mean all methods. Leave it as an empty array to turn off response calls for that route group.
-
-  - The `queryParams`, `bodyParams`, and `fileParams` keys allow you to set specific data to be sent in response calls. For file parameters, each value should be a valid path (absolute or relative to your project directory) to a file on the machine.
-
-  - The `config` key allows you to customise your Laravel app's config for the response call.
-
-
-### `database_connections_to_transact`
+## `database_connections_to_transact`
 To avoid modifying your database, Scribe can run response calls and example model creation (API resource and Transformer strategies) in a database transaction, and then roll it back afterwards. This item is where you specify which database connections Scribe can run transactions for.
 
 By default, this is set to your default database connection (`config('database.default')`), so if you only use one database connection, you should be fine. If you use multiple connections, you should add them to the array. For example:
@@ -427,12 +450,12 @@ By default, this is set to your default database connection (`config('database.d
 ],
 ```
 
-### `fractal`
+## `fractal`
 This section only applies if you're using [transformers](https://fractal.thephpleague.com/transformers/) for your API (via the league/fractal package), and documenting responses with `@transformer` and `@transformerCollection`. Here, you configure how responses are transformed.
 
 - `serializer`: If you are using a custom serializer with league/fractal, you can specify it here. Leave this as `null` to use no serializer or return a simple JSON.
 
   Default: `null`
 
-### `routeMatcher`
+## `routeMatcher`
 The route matcher class is responsible for fetching the routes to be documented. The default matcher is the included `\Knuckles\Scribe\Matching\RouteMatcher`, but you can provide your own custom implementation if you wish. The provided matcher should implement `\Knuckles\Scribe\Matching\RouteMatcherInterface`.
