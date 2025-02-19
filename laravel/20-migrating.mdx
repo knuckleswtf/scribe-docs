@@ -1,0 +1,247 @@
+---
+id: migrating
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Migrating to v5
+
+Welcome to Scribe v5.👋 This guide will help you migrate from v4. There are a few breaking changes, but you should be done in less than 10 minutes.
+
+## Requirements
+Scribe v5 requires PHP 8.1+ and Laravel 9+. If you're on an older version, you'll need to upgrade.
+
+## Start
+Upgrade the package version (`knuckleswtf/scribe`) in your `composer.json` to `^5.0` and then install:
+
+```bash
+composer update knuckleswtf/scribe
+```
+
+## Config file changes
+- **Lumen is no longer supported**. Lumen is effectively dead and rarely used, and it only added a maintenance burden. Remove the `Strategies\UrlParameters\GetFromLumenAPI::class` from your config file, if present.
+- **Dingo is no longer supported**. It was rarely used and only created maintenance complexity. Remove the `versions` key from your config file, if present.
+- **The `"override"` strategy (introduced in [v4.28](https://scribe.knuckles.wtf/blog/laravel-v4-28)) has been renamed**. If you previously had an `"override"` strategy, replace it with `StaticData::withSettings(data: ...)`:
+  ```diff
+  'headers' => [
+    Strategies\Headers\GetFromHeaderAttribute::class,
+    Strategies\Headers\GetFromHeaderTag::class,
+  - [
+  -   'override' =>
+  -   [
+  -     'Some-Custom-Header' => 'value',
+  -   ]
+  - ],
+  + Strategies\StaticData::withSettings(data: [
+  +   'Some-Custom-Header' => 'value',
+  + ]),
+  ],
+  ```
+- Support for the `routes.*.apply` configs (notably `routes.0.apply.headers` and `routes.0.apply.response_calls`) has been removed.
+  - Remove the `Strategies\Headers\GetFromRouteRules::class`, if present.
+  - If you previously were using `routes.0.apply.headers`, replace it with `StaticData::withSettings(...)` in `strategies.headers`:
+
+     <Tabs
+         defaultValue="before"
+         values={[
+             {label: 'Before', value: 'before'},
+             {label: 'After', value: 'after'},
+         ]}>
+       <TabItem value="before">
+
+         ```php
+         'routes' => [
+           [
+             'match' => [...],
+             'apply' => [
+               'headers' => [
+                   'Some-Custom-Header' => 'value',
+               ],
+             ],
+           ]
+         ]
+         ```
+
+       </TabItem>
+       <TabItem value="after">
+         ```php
+         'strategies' => [
+           'headers' => [
+             ...Config\Defaults::HEADERS_STRATEGIES,
+             Strategies\StaticData::withSettings(data: [
+               'Some-Custom-Header' => 'value',
+             ]),
+           ],
+         ],
+         ```
+       </TabItem>
+     </Tabs>
+  - If you previously were using `routes.0.apply.response_calls`, replace it with `ResponseCalls::withSettings(...)` in `strategies.responseCalls`. Note that `methods` has been replaced by `only`, which supports better wildcards (method + URL).
+
+      <Tabs
+          defaultValue="before"
+          values={[
+              {label: 'Before', value: 'before'},
+              {label: 'After', value: 'after'},
+          ]}>
+        <TabItem value="before">
+
+          ```php
+          'routes' => [
+            [
+              'match' => [...],
+              'apply' => [
+                'response_calls' => [
+                  'methods' => ['GET'],
+                  'bodyParams' => [
+                    'go' => 'there'
+                  ]
+                ],
+              ],
+            ]
+          ]
+          ```
+
+        </TabItem>
+        <TabItem value="after">
+          ```php
+          'strategies' => [
+            'responseCalls' => [
+              // Your other strategies...,
+              Strategies\Responses\ResponseCalls::withSettings(
+                only: ['GET *'],
+                bodyParams: [
+                  'go' => 'there'
+                ]
+              ),
+            ],
+          ],
+          ```
+        </TabItem>
+      </Tabs>
+
+
+## Plugin API
+- **The `$routeRules` parameter of `__invoke` has been renamed to `$settings`**. Additionally, it now contains the settings specified for this strategy, not the `routes.*.apply` rules.
+  - Note that the `only` and `except` settings are evaluated before the strategy is called, so you don't need to write any custom code to support that.
+
+
+## Defaults
+- `type` is now `laravel` by default. The `static` versions are good for local dev, but rarely work well without additional config. It makes sense to include your docs in your Laravel app.
+- The `try_it_out.base_url` will now default to the display URL `base_url` if unset. This way, your docs and the API tester will be showing the same URLs by default.
+
+## Other new features
+### New config helpers
+To streamline the config file and make it easier to follow package updates, we've added some new constants and helpers. Here's a demonstration of them in action:
+
+```php
+use Knuckles\Scribe\Config\Defaults;
+use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
+
+  'strategies' => [
+    'metadata' => [
+       // I want to use the defaults
+      ...Defaults::METADATA_STRATEGIES,
+    ],
+    'headers' => [
+      // I want the defaults, except for some.
+      ...removeStrategies(
+        Defaults::HEADERS_STRATEGIES,
+        [Strategies\Headers\GetFromHeaderTag::class]
+      )
+    ],
+    'urlParameters' => [
+      // I want the defaults, plus my own strategy.
+      ...Defaults::URL_PARAMETERS_STRATEGIES,
+      App\Docs\Strategies\SomeCoolStuff::class,
+    ],
+    'queryParameters' => [
+      // I want the defaults, plus my own strategy, but only on some endpoints
+      ...Defaults::QUERY_PARAMETERS_STRATEGIES,
+      // `wrapWithSettings` works on any strategy, inbuilt or custom
+      App\Docs\Strategies\SomeCoolStuff::wrapWithSettings(
+        only: ['POST /cool/*'],
+      ),
+    ],
+    'bodyParameters' => [
+      ...Defaults::BODY_PARAMETERS_STRATEGIES,
+      // I want the defaults, plus my own strategy, but excluding some endpoints
+      App\Docs\Strategies\SomeCoolStuff::wrapWithSettings(
+        except: ['POST /uncool'],
+      ),
+    ],
+    // I want the defaults, but I need to adjust the settings on one of them
+    'responses' => configureStrategy(
+      Defaults::RESPONSES_STRATEGIES,
+      Strategies\Responses\ResponseCalls::withSettings(
+        only: ['GET *'],
+        config: [
+            'app.debug' => false,
+        ]
+      )
+      ),
+    'responseFields' => [
+      ...Defaults::RESPONSE_FIELDS_STRATEGIES,
+    ],
+],
+```
+
+
+:::tip
+To disable response calls for all routes, set
+
+```php
+Strategies\Responses\ResponseCalls::withSettings(
+  only: [], except: ['*'],
+),
+```
+:::
+
+### OpenAPIWriter internals
+Thanks to a new composable system, there are now more options to hook into the OpenAPI generation process. With "generators", you can override the generation of specific parts of the OpenAPI spec.
+
+For example, to add a parameter to the `components` section, create a generator:
+
+```php
+class ComponentsOpenApiGenerator extends OpenApiGenerator
+{
+    public function root(array $root, array $groupedEndpoints): array
+    {
+        $parameters = Arr::get($root, 'components.parameters', []);
+        $parameters = array_merge($parameters, [
+            'slugParam' => [
+                'in' => 'path',
+                'name' => 'slug',
+                'description' => 'The slug of the organization.',
+                'example' => 'acme-corp',
+                'required' => true,
+                'schema' => [
+                    'type' => 'string',
+                ],
+            ],
+        ]);
+        $root['components']['parameters'] = $parameters;
+
+        return $root;
+    }
+
+    public function pathParameters(array $parameters, array $endpoints, array $urlParameters): array
+    {
+        $parameters['slug'] = ['$ref' =>  "#/components/parameters/slugParam"];
+
+        return $parameters;
+    }
+}
+```
+
+and then register it in the `openapi` config:
+
+```php
+'openapi' => [
+    ...
+    'generators' => [
+        ComponentsOpenApiGenerator::class,
+    ],
+],
+```
