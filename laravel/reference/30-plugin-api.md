@@ -21,18 +21,18 @@ abstract class Strategy
     
     /**
      * @param ExtractedEndpointData $endpointData
-     * @param array $routeRules Array of rules for this route.
+     * @param array $settings Settings to be applied to this strategy.
      *
      * @return array|null
      */
     abstract public function __invoke(
         ExtractedEndpointData $endpointData,
-        array $routeRules = []
+        array $settings = []
     ): ?array;
 }
 ```
 :::tip
-You can run `php artisan scribe:strategy <className>` to automatically generate a strategy.
+You can run `php artisan scribe:strategy <className>` to generate a strategy.
 :::
 
 ## `$config`
@@ -40,20 +40,20 @@ The `$config` property is an instance of the Scribe configuration (= `config('sc
 
 ```php
 // Check if "Try It Out" is enabled:
-$this->config('try_it_out.enabled');
+$this->config->get('try_it_out.enabled');
 ```
 
 You can specify a default that will be returned if the value does not exist. Otherwise, `null` will be returned.
 
 ```php
-$this->config('unknown_setting'); // Returns null
-$this->config('unknown_setting', true); // Returns true
+$this->config->get('unknown_setting'); // Returns null
+$this->config->get('unknown_setting', true); // Returns true
 ```
 
-## `__invoke(ExtractedEndpointData $endpointData, array $routeRules): ?array`
+## `__invoke(ExtractedEndpointData $endpointData, array $settings): ?array`
 This is the method that is called to process a route. Parameters:
 - `$endpointData`, an instance of `Knuckles\Camel\Extraction\ExtractedEndpointData` ([source](https://github.com/knuckleswtf/scribe/blob/master/camel/Extraction/ExtractedEndpointData.php)), which contains information about the endpoint being processed.
-- `$routeRules`, the rules passed in the `apply` section of the Scribe config for this route.
+- `$settings`, the settings passed to the strategy.
 
 This method may return `null` or an empty array if it has no data to add. Otherwise, it should return an array with the relevant information, which varies depending on the type of strategy/stage of route processing:
 - For `metadata`, a map (key => value) of metadata attributes (as shown in the example below). If you'd like to set a custom attribute so you can access it later, you can add items to the `$endpointData->metadata->custom` array directly.

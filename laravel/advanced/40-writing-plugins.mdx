@@ -57,11 +57,11 @@ class AddPaginationParameters extends Strategy
     /**
      * @param ExtractedEndpointData $endpointData The endpoint we are currently processing.
      *   Contains details about httpMethods, controller, method, route, url, etc, as well as already extracted data.
-     * @param array $routeRules Array of rules for the ruleset which this route belongs to.
+     * @param array $settings Settings to be applied to this strategy.
      *
      * @return array|null
      */
-    public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
+    public function __invoke(ExtractedEndpointData $endpointData, array $settings = []): ?array
     {
         return [];
     }
@@ -78,7 +78,7 @@ Let's add some code to make our strategy work:
 
 ```php title="app\Docs\Strategies\AddPaginationParameters.php"
 
-public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
+public function __invoke(ExtractedEndpointData $endpointData, array $settings = []): ?array
 {
     $isGetRoute = in_array('GET', $endpointData->httpMethods);
     $isIndexRoute = strpos($endpointData->route->getName(), '.index') !== false;
@@ -128,10 +128,41 @@ And we're done! Now, when we run `php artisan scribe:generate`, all our GET rout
 
 See the [plugin API reference](../reference/plugin-api) for details of what's available when writing plugins.
 
+## Working with settings
+All strategies can receive an array of settings. In the configuration file, this can be done using the inherited `wrapWithSettings` method. This is useful for many scenarios. For instance, we can specify the pagination type for specific endpoints.
+
+```php title="config/scribe.php"
+'strategies' => [
+  'queryParameters' => [
+    \Strategies\QueryParameters\GetFromQueryParamTag::class,
+    \App\Docs\Strategies\AddPaginationParameters::wrapWithSettings(
+      only: ['GET *'],
+      except: ['GET /me'],
+      otherSettings: ['paginationType' => 'cursor'],
+    ),
+  ],
+],
+```
+
+In this case:
+- Your strategy will only be called for endpoints matching the `only` and `except` rules (ie the rules are evaluated *before* the strategy is invoked).
+- Your strategy will be called with a `$settings` array that looks like this:
+  ```php
+  [
+     'paginationType' => 'cursor'
+  ],
+  ```
+
+Within the strategy, you can then adjust behaviour based on the provided settings.
+
+:::tip
+This approach is used by the `StaticData` strategy, which returns whatever is provided in the `data` setting, and by the `ResponseCalls` strategy, which makes use of the `bodyParams`, `fileParams`, `queryParams`, `cookies`, and `config`.
+:::
+
 ## Utilities
 When developing strategies, you have access to a few useful tools:
 
-### Accessing docblocks
+### Accessing doc blocks
 You can use the `RouteDocBlocker` class to fetch docblocks for a route (method and class). It has this interface:
 
 ```php
@@ -157,7 +188,7 @@ This allows you to implement your own custom tags. For instance, a `@usesPaginat
 
 ```php
 
-public function __invoke(ExtractedEndpointData $endpointData, array $routeRules = []): ?array
+public function __invoke(ExtractedEndpointData $endpointData, array $settings = []): ?array
 {
     $methodDocBlock = RouteDocBlocker::getDocBlocksFromRoute($endpointData->route)['method'];
     $tags = $methodDocBlock->getTagsByName('usesPagination');
