@@ -23,7 +23,7 @@ Breaking changes:
 - If you write custom strategies, the signature of the `Strategy` class has changed: `array $routeRules` in the `__invoke()` method is now optional (`array $routeRules = []`), and there's now an instance property `public ?ExtractedEndpointData $endpointData` (although it's not set by default)
 - `laravel.add_routes` now uses inline (Closure) routes (there's no more `Scribe\Controller` class). This way it's easier for you to copy and customise to make your own routes.
 
-See the [migration guide](/laravel/migrating-v4) for details on how to upgrade.
+See the [migration guide](/laravel/4.x/migrating-v4) for details on how to upgrade.
 
 
 ## Attributes
