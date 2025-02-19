@@ -138,7 +138,7 @@ Some things to note about attributes:
 
 Here's a list of all the docblock annotations Scribe supports.
 
-## Metadata annotations
+## Metadata
 
 :::tip
 All metadata annotations can be used on the method or class docblock. Using them on the class will make them apply to all endpoints in that class.
@@ -151,7 +151,7 @@ Tag | Description | Format
 `@authenticated` | Indicates that an endpoint needs auth | `@authenticated`
 `@unauthenticated` | Opposite of `@authenticated` | `@unauthenticated`
 
-## Request parameter annotations
+## Request parameters
 ### `@header` / `#[Header]`
 Describes a request header.
 
@@ -350,7 +350,7 @@ public function endpoint() {...}
 </AttributesTagsTabs>
 
 
-## Response annotations
+## Responses
 ### `@response`/`#[Response]`
 Describes an example response.
 
@@ -605,6 +605,7 @@ public function endpoint() {...}
 ```
 
 
+## Responses via Fractal Transformers
 ### `@transformer`
 Tells Scribe how to generate a response using a [Fractal transformer](https://fractal.thephpleague.com/transformers/). Can be used together with [`@transformerModel`](#transformermodel).
 

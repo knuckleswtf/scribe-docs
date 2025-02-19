@@ -13,6 +13,10 @@ Scribe supports Markdown (and, by extension, HTML) in a couple of places:
 
 Scribe provides some custom HTML and CSS styling that you can use to highlight information in your docs:
 
+:::important
+These styling changes only affect UIs managed by Scribe (ie not the `external_*` types).
+:::
+
 :::note
 The specific styling of these items will depend on your chosen theme. Examples are shown here using the default theme.
 :::
