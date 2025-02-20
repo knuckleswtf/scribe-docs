@@ -198,7 +198,7 @@ Strategies\Responses\ResponseCalls::withSettings(
 ```
 :::
 
-### OpenAPIWriter internals
+### More configurable OpenAPI generation
 Thanks to a new composable system, there are now more options to hook into the OpenAPI generation process. With "generators", you can override the generation of specific parts of the OpenAPI spec.
 
 For example, to add a parameter to the `components` section, create a generator:
@@ -245,3 +245,5 @@ and then register it in the `openapi` config:
     ],
 ],
 ```
+
+A better use case might be configuring OpenAPI-specific behaviours like the security section or adding vendor extensions (such as [Scalar's](https://github.com/scalar/scalar/blob/main/documentation/openapi.md)). This can be very helpful if you use one of the `external_*` documentation types.

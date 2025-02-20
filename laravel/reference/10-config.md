@@ -231,7 +231,7 @@ For `static` output, the collection will be created in `{static.output_path}/col
 Scribe can also generate an OpenAPI (Swagger) spec for your API. This section is where you can configure or enable that.
 
 :::caution
-The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs in the wild (such as optional URL parameters). Scribe does its best, but there's no guarantee that the spec generated will exactly match your API structure. You can try to improve this with a [custom generator](https://github.com/knuckleswtf/scribe/pull/912/. 
+The OpenAPI spec is an opinionated spec that doesn't cover all features of APIs in the wild (such as optional URL parameters). Scribe does its best, but there's no guarantee that the spec generated will exactly match your API structure. Consider using a [custom generator](https://github.com/knuckleswtf/scribe/pull/912/) if you need more control. 
 :::
 
 For `static` output, the spec will be created in `{static.output_path}/openapi.yaml`. For `laravel` output, the spec will be generated to `storage/app/scribe/openapi.yaml`. Setting `laravel.add_routes` to `true` will add a `/openapi.yaml` endpoint to fetch it.
@@ -241,6 +241,8 @@ For `static` output, the spec will be created in `{static.output_path}/openapi.y
    Default: `false`
 
 - `overrides`: Fields to merge with the spec after generating. Dot notation is supported. For instance, if you'd like to override the `version` in the `info` object, you can set `overrides` to `['info.version' => '2.0.0']`.
+
+- `generators`: A list of custom generators to be invoked during generation of the OpenAPI spec. Each class must extend the abstract `OpenApiGenerator`.
 
 ## Extraction settings
 ## `auth`
