@@ -80,6 +80,10 @@ A description for your API. This will be placed in the "Introduction" section, b
 ## `intro_text`
 The text to place in the "Introduction" section (after the `description`). Markdown and HTML are supported.
 
+:::note
+This setting does nothing if using one of the `external_` docs types.
+:::
+
 ## `try_it_out`
 Configure the API tester included in the docs.
 
