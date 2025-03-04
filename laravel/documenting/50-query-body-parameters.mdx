@@ -268,26 +268,21 @@ If you don't specify an example, Scribe will generate a fake file for example re
 ![](/img/screenshots/endpoint-bodyparams-4.png)
 
 ## Validation rules
-If you use [Laravel's validation functionality](https://laravel.com/docs/validation#available-validation-rules) to validate your incoming request parameters, Scribe can use that information to extract information about your parameters as well as generate examples.
+If you use [Laravel's validation functionality](https://laravel.com/docs/validation#available-validation-rules) to validate your incoming request parameters, Scribe can use that information to extract information about your parameters as well as generate examples. Note that [not all rules are supported](#supported-validation-rules).
 
-There are two supported options: using inline validators and form requests. Also, [not all rules are supported](#supported-validation-rules).
-
-These two approaches are very different:
-- WIth form requests, Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
+Scribe supports validation rules in two forms:
+- **Form requests**: Scribe will create an instance of the `FormRequest` class typehinted in your controller method, and execute its `rules()` method.
   :::note
   Form requests are not initialized by Scribe in the same way as Laravel would, since there is no real HTTP request when generating. If you encounter strange behaviour, you can try customising the initialization process with the [`instantiateFormRequestUsing()` hook](/laravel/hooks#instantiateformrequestusing).
   :::
-- With inline validators, Scribe will read and parse the validation code in your controller (`$request->validate()`, `Request::validate` or `Validator::make()`).
+- **Inline validators**: Scribe will read and parse the validation code in your controller (`$request->validate()`, `Request::validate`, `Validator::make()`, or `$this->validate()`).
 
-Since these rules only describe validation logic, Scribe allows you to provide extra information, like a description and example:
-- For form requests, add a `bodyParameters()`/`queryParameters()` method where you can add a description and example for each parameter.
+### Augmenting the validation rules
+Since these rules only describe validation logic, Scribe supports multiple ways for you to provide extra information, like a description and example:
+- For form requests, add a `bodyParameters()`/`queryParameters()` method where you can add a description and example for each parameter. This is especially useful when Scribe's generated value might not pass all validation rules.
 - For inline validators, add a comment above the parameter, specifying a description and example.
 
 If you specify a description, Scribe will prepend your description to what it generates from your validation rules.
-
-:::note
-If you have rules that Scribe doesn't support, Scribe's generated value might not pass their validation checks. You can get around that by manually specifying an example (`bodyParameters()` or comment).
-:::
 
 ### Examples
 
