@@ -22,32 +22,51 @@ composer update knuckleswtf/scribe
 ## Config file changes
 - **Lumen is no longer supported**. Lumen is effectively dead and rarely used, and it only added a maintenance burden. Remove the `Strategies\UrlParameters\GetFromLumenAPI::class` from your config file, if present.
 - **Dingo is no longer supported**. It was rarely used and only created maintenance complexity. Remove the `versions` key from your config file, if present.
-- **The `"override"` strategy (introduced in [v4.28](https://scribe.knuckles.wtf/blog/laravel-v4-28)) has been renamed**. If you previously had an `"override"` strategy, replace it with `StaticData::withSettings(data: ...)`:
-  ```diff
-  'headers' => [
-    Strategies\Headers\GetFromHeaderAttribute::class,
-    Strategies\Headers\GetFromHeaderTag::class,
-  - [
-  -   'override' =>
-  -   [
-  -     'Some-Custom-Header' => 'value',
-  -   ]
-  - ],
-  + Strategies\StaticData::withSettings(data: [
-  +   'Some-Custom-Header' => 'value',
-  + ]),
-  ],
-  ```
+- **The `"override"` strategy (introduced in [v4.28](https://scribe.knuckles.wtf/blog/laravel-v4-28)) has been renamed**. If you previously had an `"override"` strategy, replace it with the `StaticData` strategy:
+   <Tabs defaultValue="before" values={[{label: 'Before', value: 'before'},{label: 'After', value: 'after'}]}>
+     <TabItem value="before">
+     ```php
+     'headers' => [
+       Strategies\Headers\GetFromHeaderAttribute::class,
+       Strategies\Headers\GetFromHeaderTag::class,
+       [
+         'override',
+         [
+           'Some-Custom-Header' => 'value',
+         ]
+       ],
+     ],
+     ```
+     </TabItem>
+     <TabItem value="after">
+     ```php
+     'headers' => [
+       Strategies\Headers\GetFromHeaderAttribute::class,
+       Strategies\Headers\GetFromHeaderTag::class,
+       // If you installed Scribe as dev-only ("require-dev"), do this:
+       [
+         Strategies\StaticData::class,
+         [
+           'data' => [
+             'Some-Custom-Header' => 'value',
+           ]
+         ]
+       ],
+       // If you have Scribe in "require", you can use this shortcut:
+       Strategies\StaticData::withSettings(data: [
+         'Some-Custom-Header' => 'value',
+       ]),
+     ],
+     ```
+     </TabItem>
+   </Tabs>
+
 - Support for the `routes.*.apply` configs (notably `routes.0.apply.headers` and `routes.0.apply.response_calls`) has been removed.
   - Remove the `Strategies\Headers\GetFromRouteRules::class`, if present.
   - If you previously were using `routes.0.apply.headers`, replace it with `StaticData::withSettings(...)` in `strategies.headers`:
 
-     <Tabs
-         defaultValue="before"
-         values={[
-             {label: 'Before', value: 'before'},
-             {label: 'After', value: 'after'},
-         ]}>
+
+   <Tabs defaultValue="before" values={[{label: 'Before', value: 'before'},{label: 'After', value: 'after'}]}>
        <TabItem value="before">
 
          ```php
@@ -187,6 +206,25 @@ use function Knuckles\Scribe\Config\{removeStrategies, configureStrategy};
 ],
 ```
 
+:::note
+If you installed Scribe as a dev-only dependency, you may encounter errors in production, since the new config references some Scribe classes and methods. To avoid this, you can either:
+- add Scribe to your `require` (rather than `require-dev`), or
+- inline the above constants and methods:
+  - replace `Defaults::*_STRATEGIES` with the actual values
+  - replace `wrapWithSettings` and `withSettings` calls with a tuple of `[strategyName, settingsArray]`; for instance, the following are equivalent:
+    ```php
+    Strategies\StaticData::withSettings(data: [
+      'Accept' => 'application/json',
+    ]),
+
+    [
+      Strategies\StaticData::class,
+      [
+        'data' => ['Accept' => 'application/json']
+      ]
+    ]
+    ```
+:::
 
 :::tip
 To disable response calls for all routes, set
