@@ -6,6 +6,8 @@ sidebar_label: Troubleshooting
 # Troubleshooting and Debugging
 This page contains a few tips to help you figure out what's wrong when Scribe seems to be malfunctioning.
 
+PS: Also check the issues labelled ["troubleshooting"](https://github.com/knuckleswtf/scribe/issues?q=is%3Aissue%20label%3Atroubleshooting) on GitHub.
+
 ## Update your version
 First off, try updating your installed Scribe version. Maybe your problem is due to a bug we've fixed in a newer release. You can see a list of releases and major changes on [the changelog](https://github.com/knuckleswtf/scribe/blob/master/CHANGELOG.md).
 - To see the exact installed version, run `composer show knuckleswtf/scribe`
