@@ -96,7 +96,7 @@ composer update knuckleswtf/scribe
          ```
        </TabItem>
      </Tabs>
-  - If you previously were using `routes.0.apply.response_calls`, replace it with `ResponseCalls::withSettings(...)` in `strategies.responseCalls`. Note that `methods` has been replaced by `only`, which supports better wildcards (method + URL).
+  - If you previously were using `routes.0.apply.response_calls`, replace it with `ResponseCalls::withSettings(...)` in `strategies.responses`. Note that `methods` has been replaced by `only`, which supports better wildcards (method + URL).
 
       <Tabs
           defaultValue="before"
@@ -126,7 +126,7 @@ composer update knuckleswtf/scribe
         <TabItem value="after">
           ```php
           'strategies' => [
-            'responseCalls' => [
+            'responses' => [
               // Your other strategies...,
               Strategies\Responses\ResponseCalls::withSettings(
                 only: ['GET *'],
