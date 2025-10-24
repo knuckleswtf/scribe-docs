@@ -50,13 +50,11 @@ You can add little highlighted warnings and notes using the `<aside>` tag and ei
 ```html
 <aside class="warning">Don't do this.</aside>
 <aside class="success">Do this.</aside>
-<aside class="notice">You should know this.</aside>
+<aside class="info">You should know this.</aside>
 ```
 
 ![](/img/screenshots/html-aside.png)
 
-
-If you don't specify a class, `"notice"` is assumed.
 
 ## Fancy headings
 You can help your lower-level headings stand out by using the fancy-heading-panel class:
