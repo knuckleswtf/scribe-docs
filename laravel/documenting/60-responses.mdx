@@ -753,6 +753,11 @@ You can customise this process in a few ways:
 ### Changing the strategies
 You can change the order of these strategies, or remove the ones you don't need by editing the `examples.models_source` config item. By default, it's set to `['factoryCreate', 'factoryMake', 'databaseFirst']`, corresponding to the three main strategies above.
 
+
+   :::note
+   `factoryCreate` will dispatch model events resulting in listener execution which could negatively impact generation time in large event driven projects. `factoryCreateQuietly` can be used to suppress model events if they are not a requirement for your generated data.
+   :::
+
 ### Applying states
 If you want specific [states](https://laravel.com/docs/database-testing#factory-states) to be applied to your model factory, you can use the `states` field on `@apiResourceModel` or `@transformerModel`. Separate multiple states with a comma. If you're using attributes, use the `factoryStates:` argument with an array of states.
 
