@@ -600,7 +600,7 @@ public function endpoint() {...}
 
 // Additional data
 #[ResponseFromApiResource(UserApiResource::class, User::class, 201,
-    merge: ["result" => "success", "message" => "User created successfully")]
+    additional: ["result" => "success", "message" => "User created successfully")]
 public function endpoint() {...}
 ```
 
