@@ -4,7 +4,7 @@ id: plugin-api
 
 # Plugin API
 
-Plugins (custom strategies) allow you tp provide Scribe with more information about your endpoints. This document describes the plugin API. For a guide to creating plugins, see [Writing Plugins](../advanced/plugins).
+Plugins (custom strategies) allow you to provide Scribe with more information about your endpoints. This document describes the plugin API. For a guide to creating plugins, see [Writing Plugins](../advanced/plugins).
 
 Each plugin must extend the base strategy class, `Knuckles\Scribe\Extracting\Strategies\Strategy`, which is an abstract class defined like this:
 

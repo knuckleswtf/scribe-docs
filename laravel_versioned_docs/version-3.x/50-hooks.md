@@ -68,8 +68,8 @@ Here's an example of the `$paths` array passed to the callback.
 
 ```
 [
-  "postman" => "C:\Users\shalvah\Projects\TheSideProjectAPI\punlic\docs\collection.json"
-  "openapi" => "C:\Users\shalvah\Projects\TheSideProjectAPI\punlic\docs\openapi.yaml"
+  "postman" => "C:\Users\shalvah\Projects\TheSideProjectAPI\public\docs\collection.json"
+  "openapi" => "C:\Users\shalvah\Projects\TheSideProjectAPI\public\docs\openapi.yaml"
   "html" => "C:\Users\shalvah\Projects\TheSideProjectAPI\docs\index.html"
   "blade" => null
   "assets" => [
