@@ -10,6 +10,7 @@ However, a useful in-between is **hooks**. Hooks are a way for you to run a task
 
 Scribe currently provides six hooks:
 - `bootstrap()`
+- `afterExtracting()`
 - `beforeResponseCall()`
 - `afterResponseCall()`
 - `afterGenerating()`
@@ -38,6 +39,34 @@ public function boot()
   if (class_exists(\Knuckles\Scribe\Scribe::class)) {
     Scribe::bootstrap(function (GenerateDocumentation $command) {
         Event::fake();
+    });
+  }
+}
+```
+
+## `afterExtracting()`
+`afterExtracting()` allows you to modify an endpoint's extracted data after all extraction strategies have finished running, but before Scribe uses that data to generate documentation and make response calls.
+
+This is useful for making small, context-aware changes without needing to write a custom strategy. For example, you can update descriptions based on middleware, add metadata based on route names, or tweak extracted parameters.
+
+The callback you provide will be passed the current `ExtractedEndpointData` instance, which you can modify directly.
+
+```php title="app\Providers\AppServiceProvider.php"
+
+use Knuckles\Camel\Extraction\ExtractedEndpointData;
+use Knuckles\Scribe\Scribe;
+
+public function boot()
+{
+  if (class_exists(Scribe::class)) {
+    Scribe::afterExtracting(function (ExtractedEndpointData $endpointData) {
+      $middlewares = $endpointData->route->gatherMiddleware();
+
+      if (in_array('auth:agent_api', $middlewares, true)) {
+        $endpointData->metadata->description .= "\n\n🔒 **Requires Authentication:** `Agent`";
+      } elseif (in_array('auth:api', $middlewares, true)) {
+        $endpointData->metadata->description .= "\n\n🔒 **Requires Authentication:** `User`";
+      }
     });
   }
 }
